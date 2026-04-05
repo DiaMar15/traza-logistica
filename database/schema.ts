@@ -33,10 +33,18 @@ export class AuthAccessTokenSchema extends BaseModel {
 }
 
 export class RutaSchema extends BaseModel {
-  static $columns = ['auxiliar', 'conductor', 'createdAt', 'destino', 'dia', 'empresa', 'fecha', 'finRuta', 'id', 'inicioRuta', 'kmFinal', 'kmInicial', 'mes', 'numeroClientes', 'numeroFacturas', 'observaciones', 'peso', 'placa', 'tiempoEnRuta', 'tipoVehiculo', 'totalKilometros', 'updatedAt', 'volumen', 'zona'] as const
+  static $columns = ['apoyoAuxiliar', 'auxiliar', 'calibrada', 'capacidadKg', 'combustible', 'conductor', 'createdAt', 'destino', 'destinoTipologia', 'dia', 'efectividad', 'empresa', 'fecha', 'festivos', 'finRuta', 'horaExtra', 'id', 'inicioRuta', 'kmFinal', 'kmInicial', 'mes', 'numeroClientes', 'numeroFacturas', 'observaciones', 'parqueadero', 'peajes', 'peso', 'placa', 'planilla', 'reenvio', 'ruta', 'semana', 'tarifa', 'taxis', 'tiempoEnRuta', 'tipoVehiculo', 'totalKilometros', 'turno', 'updatedAt', 'valorDevolucion', 'valorReenvio', 'valorRuta', 'volumen', 'zona'] as const
   $columns = RutaSchema.$columns
   @column()
+  declare apoyoAuxiliar: string | null
+  @column()
   declare auxiliar: string | null
+  @column()
+  declare calibrada: number | null
+  @column()
+  declare capacidadKg: number | null
+  @column()
+  declare combustible: number | null
   @column()
   declare conductor: string | null
   @column.dateTime({ autoCreate: true })
@@ -44,13 +52,21 @@ export class RutaSchema extends BaseModel {
   @column()
   declare destino: string | null
   @column()
+  declare destinoTipologia: string | null
+  @column()
   declare dia: string | null
   @column()
+  declare efectividad: string | null
+  @column()
   declare empresa: string | null
-  @column.date()
-  declare fecha: DateTime | null
+  @column()
+  declare fecha: string | null
+  @column()
+  declare festivos: string | null
   @column()
   declare finRuta: string | null
+  @column()
+  declare horaExtra: string | null
   @column({ isPrimary: true })
   declare id: number
   @column()
@@ -68,17 +84,41 @@ export class RutaSchema extends BaseModel {
   @column()
   declare observaciones: string | null
   @column()
+  declare parqueadero: number | null
+  @column()
+  declare peajes: number | null
+  @column()
   declare peso: number | null
   @column()
   declare placa: string | null
+  @column()
+  declare planilla: string | null
+  @column()
+  declare reenvio: number | null
+  @column()
+  declare ruta: string | null
+  @column()
+  declare semana: string | null
+  @column()
+  declare tarifa: number | null
+  @column()
+  declare taxis: number | null
   @column()
   declare tiempoEnRuta: string | null
   @column()
   declare tipoVehiculo: string | null
   @column()
   declare totalKilometros: number | null
+  @column()
+  declare turno: string | null
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
+  @column()
+  declare valorDevolucion: number | null
+  @column()
+  declare valorReenvio: number | null
+  @column()
+  declare valorRuta: number | null
   @column()
   declare volumen: number | null
   @column()
@@ -100,4 +140,29 @@ export class UserSchema extends BaseModel {
   declare password: string
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
+}
+
+export class VehiculoSchema extends BaseModel {
+  static $columns = ['capacidadKilo', 'claseVehiculo', 'createdAt', 'estado', 'id', 'marca', 'modelo', 'placa', 'tipo', 'updatedAt'] as const
+  $columns = VehiculoSchema.$columns
+  @column()
+  declare capacidadKilo: number | null
+  @column()
+  declare claseVehiculo: string | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare estado: string | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare marca: string | null
+  @column()
+  declare modelo: number | null
+  @column()
+  declare placa: string
+  @column()
+  declare tipo: string | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
 }

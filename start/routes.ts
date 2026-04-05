@@ -2,9 +2,6 @@
 |--------------------------------------------------------------------------
 | Routes file
 |--------------------------------------------------------------------------
-|
-| The routes file is used for defining the HTTP routes.
-|
 */
 
 import { middleware } from '#start/kernel'
@@ -15,6 +12,8 @@ import AccessToken from '#controllers/access_token_controller'
 import Profile from '#controllers/profile_controller'
 import RutasController from '#controllers/rutas_controller'
 import ImportExcelController from '#controllers/import_excels_controller'
+import VehiculosController from '#controllers/vehiculos_controller'
+import ImportVehiculosController from '#controllers/import_vehiculos_controller'
 
 router.get('/', () => {
   return { hello: 'world' }
@@ -25,7 +24,7 @@ router
 
     /*
     -------------------------
-    AUTH
+    Autenticación
     -------------------------
     */
 
@@ -40,7 +39,7 @@ router
 
     /*
     -------------------------
-    ACCOUNT
+    CUENTA DE USUARIO
     -------------------------
     */
 
@@ -61,31 +60,14 @@ router
     router
       .group(() => {
 
-        // obtener rutas (paginación)
         router.get('/', [RutasController, 'index'])
-
-        // total rutas (dashboard)
         router.get('/count', [RutasController, 'count'])
-
-        // total kilometros (dashboard)
         router.get('/kilometros', [RutasController, 'kilometros'])
-
-        // búsqueda
         router.get('/buscar', [RutasController, 'buscar'])
-
-        // obtener ruta por id
         router.get('/:id', [RutasController, 'show'])
-
-        // crear ruta
         router.post('/', [RutasController, 'store'])
-
-        // actualizar ruta completa
         router.put('/:id', [RutasController, 'update'])
-
-        // actualización parcial
         router.patch('/:id', [RutasController, 'patch'])
-
-        // eliminar ruta
         router.delete('/:id', [RutasController, 'destroy'])
 
       })
@@ -93,11 +75,48 @@ router
 
     /*
     -------------------------
-    IMPORTAR EXCEL
+    VEHICULOS
+    -------------------------
+    */
+
+    router
+      .group(() => {
+
+        // listar vehículos
+        router.get('/', [VehiculosController, 'index'])
+
+        // crear vehículo
+        router.post('/', [VehiculosController, 'store'])
+
+        // actualizar vehículo
+        router.put('/:id', [VehiculosController, 'update'])
+
+        // eliminar vehículo
+        router.delete('/:id', [VehiculosController, 'destroy'])
+
+      })
+      .prefix('vehiculos')
+
+    /*
+    -------------------------
+    Importar Excel y Google Sheets
     -------------------------
     */
 
     router.post('/importar-excel', [ImportExcelController, 'importar'])
+
+    router.post('/sync-rutas', [
+  () => import('#controllers/google_sheets_rutas_controller'),
+  'sync'
+])
+
+    /*
+    -------------------------
+    IMPORTAR VEHICULOS
+    -------------------------
+    */
+
+    router.post('/importar-vehiculos', [ImportVehiculosController, 'importar'])
 
   })
   .prefix('/api/v1')

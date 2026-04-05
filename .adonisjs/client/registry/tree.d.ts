@@ -27,7 +27,19 @@ export interface ApiDefinition {
     patch: typeof routes['rutas.patch']
     destroy: typeof routes['rutas.destroy']
   }
+  vehiculos: {
+    index: typeof routes['vehiculos.index']
+    store: typeof routes['vehiculos.store']
+    update: typeof routes['vehiculos.update']
+    destroy: typeof routes['vehiculos.destroy']
+  }
   importExcel: {
     importar: typeof routes['import_excel.importar']
+  }
+  googleSheetsRutas: {
+    sync: typeof routes['google_sheets_rutas.sync']
+  }
+  importVehiculos: {
+    importar: typeof routes['import_vehiculos.importar']
   }
 }

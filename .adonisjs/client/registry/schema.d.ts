@@ -163,9 +163,81 @@ export interface Registry {
       errorResponse: unknown
     }
   }
+  'vehiculos.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/vehiculos'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'vehiculos.store': {
+    methods: ["POST"]
+    pattern: '/api/v1/vehiculos'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'vehiculos.update': {
+    methods: ["PUT"]
+    pattern: '/api/v1/vehiculos/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'vehiculos.destroy': {
+    methods: ["DELETE"]
+    pattern: '/api/v1/vehiculos/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
   'import_excel.importar': {
     methods: ["POST"]
     pattern: '/api/v1/importar-excel'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'google_sheets_rutas.sync': {
+    methods: ["POST"]
+    pattern: '/api/v1/sync-rutas'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/google_sheets_rutas_controller').default['sync']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/google_sheets_rutas_controller').default['sync']>>>
+    }
+  }
+  'import_vehiculos.importar': {
+    methods: ["POST"]
+    pattern: '/api/v1/importar-vehiculos'
     types: {
       body: {}
       paramsTuple: []

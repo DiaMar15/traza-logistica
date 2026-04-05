@@ -17,7 +17,12 @@ export type ScannedRoutes = {
     'rutas.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'rutas.patch': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'rutas.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'vehiculos.index': { paramsTuple?: []; params?: {} }
+    'vehiculos.store': { paramsTuple?: []; params?: {} }
+    'vehiculos.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'vehiculos.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'import_excel.importar': { paramsTuple?: []; params?: {} }
+    'import_vehiculos.importar': { paramsTuple?: []; params?: {} }
   }
   GET: {
     'profile.profile.show': { paramsTuple?: []; params?: {} }
@@ -26,6 +31,7 @@ export type ScannedRoutes = {
     'rutas.kilometros': { paramsTuple?: []; params?: {} }
     'rutas.buscar': { paramsTuple?: []; params?: {} }
     'rutas.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'vehiculos.index': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
     'profile.profile.show': { paramsTuple?: []; params?: {} }
@@ -34,22 +40,27 @@ export type ScannedRoutes = {
     'rutas.kilometros': { paramsTuple?: []; params?: {} }
     'rutas.buscar': { paramsTuple?: []; params?: {} }
     'rutas.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'vehiculos.index': { paramsTuple?: []; params?: {} }
   }
   POST: {
     'auth.new_account.store': { paramsTuple?: []; params?: {} }
     'auth.access_token.store': { paramsTuple?: []; params?: {} }
     'auth.access_token.destroy': { paramsTuple?: []; params?: {} }
     'rutas.store': { paramsTuple?: []; params?: {} }
+    'vehiculos.store': { paramsTuple?: []; params?: {} }
     'import_excel.importar': { paramsTuple?: []; params?: {} }
+    'import_vehiculos.importar': { paramsTuple?: []; params?: {} }
   }
   PUT: {
     'rutas.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'vehiculos.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   PATCH: {
     'rutas.patch': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   DELETE: {
     'rutas.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'vehiculos.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
 }
 declare module '@adonisjs/core/types/http' {

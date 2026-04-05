@@ -84,11 +84,47 @@ const routes = {
     tokens: [{"old":"/api/v1/rutas/:id","type":0,"val":"api","end":""},{"old":"/api/v1/rutas/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/rutas/:id","type":0,"val":"rutas","end":""},{"old":"/api/v1/rutas/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['rutas.destroy']['types'],
   },
+  'vehiculos.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/vehiculos',
+    tokens: [{"old":"/api/v1/vehiculos","type":0,"val":"api","end":""},{"old":"/api/v1/vehiculos","type":0,"val":"v1","end":""},{"old":"/api/v1/vehiculos","type":0,"val":"vehiculos","end":""}],
+    types: placeholder as Registry['vehiculos.index']['types'],
+  },
+  'vehiculos.store': {
+    methods: ["POST"],
+    pattern: '/api/v1/vehiculos',
+    tokens: [{"old":"/api/v1/vehiculos","type":0,"val":"api","end":""},{"old":"/api/v1/vehiculos","type":0,"val":"v1","end":""},{"old":"/api/v1/vehiculos","type":0,"val":"vehiculos","end":""}],
+    types: placeholder as Registry['vehiculos.store']['types'],
+  },
+  'vehiculos.update': {
+    methods: ["PUT"],
+    pattern: '/api/v1/vehiculos/:id',
+    tokens: [{"old":"/api/v1/vehiculos/:id","type":0,"val":"api","end":""},{"old":"/api/v1/vehiculos/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/vehiculos/:id","type":0,"val":"vehiculos","end":""},{"old":"/api/v1/vehiculos/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['vehiculos.update']['types'],
+  },
+  'vehiculos.destroy': {
+    methods: ["DELETE"],
+    pattern: '/api/v1/vehiculos/:id',
+    tokens: [{"old":"/api/v1/vehiculos/:id","type":0,"val":"api","end":""},{"old":"/api/v1/vehiculos/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/vehiculos/:id","type":0,"val":"vehiculos","end":""},{"old":"/api/v1/vehiculos/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['vehiculos.destroy']['types'],
+  },
   'import_excel.importar': {
     methods: ["POST"],
     pattern: '/api/v1/importar-excel',
     tokens: [{"old":"/api/v1/importar-excel","type":0,"val":"api","end":""},{"old":"/api/v1/importar-excel","type":0,"val":"v1","end":""},{"old":"/api/v1/importar-excel","type":0,"val":"importar-excel","end":""}],
     types: placeholder as Registry['import_excel.importar']['types'],
+  },
+  'google_sheets_rutas.sync': {
+    methods: ["POST"],
+    pattern: '/api/v1/sync-rutas',
+    tokens: [{"old":"/api/v1/sync-rutas","type":0,"val":"api","end":""},{"old":"/api/v1/sync-rutas","type":0,"val":"v1","end":""},{"old":"/api/v1/sync-rutas","type":0,"val":"sync-rutas","end":""}],
+    types: placeholder as Registry['google_sheets_rutas.sync']['types'],
+  },
+  'import_vehiculos.importar': {
+    methods: ["POST"],
+    pattern: '/api/v1/importar-vehiculos',
+    tokens: [{"old":"/api/v1/importar-vehiculos","type":0,"val":"api","end":""},{"old":"/api/v1/importar-vehiculos","type":0,"val":"v1","end":""},{"old":"/api/v1/importar-vehiculos","type":0,"val":"importar-vehiculos","end":""}],
+    types: placeholder as Registry['import_vehiculos.importar']['types'],
   },
 } as const satisfies Record<string, AdonisEndpoint>
 

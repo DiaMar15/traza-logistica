@@ -102,6 +102,7 @@ export default class RutasController {
 
     const data = await request.validateUsing(createRutaValidator)
 
+    data.placa = request.input('placa')
     data.total_kilometros = data.km_final - data.km_inicial
 
     const inicio = data.inicio_ruta.split(':').map(Number)
@@ -135,6 +136,7 @@ export default class RutasController {
 
     const data = await request.validateUsing(createRutaValidator)
 
+    data.placa = request.input('placa')
     data.total_kilometros = data.km_final - data.km_inicial
 
     const inicio = data.inicio_ruta.split(':').map(Number)

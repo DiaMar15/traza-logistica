@@ -5,8 +5,11 @@
 
 export const controllers = {
   AccessToken: () => import('#controllers/access_token_controller'),
+  GoogleSheetsRutas: () => import('#controllers/google_sheets_rutas_controller'),
   ImportExcels: () => import('#controllers/import_excels_controller'),
+  ImportVehiculos: () => import('#controllers/import_vehiculos_controller'),
   NewAccount: () => import('#controllers/new_account_controller'),
   Profile: () => import('#controllers/profile_controller'),
   Rutas: () => import('#controllers/rutas_controller'),
+  Vehiculos: () => import('#controllers/vehiculos_controller'),
 }

@@ -6,99 +6,181 @@ export default class Ruta extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
 
-  @column()
-  declare fecha: string
-
-  @column()
-  declare mes: string
-
-  @column()
-  declare dia: string
+  /* -------------------------
+     BASICOS
+  ------------------------- */
 
   @column()
   declare placa: string
-
-  @column({ columnName: 'tipo_vehiculo' })
-  declare tipoVehiculo: string
-
-  @column()
-  declare empresa: string
 
   @column()
   declare conductor: string
 
   @column()
-  declare auxiliar: string
+  declare empresa: string
 
   @column()
   declare destino: string
 
-  @column()
-  declare zona: string
+  /* -------------------------
+     FECHA
+  ------------------------- */
 
   @column()
-  declare peso: number
+  declare fecha: string | null
 
   @column()
-  declare volumen: number
-
-  @column({ columnName: 'numero_facturas' })
-  declare numeroFacturas: number
-
-  @column({ columnName: 'numero_clientes' })
-  declare numeroClientes: number
-
-
-  /* RUTAS */
-
-  @column({ columnName: 'inicio_ruta' })
-  declare inicioRuta: string
-
-  @column({ columnName: 'fin_ruta' })
-  declare finRuta: string
-
-  @column({
-    columnName: 'tiempo_en_ruta',
-
-    serialize: (value: any) => {
-
-      if (!value) return null
-
-      if (typeof value === 'string') {
-        return value.slice(0, 5)
-      }
-
-      if (typeof value === 'object') {
-
-        if (value.hours !== undefined) {
-          return `${String(value.hours).padStart(2,'0')}:${String(value.minutes).padStart(2,'0')}`
-        }
-
-      }
-
-      return value.toString().slice(0,5)
-    }
-  })
-  declare tiempoEnRuta: string
-
-  @column({ columnName: 'km_inicial' })
-  declare kmInicial: number
-
-  @column({ columnName: 'km_final' })
-  declare kmFinal: number
-
-  @column({ columnName: 'total_kilometros' })
-  declare totalKilometros: number
-
+  declare mes: string | null
 
   @column()
-  declare observaciones: string
+  declare dia: string | null
 
+  @column()
+  declare festivos: string | null
 
-  @column.dateTime({ columnName: 'created_at', autoCreate: true })
+  /* -------------------------
+     VEHICULO
+  ------------------------- */
+
+  @column()
+  declare tipoVehiculo: string | null
+
+  @column()
+  declare capacidadKg: number | null
+
+  /* -------------------------
+     LOGISTICA
+  ------------------------- */
+
+  @column()
+  declare auxiliar: string | null
+
+  @column()
+  declare destinoTipologia: string | null
+
+  /* -------------------------
+     COSTOS
+  ------------------------- */
+
+  @column()
+  declare tarifa: number | null
+
+  @column()
+  declare combustible: number | null
+
+  @column()
+  declare peajes: number | null
+
+  @column()
+  declare calibrada: number | null
+
+  @column()
+  declare parqueadero: number | null
+
+  @column()
+  declare taxis: number | null
+
+  @column()
+  declare apoyoAuxiliar: string | null
+
+  /* -------------------------
+     RUTA
+  ------------------------- */
+
+  @column()
+  declare ruta: string | null
+
+  @column()
+  declare zona: string | null
+
+  @column()
+  declare planilla: string | null
+
+  /* -------------------------
+     OPERACION
+  ------------------------- */
+
+  @column()
+  declare peso: number | null
+
+  @column()
+  declare volumen: number | null
+
+  @column()
+  declare numeroFacturas: number | null
+
+  @column()
+  declare numeroClientes: number | null
+
+  @column()
+  declare reenvio: number | null
+
+  /* -------------------------
+     VALORES
+  ------------------------- */
+
+  @column()
+  declare valorReenvio: number | null
+
+  @column()
+  declare valorRuta: number | null
+
+  @column()
+  declare valorDevolucion: number | null
+
+  @column()
+  declare efectividad: string | null
+
+  /* -------------------------
+     TIEMPOS
+  ------------------------- */
+
+  @column()
+  declare inicioRuta: string | null
+
+  @column()
+  declare finRuta: string | null
+
+  @column()
+  declare tiempoEnRuta: string | null
+
+  @column()
+  declare turno: string | null
+
+  @column()
+  declare horaExtra: string | null
+
+  /* -------------------------
+     KM
+  ------------------------- */
+
+  @column()
+  declare kmInicial: number | null
+
+  @column()
+  declare kmFinal: number | null
+
+  @column()
+  declare totalKilometros: number | null
+
+  /* -------------------------
+     OTROS
+  ------------------------- */
+
+  @column()
+  declare semana: string | null
+
+  @column()
+  declare observaciones: string | null
+
+  /* -------------------------
+     TIMESTAMPS
+  ------------------------- */
+
+  @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
-  @column.dateTime({ columnName: 'updated_at', autoCreate: true, autoUpdate: true })
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 
 }
