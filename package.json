@@ -40,7 +40,7 @@
   "devDependencies": {
     "@adonisjs/assembler": "^8.0.0",
     "@adonisjs/eslint-config": "^3.0.0",
-    "@adonisjs/prettier-config": "^1.4.5",
+    "@adonisjs/prettier-config": "^1.4.0",
     "@adonisjs/tsconfig": "^2.0.0",
     "@japa/assert": "^4.2.0",
     "@japa/plugin-adonisjs": "^5.1.0",
@@ -60,6 +60,7 @@
     "@adonisjs/core": "^7.0.0",
     "@adonisjs/cors": "^3.0.0",
     "@adonisjs/lucid": "^22.0.0",
+    "@adonisjs/mail": "^10.2.0",
     "@adonisjs/session": "^8.0.0",
     "@adonisjs/shield": "^9.0.0",
     "@japa/api-client": "^3.2.1",

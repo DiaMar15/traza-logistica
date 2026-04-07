@@ -12,7 +12,7 @@ export default class GoogleSheetsRutasController {
 
   async sync({ response }: HttpContext) {
 
-    const SHEET_ID = "1BXlkja2za_TYMKf5DiMI9HxZfFRXVX1MvcXLokvsbrw"
+    const SHEET_ID = "11PO2p9GI5FEJ8mRwESr9Iyg7DnNKBbrShRajR3SRTBg"
 
     const url = `https://opensheet.elk.sh/${SHEET_ID}/API_RUTAS`
 

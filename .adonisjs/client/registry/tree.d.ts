@@ -2,19 +2,15 @@
 import type { routes } from './index.ts'
 
 export interface ApiDefinition {
-  auth: {
-    newAccount: {
-      store: typeof routes['auth.new_account.store']
-    }
-    accessToken: {
-      store: typeof routes['auth.access_token.store']
-      destroy: typeof routes['auth.access_token.destroy']
-    }
+  newAccount: {
+    store: typeof routes['new_account.store']
+  }
+  accessToken: {
+    store: typeof routes['access_token.store']
+    destroy: typeof routes['access_token.destroy']
   }
   profile: {
-    profile: {
-      show: typeof routes['profile.profile.show']
-    }
+    show: typeof routes['profile.show']
   }
   rutas: {
     index: typeof routes['rutas.index']
@@ -26,6 +22,9 @@ export interface ApiDefinition {
     update: typeof routes['rutas.update']
     patch: typeof routes['rutas.patch']
     destroy: typeof routes['rutas.destroy']
+    rendimiento: typeof routes['rutas.rendimiento']
+    costos: typeof routes['rutas.costos']
+    personal: typeof routes['rutas.personal']
   }
   vehiculos: {
     index: typeof routes['vehiculos.index']
@@ -41,5 +40,13 @@ export interface ApiDefinition {
   }
   importVehiculos: {
     importar: typeof routes['import_vehiculos.importar']
+  }
+  test: {
+    send: typeof routes['test.send']
+  }
+  auth: {
+    createUser: typeof routes['auth.create_user']
+    forgotPassword: typeof routes['auth.forgot_password']
+    resetPassword: typeof routes['auth.reset_password']
   }
 }

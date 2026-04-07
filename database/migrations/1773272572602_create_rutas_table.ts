@@ -6,8 +6,7 @@ export default class extends BaseSchema {
 
   async up() {
 
-    this.schema.alterTable(this.tableName, (table) => {
-
+this.schema.createTable(this.tableName, (table) => {
       table.string('fecha').nullable()
       table.string('mes').nullable()
       table.string('dia').nullable()

@@ -7,7 +7,7 @@ import type { InferInput, SimpleError } from '@vinejs/vine/types'
 export type ParamValue = string | number | bigint | boolean
 
 export interface Registry {
-  'auth.new_account.store': {
+  'new_account.store': {
     methods: ["POST"]
     pattern: '/api/v1/auth/signup'
     types: {
@@ -19,7 +19,7 @@ export interface Registry {
       errorResponse: unknown
     }
   }
-  'auth.access_token.store': {
+  'access_token.store': {
     methods: ["POST"]
     pattern: '/api/v1/auth/login'
     types: {
@@ -31,7 +31,7 @@ export interface Registry {
       errorResponse: unknown
     }
   }
-  'auth.access_token.destroy': {
+  'access_token.destroy': {
     methods: ["POST"]
     pattern: '/api/v1/auth/logout'
     types: {
@@ -43,7 +43,7 @@ export interface Registry {
       errorResponse: unknown
     }
   }
-  'profile.profile.show': {
+  'profile.show': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/account/profile'
     types: {
@@ -238,6 +238,90 @@ export interface Registry {
   'import_vehiculos.importar': {
     methods: ["POST"]
     pattern: '/api/v1/importar-vehiculos'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'rutas.rendimiento': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/dashboard/rendimiento'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'rutas.costos': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/dashboard/costos'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'rutas.personal': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/dashboard/personal'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'test.send': {
+    methods: ["GET","HEAD"]
+    pattern: '/test-mail'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'auth.create_user': {
+    methods: ["POST"]
+    pattern: '/create-user'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'auth.forgot_password': {
+    methods: ["POST"]
+    pattern: '/forgot-password'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'auth.reset_password': {
+    methods: ["POST"]
+    pattern: '/reset-password'
     types: {
       body: {}
       paramsTuple: []

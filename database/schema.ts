@@ -32,8 +32,23 @@ export class AuthAccessTokenSchema extends BaseModel {
   declare updatedAt: DateTime | null
 }
 
+export class PasswordResetSchema extends BaseModel {
+  static $columns = ['createdAt', 'email', 'expiresAt', 'id', 'token'] as const
+  $columns = PasswordResetSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column()
+  declare email: string
+  @column.dateTime()
+  declare expiresAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare token: string
+}
+
 export class RutaSchema extends BaseModel {
-  static $columns = ['apoyoAuxiliar', 'auxiliar', 'calibrada', 'capacidadKg', 'combustible', 'conductor', 'createdAt', 'destino', 'destinoTipologia', 'dia', 'efectividad', 'empresa', 'fecha', 'festivos', 'finRuta', 'horaExtra', 'id', 'inicioRuta', 'kmFinal', 'kmInicial', 'mes', 'numeroClientes', 'numeroFacturas', 'observaciones', 'parqueadero', 'peajes', 'peso', 'placa', 'planilla', 'reenvio', 'ruta', 'semana', 'tarifa', 'taxis', 'tiempoEnRuta', 'tipoVehiculo', 'totalKilometros', 'turno', 'updatedAt', 'valorDevolucion', 'valorReenvio', 'valorRuta', 'volumen', 'zona'] as const
+  static $columns = ['apoyoAuxiliar', 'auxiliar', 'calibrada', 'capacidadKg', 'combustible', 'destinoTipologia', 'dia', 'efectividad', 'fecha', 'festivos', 'horaExtra', 'mes', 'numeroClientes', 'numeroFacturas', 'observaciones', 'parqueadero', 'peajes', 'peso', 'planilla', 'reenvio', 'ruta', 'semana', 'tarifa', 'taxis', 'tipoVehiculo', 'turno', 'valorDevolucion', 'valorReenvio', 'valorRuta', 'volumen', 'zona'] as const
   $columns = RutaSchema.$columns
   @column()
   declare apoyoAuxiliar: string | null
@@ -46,35 +61,17 @@ export class RutaSchema extends BaseModel {
   @column()
   declare combustible: number | null
   @column()
-  declare conductor: string | null
-  @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime | null
-  @column()
-  declare destino: string | null
-  @column()
   declare destinoTipologia: string | null
   @column()
   declare dia: string | null
   @column()
   declare efectividad: string | null
   @column()
-  declare empresa: string | null
-  @column()
   declare fecha: string | null
   @column()
   declare festivos: string | null
   @column()
-  declare finRuta: string | null
-  @column()
   declare horaExtra: string | null
-  @column({ isPrimary: true })
-  declare id: number
-  @column()
-  declare inicioRuta: string | null
-  @column()
-  declare kmFinal: number | null
-  @column()
-  declare kmInicial: number | null
   @column()
   declare mes: string | null
   @column()
@@ -90,8 +87,6 @@ export class RutaSchema extends BaseModel {
   @column()
   declare peso: number | null
   @column()
-  declare placa: string | null
-  @column()
   declare planilla: string | null
   @column()
   declare reenvio: number | null
@@ -104,15 +99,9 @@ export class RutaSchema extends BaseModel {
   @column()
   declare taxis: number | null
   @column()
-  declare tiempoEnRuta: string | null
-  @column()
   declare tipoVehiculo: string | null
   @column()
-  declare totalKilometros: number | null
-  @column()
   declare turno: string | null
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime | null
   @column()
   declare valorDevolucion: number | null
   @column()

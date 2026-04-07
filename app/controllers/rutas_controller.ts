@@ -6,7 +6,7 @@ export default class RutasController {
 
   /*
   --------------------------------
-  LISTAR RUTAS (PAGINACIÓN)
+  Paginación de las rutas
   --------------------------------
   */
   async index({ request }: HttpContext) {
@@ -32,7 +32,7 @@ export default class RutasController {
 
   /*
   --------------------------------
-  CONTAR RUTAS
+  Contar las rutas
   --------------------------------
   */
   async count() {
@@ -173,7 +173,6 @@ export default class RutasController {
     const data = await request.validateUsing(patchRutaValidator)
 
     if (data.km_inicial !== undefined && data.km_final !== undefined) {
-
       data.total_kilometros = data.km_final - data.km_inicial
     }
 
@@ -216,6 +215,105 @@ export default class RutasController {
     return {
       message: 'Ruta eliminada correctamente'
     }
+  }
+
+
+  /*
+  --------------------------------
+   RENDIMIENTO
+  --------------------------------
+  */
+  async rendimiento({ request, response }: HttpContext) {
+
+    const placa = request.input('placa')
+
+    const rutas = await Ruta.query()
+      .if(placa, q => q.where('placa', placa))
+
+    const resumen = rutas.map(r => ({
+      placa: r.placa,
+      destino: r.destino,
+      zona: r.zona,
+      km: r.totalKilometros,
+      tiempo: r.tiempoEnRuta,
+      peso: r.peso,
+      volumen: r.volumen,
+      clientes: r.numeroClientes
+    }))
+
+    return response.ok(resumen)
+  }
+
+
+  /*
+  --------------------------------
+      COSTOS
+  --------------------------------
+  */
+  async costos({ response }: HttpContext) {
+
+    const rutas = await Ruta.query()
+
+    const total = rutas.reduce((acc, r) => {
+      return acc + (
+        (r.tarifa || 0) +
+        (r.combustible || 0) +
+        (r.peajes || 0) +
+        (r.calibrada || 0) +
+        (r.parqueadero || 0) +
+        (r.taxis || 0)
+      )
+    }, 0)
+
+    const detalle = rutas.map(r => ({
+      placa: r.placa,
+      fecha: r.fecha,
+      totalRuta:
+        (r.tarifa || 0) +
+        (r.combustible || 0) +
+        (r.peajes || 0) +
+        (r.calibrada || 0) +
+        (r.parqueadero || 0) +
+        (r.taxis || 0)
+    }))
+
+    return response.ok({
+      total,
+      detalle
+    })
+  }
+
+
+  /*
+  --------------------------------
+    PERSONAL
+  --------------------------------
+  */
+  async personal({ response }: HttpContext) {
+
+    const rutas = await Ruta.query()
+
+    const resumen: any = {}
+
+    for (const r of rutas) {
+
+      const conductor = r.conductor || "SIN NOMBRE"
+
+      if (!resumen[conductor]) {
+        resumen[conductor] = {
+          conductor,
+          rutas: 0,
+          horasExtra: 0
+        }
+      }
+
+      resumen[conductor].rutas++
+
+      const horas = parseFloat((r.horaExtra || "0").toString().replace(",", "."))
+      resumen[conductor].horasExtra += horas
+    }
+
+    return response.ok(Object.values(resumen))
   }
 
 }

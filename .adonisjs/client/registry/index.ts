@@ -6,29 +6,29 @@ import type { ApiDefinition } from './tree.d.ts'
 const placeholder: any = {}
 
 const routes = {
-  'auth.new_account.store': {
+  'new_account.store': {
     methods: ["POST"],
     pattern: '/api/v1/auth/signup',
     tokens: [{"old":"/api/v1/auth/signup","type":0,"val":"api","end":""},{"old":"/api/v1/auth/signup","type":0,"val":"v1","end":""},{"old":"/api/v1/auth/signup","type":0,"val":"auth","end":""},{"old":"/api/v1/auth/signup","type":0,"val":"signup","end":""}],
-    types: placeholder as Registry['auth.new_account.store']['types'],
+    types: placeholder as Registry['new_account.store']['types'],
   },
-  'auth.access_token.store': {
+  'access_token.store': {
     methods: ["POST"],
     pattern: '/api/v1/auth/login',
     tokens: [{"old":"/api/v1/auth/login","type":0,"val":"api","end":""},{"old":"/api/v1/auth/login","type":0,"val":"v1","end":""},{"old":"/api/v1/auth/login","type":0,"val":"auth","end":""},{"old":"/api/v1/auth/login","type":0,"val":"login","end":""}],
-    types: placeholder as Registry['auth.access_token.store']['types'],
+    types: placeholder as Registry['access_token.store']['types'],
   },
-  'auth.access_token.destroy': {
+  'access_token.destroy': {
     methods: ["POST"],
     pattern: '/api/v1/auth/logout',
     tokens: [{"old":"/api/v1/auth/logout","type":0,"val":"api","end":""},{"old":"/api/v1/auth/logout","type":0,"val":"v1","end":""},{"old":"/api/v1/auth/logout","type":0,"val":"auth","end":""},{"old":"/api/v1/auth/logout","type":0,"val":"logout","end":""}],
-    types: placeholder as Registry['auth.access_token.destroy']['types'],
+    types: placeholder as Registry['access_token.destroy']['types'],
   },
-  'profile.profile.show': {
+  'profile.show': {
     methods: ["GET","HEAD"],
     pattern: '/api/v1/account/profile',
     tokens: [{"old":"/api/v1/account/profile","type":0,"val":"api","end":""},{"old":"/api/v1/account/profile","type":0,"val":"v1","end":""},{"old":"/api/v1/account/profile","type":0,"val":"account","end":""},{"old":"/api/v1/account/profile","type":0,"val":"profile","end":""}],
-    types: placeholder as Registry['profile.profile.show']['types'],
+    types: placeholder as Registry['profile.show']['types'],
   },
   'rutas.index': {
     methods: ["GET","HEAD"],
@@ -125,6 +125,48 @@ const routes = {
     pattern: '/api/v1/importar-vehiculos',
     tokens: [{"old":"/api/v1/importar-vehiculos","type":0,"val":"api","end":""},{"old":"/api/v1/importar-vehiculos","type":0,"val":"v1","end":""},{"old":"/api/v1/importar-vehiculos","type":0,"val":"importar-vehiculos","end":""}],
     types: placeholder as Registry['import_vehiculos.importar']['types'],
+  },
+  'rutas.rendimiento': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/dashboard/rendimiento',
+    tokens: [{"old":"/api/v1/dashboard/rendimiento","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/rendimiento","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/rendimiento","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/rendimiento","type":0,"val":"rendimiento","end":""}],
+    types: placeholder as Registry['rutas.rendimiento']['types'],
+  },
+  'rutas.costos': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/dashboard/costos',
+    tokens: [{"old":"/api/v1/dashboard/costos","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/costos","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/costos","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/costos","type":0,"val":"costos","end":""}],
+    types: placeholder as Registry['rutas.costos']['types'],
+  },
+  'rutas.personal': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/dashboard/personal',
+    tokens: [{"old":"/api/v1/dashboard/personal","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/personal","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/personal","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/personal","type":0,"val":"personal","end":""}],
+    types: placeholder as Registry['rutas.personal']['types'],
+  },
+  'test.send': {
+    methods: ["GET","HEAD"],
+    pattern: '/test-mail',
+    tokens: [{"old":"/test-mail","type":0,"val":"test-mail","end":""}],
+    types: placeholder as Registry['test.send']['types'],
+  },
+  'auth.create_user': {
+    methods: ["POST"],
+    pattern: '/create-user',
+    tokens: [{"old":"/create-user","type":0,"val":"create-user","end":""}],
+    types: placeholder as Registry['auth.create_user']['types'],
+  },
+  'auth.forgot_password': {
+    methods: ["POST"],
+    pattern: '/forgot-password',
+    tokens: [{"old":"/forgot-password","type":0,"val":"forgot-password","end":""}],
+    types: placeholder as Registry['auth.forgot_password']['types'],
+  },
+  'auth.reset_password': {
+    methods: ["POST"],
+    pattern: '/reset-password',
+    tokens: [{"old":"/reset-password","type":0,"val":"reset-password","end":""}],
+    types: placeholder as Registry['auth.reset_password']['types'],
   },
 } as const satisfies Record<string, AdonisEndpoint>
 
