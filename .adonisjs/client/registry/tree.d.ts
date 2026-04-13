@@ -2,12 +2,9 @@
 import type { routes } from './index.ts'
 
 export interface ApiDefinition {
-  newAccount: {
-    store: typeof routes['new_account.store']
-  }
-  accessToken: {
-    store: typeof routes['access_token.store']
-    destroy: typeof routes['access_token.destroy']
+  auth: {
+    register: typeof routes['auth.register']
+    login: typeof routes['auth.login']
   }
   profile: {
     show: typeof routes['profile.show']
@@ -41,12 +38,11 @@ export interface ApiDefinition {
   importVehiculos: {
     importar: typeof routes['import_vehiculos.importar']
   }
+  password: {
+    forgot: typeof routes['password.forgot']
+    reset: typeof routes['password.reset']
+  }
   test: {
     send: typeof routes['test.send']
-  }
-  auth: {
-    createUser: typeof routes['auth.create_user']
-    forgotPassword: typeof routes['auth.forgot_password']
-    resetPassword: typeof routes['auth.reset_password']
   }
 }

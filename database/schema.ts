@@ -25,7 +25,7 @@ export class AuthAccessTokenSchema extends BaseModel {
   @column()
   declare name: string | null
   @column()
-  declare tokenableId: number
+  declare tokenableId: number | null
   @column()
   declare type: string
   @column.dateTime({ autoCreate: true, autoUpdate: true })
@@ -33,22 +33,37 @@ export class AuthAccessTokenSchema extends BaseModel {
 }
 
 export class PasswordResetSchema extends BaseModel {
-  static $columns = ['createdAt', 'email', 'expiresAt', 'id', 'token'] as const
+  static $columns = ['correo', 'createdAt', 'expiresAt', 'id', 'token', 'used'] as const
   $columns = PasswordResetSchema.$columns
+  @column()
+  declare correo: string | null
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime | null
-  @column()
-  declare email: string
   @column.dateTime()
-  declare expiresAt: DateTime
+  declare expiresAt: DateTime | null
   @column({ isPrimary: true })
   declare id: number
   @column()
-  declare token: string
+  declare token: string | null
+  @column()
+  declare used: boolean | null
+}
+
+export class RoleSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'nombre', 'updatedAt'] as const
+  $columns = RoleSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare nombre: string | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
 }
 
 export class RutaSchema extends BaseModel {
-  static $columns = ['apoyoAuxiliar', 'auxiliar', 'calibrada', 'capacidadKg', 'combustible', 'destinoTipologia', 'dia', 'efectividad', 'fecha', 'festivos', 'horaExtra', 'mes', 'numeroClientes', 'numeroFacturas', 'observaciones', 'parqueadero', 'peajes', 'peso', 'planilla', 'reenvio', 'ruta', 'semana', 'tarifa', 'taxis', 'tipoVehiculo', 'turno', 'valorDevolucion', 'valorReenvio', 'valorRuta', 'volumen', 'zona'] as const
+  static $columns = ['apoyoAuxiliar', 'auxiliar', 'calibrada', 'capacidadKg', 'combustible', 'createdAt', 'destinoTipologia', 'dia', 'efectividad', 'fecha', 'festivos', 'horaExtra', 'id', 'mes', 'numeroClientes', 'numeroFacturas', 'observaciones', 'parqueadero', 'peajes', 'peso', 'planilla', 'reenvio', 'ruta', 'semana', 'tarifa', 'taxis', 'tipoVehiculo', 'turno', 'updatedAt', 'valorDevolucion', 'valorReenvio', 'valorRuta', 'volumen', 'zona'] as const
   $columns = RutaSchema.$columns
   @column()
   declare apoyoAuxiliar: string | null
@@ -60,6 +75,8 @@ export class RutaSchema extends BaseModel {
   declare capacidadKg: number | null
   @column()
   declare combustible: number | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
   @column()
   declare destinoTipologia: string | null
   @column()
@@ -72,6 +89,8 @@ export class RutaSchema extends BaseModel {
   declare festivos: string | null
   @column()
   declare horaExtra: string | null
+  @column({ isPrimary: true })
+  declare id: number
   @column()
   declare mes: string | null
   @column()
@@ -102,6 +121,8 @@ export class RutaSchema extends BaseModel {
   declare tipoVehiculo: string | null
   @column()
   declare turno: string | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
   @column()
   declare valorDevolucion: number | null
   @column()
@@ -114,21 +135,59 @@ export class RutaSchema extends BaseModel {
   declare zona: string | null
 }
 
-export class UserSchema extends BaseModel {
-  static $columns = ['createdAt', 'email', 'fullName', 'id', 'password', 'updatedAt'] as const
-  $columns = UserSchema.$columns
+export class TiposDocumentoSchema extends BaseModel {
+  static $columns = ['abreviatura', 'createdAt', 'id', 'nombre', 'updatedAt'] as const
+  $columns = TiposDocumentoSchema.$columns
+  @column()
+  declare abreviatura: string
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
-  @column()
-  declare email: string
-  @column()
-  declare fullName: string | null
   @column({ isPrimary: true })
-  declare id: number
-  @column({ serializeAs: null })
-  declare password: string
+  declare id: bigint | number
+  @column()
+  declare nombre: string
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
+}
+
+export class UserSchema extends BaseModel {
+  static $columns = ['apellido', 'correo', 'createdAt', 'id', 'nombre', 'numeroDocumento', 'numeroTelefono', 'password', 'tipoDocumentoId', 'updatedAt'] as const
+  $columns = UserSchema.$columns
+  @column()
+  declare apellido: string | null
+  @column()
+  declare correo: string | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare nombre: string | null
+  @column()
+  declare numeroDocumento: string | null
+  @column()
+  declare numeroTelefono: string | null
+  @column({ serializeAs: null })
+  declare password: string | null
+  @column()
+  declare tipoDocumentoId: number | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class UserRoleSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'roleId', 'updatedAt', 'userId'] as const
+  $columns = UserRoleSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare roleId: number | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare userId: number | null
 }
 
 export class VehiculoSchema extends BaseModel {

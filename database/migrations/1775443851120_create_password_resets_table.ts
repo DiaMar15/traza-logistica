@@ -6,13 +6,11 @@ export default class extends BaseSchema {
   async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
-
-      table.string('email').notNullable()
-      table.string('token').notNullable()
-
-      table.timestamp('expires_at').notNullable() // 🔥 ESTA ES LA CLAVE
-
-      table.timestamp('created_at').defaultTo(this.now())
+      table.string('correo')
+      table.string('token').unique()
+      table.timestamp('created_at')
+      table.timestamp('expires_at')
+      table.boolean('used').defaultTo(false)
     })
   }
 

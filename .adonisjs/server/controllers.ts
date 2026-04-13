@@ -4,7 +4,6 @@
  */
 
 export const controllers = {
-  AccessToken: () => import('#controllers/access_token_controller'),
   Auth: () => import('#controllers/auth_controller'),
   GoogleSheetsRutas: () => import('#controllers/google_sheets_rutas_controller'),
   http: {

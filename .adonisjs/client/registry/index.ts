@@ -6,23 +6,17 @@ import type { ApiDefinition } from './tree.d.ts'
 const placeholder: any = {}
 
 const routes = {
-  'new_account.store': {
+  'auth.register': {
     methods: ["POST"],
-    pattern: '/api/v1/auth/signup',
-    tokens: [{"old":"/api/v1/auth/signup","type":0,"val":"api","end":""},{"old":"/api/v1/auth/signup","type":0,"val":"v1","end":""},{"old":"/api/v1/auth/signup","type":0,"val":"auth","end":""},{"old":"/api/v1/auth/signup","type":0,"val":"signup","end":""}],
-    types: placeholder as Registry['new_account.store']['types'],
+    pattern: '/api/v1/auth/register',
+    tokens: [{"old":"/api/v1/auth/register","type":0,"val":"api","end":""},{"old":"/api/v1/auth/register","type":0,"val":"v1","end":""},{"old":"/api/v1/auth/register","type":0,"val":"auth","end":""},{"old":"/api/v1/auth/register","type":0,"val":"register","end":""}],
+    types: placeholder as Registry['auth.register']['types'],
   },
-  'access_token.store': {
+  'auth.login': {
     methods: ["POST"],
     pattern: '/api/v1/auth/login',
     tokens: [{"old":"/api/v1/auth/login","type":0,"val":"api","end":""},{"old":"/api/v1/auth/login","type":0,"val":"v1","end":""},{"old":"/api/v1/auth/login","type":0,"val":"auth","end":""},{"old":"/api/v1/auth/login","type":0,"val":"login","end":""}],
-    types: placeholder as Registry['access_token.store']['types'],
-  },
-  'access_token.destroy': {
-    methods: ["POST"],
-    pattern: '/api/v1/auth/logout',
-    tokens: [{"old":"/api/v1/auth/logout","type":0,"val":"api","end":""},{"old":"/api/v1/auth/logout","type":0,"val":"v1","end":""},{"old":"/api/v1/auth/logout","type":0,"val":"auth","end":""},{"old":"/api/v1/auth/logout","type":0,"val":"logout","end":""}],
-    types: placeholder as Registry['access_token.destroy']['types'],
+    types: placeholder as Registry['auth.login']['types'],
   },
   'profile.show': {
     methods: ["GET","HEAD"],
@@ -144,29 +138,23 @@ const routes = {
     tokens: [{"old":"/api/v1/dashboard/personal","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/personal","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/personal","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/personal","type":0,"val":"personal","end":""}],
     types: placeholder as Registry['rutas.personal']['types'],
   },
+  'password.forgot': {
+    methods: ["POST"],
+    pattern: '/forgot-password',
+    tokens: [{"old":"/forgot-password","type":0,"val":"forgot-password","end":""}],
+    types: placeholder as Registry['password.forgot']['types'],
+  },
+  'password.reset': {
+    methods: ["POST"],
+    pattern: '/reset-password',
+    tokens: [{"old":"/reset-password","type":0,"val":"reset-password","end":""}],
+    types: placeholder as Registry['password.reset']['types'],
+  },
   'test.send': {
     methods: ["GET","HEAD"],
     pattern: '/test-mail',
     tokens: [{"old":"/test-mail","type":0,"val":"test-mail","end":""}],
     types: placeholder as Registry['test.send']['types'],
-  },
-  'auth.create_user': {
-    methods: ["POST"],
-    pattern: '/create-user',
-    tokens: [{"old":"/create-user","type":0,"val":"create-user","end":""}],
-    types: placeholder as Registry['auth.create_user']['types'],
-  },
-  'auth.forgot_password': {
-    methods: ["POST"],
-    pattern: '/forgot-password',
-    tokens: [{"old":"/forgot-password","type":0,"val":"forgot-password","end":""}],
-    types: placeholder as Registry['auth.forgot_password']['types'],
-  },
-  'auth.reset_password': {
-    methods: ["POST"],
-    pattern: '/reset-password',
-    tokens: [{"old":"/reset-password","type":0,"val":"reset-password","end":""}],
-    types: placeholder as Registry['auth.reset_password']['types'],
   },
 } as const satisfies Record<string, AdonisEndpoint>
 

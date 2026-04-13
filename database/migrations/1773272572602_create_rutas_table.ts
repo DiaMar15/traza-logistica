@@ -1,12 +1,12 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
 
 export default class extends BaseSchema {
-
   protected tableName = 'rutas'
 
   async up() {
+    this.schema.createTable(this.tableName, (table) => {
+      table.increments('id')
 
-this.schema.createTable(this.tableName, (table) => {
       table.string('fecha').nullable()
       table.string('mes').nullable()
       table.string('dia').nullable()
@@ -17,7 +17,6 @@ this.schema.createTable(this.tableName, (table) => {
 
       table.string('auxiliar').nullable()
       table.string('destino_tipologia').nullable()
-
 
       table.float('tarifa').nullable()
       table.float('combustible').nullable()
@@ -40,7 +39,6 @@ this.schema.createTable(this.tableName, (table) => {
 
       table.integer('reenvio').nullable()
 
-
       table.float('valor_reenvio').nullable()
       table.float('valor_ruta').nullable()
       table.float('valor_devolucion').nullable()
@@ -53,25 +51,12 @@ this.schema.createTable(this.tableName, (table) => {
       table.string('semana').nullable()
       table.text('observaciones').nullable()
 
+      table.timestamp('created_at')
+      table.timestamp('updated_at')
     })
-
   }
 
   async down() {
-
-    this.schema.alterTable(this.tableName, (table) => {
-
-      table.dropColumns(
-        'fecha','mes','dia','festivos','tipo_vehiculo','capacidad_kg',
-        'auxiliar','destino_tipologia','tarifa','combustible','peajes',
-        'calibrada','parqueadero','taxis','apoyo_auxiliar','ruta','zona',
-        'planilla','peso','volumen','numero_facturas','numero_clientes',
-        'reenvio','valor_reenvio','valor_ruta','valor_devolucion',
-        'efectividad','turno','hora_extra','semana','observaciones'
-      )
-
-    })
-
+    this.schema.dropTable(this.tableName)
   }
-
 }

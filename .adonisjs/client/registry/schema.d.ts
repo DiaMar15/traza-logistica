@@ -7,9 +7,9 @@ import type { InferInput, SimpleError } from '@vinejs/vine/types'
 export type ParamValue = string | number | bigint | boolean
 
 export interface Registry {
-  'new_account.store': {
+  'auth.register': {
     methods: ["POST"]
-    pattern: '/api/v1/auth/signup'
+    pattern: '/api/v1/auth/register'
     types: {
       body: {}
       paramsTuple: []
@@ -19,21 +19,9 @@ export interface Registry {
       errorResponse: unknown
     }
   }
-  'access_token.store': {
+  'auth.login': {
     methods: ["POST"]
     pattern: '/api/v1/auth/login'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: unknown
-      errorResponse: unknown
-    }
-  }
-  'access_token.destroy': {
-    methods: ["POST"]
-    pattern: '/api/v1/auth/logout'
     types: {
       body: {}
       paramsTuple: []
@@ -283,31 +271,7 @@ export interface Registry {
       errorResponse: unknown
     }
   }
-  'test.send': {
-    methods: ["GET","HEAD"]
-    pattern: '/test-mail'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: unknown
-      errorResponse: unknown
-    }
-  }
-  'auth.create_user': {
-    methods: ["POST"]
-    pattern: '/create-user'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: unknown
-      errorResponse: unknown
-    }
-  }
-  'auth.forgot_password': {
+  'password.forgot': {
     methods: ["POST"]
     pattern: '/forgot-password'
     types: {
@@ -319,9 +283,21 @@ export interface Registry {
       errorResponse: unknown
     }
   }
-  'auth.reset_password': {
+  'password.reset': {
     methods: ["POST"]
     pattern: '/reset-password'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'test.send': {
+    methods: ["GET","HEAD"]
+    pattern: '/test-mail'
     types: {
       body: {}
       paramsTuple: []

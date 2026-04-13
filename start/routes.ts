@@ -7,39 +7,47 @@
 import router from '@adonisjs/core/services/router'
 import { middleware } from '#start/kernel'
 
-import NewAccount from '#controllers/new_account_controller'
-import AccessToken from '#controllers/access_token_controller'
 import Profile from '#controllers/profile_controller'
 import RutasController from '#controllers/rutas_controller'
 import ImportExcelController from '#controllers/import_excels_controller'
 import VehiculosController from '#controllers/vehiculos_controller'
 import ImportVehiculosController from '#controllers/import_vehiculos_controller'
 import AuthController from '#controllers/auth_controller'
+import PasswordController from '#controllers/password_controller'
 import TestController from '#controllers/Http/TestController'
 
+/*
+|--------------------------------------------------------------------------
+| ROOT
+|--------------------------------------------------------------------------
+*/
 router.get('/', () => {
   return { hello: 'world' }
 })
 
+/*
+|--------------------------------------------------------------------------
+| API V1
+|--------------------------------------------------------------------------
+*/
 router
   .group(() => {
 
     /*
     -------------------------
-    Autenticación
+    🔐 AUTENTICACIÓN
     -------------------------
     */
     router
       .group(() => {
-        router.post('signup', [NewAccount, 'store'])
-        router.post('login', [AccessToken, 'store'])
-        router.post('logout', [AccessToken, 'destroy']).use(middleware.auth())
+        router.post('register', [AuthController, 'register'])
+        router.post('login', [AuthController, 'login'])
       })
       .prefix('auth')
 
     /*
     -------------------------
-    CUENTA DE USUARIO
+    👤 CUENTA DE USUARIO
     -------------------------
     */
     router
@@ -51,7 +59,7 @@ router
 
     /*
     -------------------------
-    CRUD RUTAS
+    🚚 CRUD RUTAS
     -------------------------
     */
     router
@@ -70,7 +78,7 @@ router
 
     /*
     -------------------------
-    VEHICULOS
+    🚛 VEHICULOS
     -------------------------
     */
     router
@@ -84,7 +92,7 @@ router
 
     /*
     -------------------------
-    Importar Excel y Google Sheets
+    📊 IMPORTAR DATOS
     -------------------------
     */
     router.post('importar-excel', [ImportExcelController, 'importar'])
@@ -94,16 +102,11 @@ router
       'sync'
     ])
 
-    /*
-    -------------------------
-    IMPORTAR VEHICULOS
-    -------------------------
-    */
     router.post('importar-vehiculos', [ImportVehiculosController, 'importar'])
 
     /*
     -------------------------
-    DASHBOARD - RENDIMIENTO, COSTOS, PERSONAL
+    📈 DASHBOARD
     -------------------------
     */
     router.get('dashboard/rendimiento', [RutasController, 'rendimiento'])
@@ -113,14 +116,17 @@ router
   })
   .prefix('/api/v1')
 
-  /*
-    -------------------------
-   La Autenticación y recuperación de contraseña
-    -------------------------
-    */
+/*
+|--------------------------------------------------------------------------
+| 🔐 RECUPERACIÓN DE CONTRASEÑA
+|--------------------------------------------------------------------------
+*/
+router.post('/forgot-password', [PasswordController, 'forgot'])
+router.post('/reset-password', [PasswordController, 'reset'])
 
+/*
+|--------------------------------------------------------------------------
+| 📧 TEST EMAIL
+|--------------------------------------------------------------------------
+*/
 router.get('/test-mail', [TestController, 'send'])
-
-router.post('/create-user', [AuthController, 'createUser'])
-router.post('/forgot-password', [AuthController, 'forgotPassword'])
-router.post('/reset-password', [AuthController, 'resetPassword'])

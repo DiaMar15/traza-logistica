@@ -4,9 +4,8 @@ type ParamValue = string | number | bigint | boolean
 
 export type ScannedRoutes = {
   ALL: {
-    'new_account.store': { paramsTuple?: []; params?: {} }
-    'access_token.store': { paramsTuple?: []; params?: {} }
-    'access_token.destroy': { paramsTuple?: []; params?: {} }
+    'auth.register': { paramsTuple?: []; params?: {} }
+    'auth.login': { paramsTuple?: []; params?: {} }
     'profile.show': { paramsTuple?: []; params?: {} }
     'rutas.index': { paramsTuple?: []; params?: {} }
     'rutas.count': { paramsTuple?: []; params?: {} }
@@ -26,10 +25,9 @@ export type ScannedRoutes = {
     'rutas.rendimiento': { paramsTuple?: []; params?: {} }
     'rutas.costos': { paramsTuple?: []; params?: {} }
     'rutas.personal': { paramsTuple?: []; params?: {} }
+    'password.forgot': { paramsTuple?: []; params?: {} }
+    'password.reset': { paramsTuple?: []; params?: {} }
     'test.send': { paramsTuple?: []; params?: {} }
-    'auth.create_user': { paramsTuple?: []; params?: {} }
-    'auth.forgot_password': { paramsTuple?: []; params?: {} }
-    'auth.reset_password': { paramsTuple?: []; params?: {} }
   }
   GET: {
     'profile.show': { paramsTuple?: []; params?: {} }
@@ -58,16 +56,14 @@ export type ScannedRoutes = {
     'test.send': { paramsTuple?: []; params?: {} }
   }
   POST: {
-    'new_account.store': { paramsTuple?: []; params?: {} }
-    'access_token.store': { paramsTuple?: []; params?: {} }
-    'access_token.destroy': { paramsTuple?: []; params?: {} }
+    'auth.register': { paramsTuple?: []; params?: {} }
+    'auth.login': { paramsTuple?: []; params?: {} }
     'rutas.store': { paramsTuple?: []; params?: {} }
     'vehiculos.store': { paramsTuple?: []; params?: {} }
     'import_excel.importar': { paramsTuple?: []; params?: {} }
     'import_vehiculos.importar': { paramsTuple?: []; params?: {} }
-    'auth.create_user': { paramsTuple?: []; params?: {} }
-    'auth.forgot_password': { paramsTuple?: []; params?: {} }
-    'auth.reset_password': { paramsTuple?: []; params?: {} }
+    'password.forgot': { paramsTuple?: []; params?: {} }
+    'password.reset': { paramsTuple?: []; params?: {} }
   }
   PUT: {
     'rutas.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }

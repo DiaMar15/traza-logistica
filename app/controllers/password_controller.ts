@@ -12,9 +12,9 @@ export default class PasswordController {
   */
   async forgot({ request, response }: HttpContext) {
 
-    const email = request.input('email')
+    const correo = request.input('correo')
 
-    const user = await User.findBy('email', email)
+    const user = await User.findBy('correo', correo)
 
     if (!user) {
       return response.notFound({
@@ -25,17 +25,16 @@ export default class PasswordController {
     const token = randomUUID()
 
     await Database.table('password_resets').insert({
-      email,
+      correo,
       token,
       created_at: new Date()
     })
 
     return response.ok({
       message: 'Token generado',
-      token // Esto se envía por email
+      token
     })
   }
-
 
   /*
   --------------------------------
@@ -58,19 +57,18 @@ export default class PasswordController {
       })
     }
 
-    const user = await User.findByOrFail('email', record.email)
+    const user = await User.findByOrFail('correo', record.correo)
 
     user.password = password
     await user.save()
 
     await Database
       .from('password_resets')
-      .where('email', record.email)
+      .where('correo', record.correo)
       .delete()
 
     return response.ok({
       message: 'Contraseña actualizada'
     })
   }
-
 }
