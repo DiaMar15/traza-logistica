@@ -19,9 +19,6 @@ export interface ApiDefinition {
     update: typeof routes['rutas.update']
     patch: typeof routes['rutas.patch']
     destroy: typeof routes['rutas.destroy']
-    rendimiento: typeof routes['rutas.rendimiento']
-    costos: typeof routes['rutas.costos']
-    personal: typeof routes['rutas.personal']
   }
   vehiculos: {
     index: typeof routes['vehiculos.index']
@@ -37,6 +34,16 @@ export interface ApiDefinition {
   }
   importVehiculos: {
     importar: typeof routes['import_vehiculos.importar']
+  }
+  dashboard: {
+    rutasCount: typeof routes['dashboard.rutas_count']
+    kilometros: typeof routes['dashboard.kilometros']
+    rutasPorDia: typeof routes['dashboard.rutas_por_dia']
+    kmPorZona: typeof routes['dashboard.km_por_zona']
+    conductores: typeof routes['dashboard.conductores']
+    viajes: typeof routes['dashboard.viajes']
+    entregasCompletadas: typeof routes['dashboard.entregas_completadas']
+    capacidadLogistica: typeof routes['dashboard.capacidad_logistica']
   }
   password: {
     forgot: typeof routes['password.forgot']

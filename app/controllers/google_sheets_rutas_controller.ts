@@ -40,8 +40,8 @@ export default class GoogleSheetsRutasController {
       const kmInicial = limpiarNumero(row["KM INICIAL"])
       const kmFinal = limpiarNumero(row["KM FINAL"])
 
-      // validación de kilómetros
-      if (kmFinal < kmInicial) {
+      // validar solo si existe kmFinal
+      if (kmFinal && kmFinal < kmInicial) {
         errores.push({
           error: "KM inconsistente",
           placa,
@@ -115,7 +115,9 @@ export default class GoogleSheetsRutasController {
 
         kmInicial,
         kmFinal,
-        totalKilometros: limpiarNumero(row["TOTAL KILOMETROS"]),
+        totalKilometros: kmFinal && kmInicial
+          ? kmFinal - kmInicial
+          : limpiarNumero(row["TOTAL KILOMETROS"]),
 
         semana: limpiarTexto(row["SEMANA"]),
         observaciones: limpiarTexto(row["Observaciones y/o novedades"])

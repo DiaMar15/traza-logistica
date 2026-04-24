@@ -15,6 +15,7 @@ import ImportVehiculosController from '#controllers/import_vehiculos_controller'
 import AuthController from '#controllers/auth_controller'
 import PasswordController from '#controllers/password_controller'
 import TestController from '#controllers/Http/TestController'
+import DashboardController from '#controllers/dashboard_controller' // ✅ NUEVO
 
 /*
 |--------------------------------------------------------------------------
@@ -106,12 +107,17 @@ router
 
     /*
     -------------------------
-    📈 DASHBOARD
+    📈 DASHBOARD REAL
     -------------------------
     */
-    router.get('dashboard/rendimiento', [RutasController, 'rendimiento'])
-    router.get('dashboard/costos', [RutasController, 'costos'])
-    router.get('dashboard/personal', [RutasController, 'personal'])
+    router.get('dashboard/rutas-count', [DashboardController, 'rutasCount'])
+    router.get('dashboard/kilometros', [DashboardController, 'kilometros'])
+    router.get('dashboard/rutas-por-dia', [DashboardController, 'rutasPorDia'])
+    router.get('dashboard/km-por-zona', [DashboardController, 'kmPorZona'])
+    router.get('dashboard/conductores', [DashboardController, 'conductores'])
+    router.get('dashboard/viajes', [DashboardController, 'viajes'])
+    router.get('dashboard/entregas', [DashboardController, 'entregasCompletadas'])
+router.get('dashboard/capacidad', [DashboardController, 'capacidadLogistica'])
 
   })
   .prefix('/api/v1')

@@ -63,20 +63,24 @@ export class RoleSchema extends BaseModel {
 }
 
 export class RutaSchema extends BaseModel {
-  static $columns = ['apoyoAuxiliar', 'auxiliar', 'calibrada', 'capacidadKg', 'combustible', 'createdAt', 'destinoTipologia', 'dia', 'efectividad', 'fecha', 'festivos', 'horaExtra', 'id', 'mes', 'numeroClientes', 'numeroFacturas', 'observaciones', 'parqueadero', 'peajes', 'peso', 'planilla', 'reenvio', 'ruta', 'semana', 'tarifa', 'taxis', 'tipoVehiculo', 'turno', 'updatedAt', 'valorDevolucion', 'valorReenvio', 'valorRuta', 'volumen', 'zona'] as const
+  static $columns = ['apoyoAuxiliar', 'auxiliar', 'calibrada', 'capacidadKg', 'combustible', 'conductor', 'createdAt', 'destino', 'destinoTipologia', 'dia', 'efectividad', 'empresa', 'fecha', 'festivos', 'finRuta', 'horaExtra', 'id', 'inicioRuta', 'kmFinal', 'kmInicial', 'mes', 'numeroClientes', 'numeroFacturas', 'observaciones', 'parqueadero', 'peajes', 'peso', 'placa', 'planilla', 'reenvio', 'ruta', 'semana', 'tarifa', 'taxis', 'tiempoEnRuta', 'tipoVehiculo', 'totalKilometros', 'turno', 'updatedAt', 'valorDevolucion', 'valorReenvio', 'valorRuta', 'volumen', 'zona'] as const
   $columns = RutaSchema.$columns
   @column()
   declare apoyoAuxiliar: string | null
   @column()
   declare auxiliar: string | null
   @column()
-  declare calibrada: number | null
+  declare calibrada: string | null
   @column()
   declare capacidadKg: number | null
   @column()
-  declare combustible: number | null
+  declare combustible: string | null
+  @column()
+  declare conductor: string | null
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime | null
+  @column()
+  declare destino: string | null
   @column()
   declare destinoTipologia: string | null
   @column()
@@ -84,13 +88,23 @@ export class RutaSchema extends BaseModel {
   @column()
   declare efectividad: string | null
   @column()
+  declare empresa: string | null
+  @column()
   declare fecha: string | null
   @column()
   declare festivos: string | null
   @column()
+  declare finRuta: string | null
+  @column()
   declare horaExtra: string | null
   @column({ isPrimary: true })
   declare id: number
+  @column()
+  declare inicioRuta: string | null
+  @column()
+  declare kmFinal: string | null
+  @column()
+  declare kmInicial: string | null
   @column()
   declare mes: string | null
   @column()
@@ -100,11 +114,13 @@ export class RutaSchema extends BaseModel {
   @column()
   declare observaciones: string | null
   @column()
-  declare parqueadero: number | null
+  declare parqueadero: string | null
   @column()
-  declare peajes: number | null
+  declare peajes: string | null
   @column()
-  declare peso: number | null
+  declare peso: string | null
+  @column()
+  declare placa: string | null
   @column()
   declare planilla: string | null
   @column()
@@ -114,23 +130,27 @@ export class RutaSchema extends BaseModel {
   @column()
   declare semana: string | null
   @column()
-  declare tarifa: number | null
+  declare tarifa: string | null
   @column()
-  declare taxis: number | null
+  declare taxis: string | null
+  @column()
+  declare tiempoEnRuta: string | null
   @column()
   declare tipoVehiculo: string | null
+  @column()
+  declare totalKilometros: string | null
   @column()
   declare turno: string | null
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
   @column()
-  declare valorDevolucion: number | null
+  declare valorDevolucion: string | null
   @column()
-  declare valorReenvio: number | null
+  declare valorReenvio: string | null
   @column()
-  declare valorRuta: number | null
+  declare valorRuta: string | null
   @column()
-  declare volumen: number | null
+  declare volumen: string | null
   @column()
   declare zona: string | null
 }
@@ -170,7 +190,7 @@ export class UserSchema extends BaseModel {
   @column({ serializeAs: null })
   declare password: string | null
   @column()
-  declare tipoDocumentoId: number | null
+  declare tipoDocumentoId: bigint | number | null
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 }

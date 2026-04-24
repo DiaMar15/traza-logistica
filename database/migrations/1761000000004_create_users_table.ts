@@ -10,7 +10,12 @@ export default class extends BaseSchema {
       table.string('nombre')
       table.string('apellido')
 
-      table.integer('tipo_documento_id').unsigned()
+      table
+        .bigInteger('tipo_documento_id')
+        .unsigned()
+        .references('id')
+        .inTable('tipos_documentos')
+        .onDelete('CASCADE')
 
       table.string('numero_documento')
       table.string('correo').unique()

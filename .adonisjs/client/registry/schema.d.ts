@@ -235,9 +235,9 @@ export interface Registry {
       errorResponse: unknown
     }
   }
-  'rutas.rendimiento': {
+  'dashboard.rutas_count': {
     methods: ["GET","HEAD"]
-    pattern: '/api/v1/dashboard/rendimiento'
+    pattern: '/api/v1/dashboard/rutas-count'
     types: {
       body: {}
       paramsTuple: []
@@ -247,9 +247,9 @@ export interface Registry {
       errorResponse: unknown
     }
   }
-  'rutas.costos': {
+  'dashboard.kilometros': {
     methods: ["GET","HEAD"]
-    pattern: '/api/v1/dashboard/costos'
+    pattern: '/api/v1/dashboard/kilometros'
     types: {
       body: {}
       paramsTuple: []
@@ -259,9 +259,69 @@ export interface Registry {
       errorResponse: unknown
     }
   }
-  'rutas.personal': {
+  'dashboard.rutas_por_dia': {
     methods: ["GET","HEAD"]
-    pattern: '/api/v1/dashboard/personal'
+    pattern: '/api/v1/dashboard/rutas-por-dia'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'dashboard.km_por_zona': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/dashboard/km-por-zona'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'dashboard.conductores': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/dashboard/conductores'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'dashboard.viajes': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/dashboard/viajes'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'dashboard.entregas_completadas': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/dashboard/entregas'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'dashboard.capacidad_logistica': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/dashboard/capacidad'
     types: {
       body: {}
       paramsTuple: []
