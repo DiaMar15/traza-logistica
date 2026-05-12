@@ -199,6 +199,78 @@ export interface Registry {
       errorResponse: unknown
     }
   }
+  'conductores.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/conductores'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'conductores.store': {
+    methods: ["POST"]
+    pattern: '/api/v1/conductores'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'conductores.sync': {
+    methods: ["POST"]
+    pattern: '/api/v1/conductores/sync'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'conductores.update': {
+    methods: ["PUT"]
+    pattern: '/api/v1/conductores/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'conductores.inactivar': {
+    methods: ["PUT"]
+    pattern: '/api/v1/conductores/:id/inactivar'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'conductores.reactivar': {
+    methods: ["PUT"]
+    pattern: '/api/v1/conductores/:id/reactivar'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
   'import_excel.importar': {
     methods: ["POST"]
     pattern: '/api/v1/importar-excel'
@@ -283,6 +355,42 @@ export interface Registry {
       errorResponse: unknown
     }
   }
+  'dashboard.rendimiento': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/dashboard/rendimiento'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'dashboard.costos': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/dashboard/costos'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'dashboard.personal': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/dashboard/personal'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
   'dashboard.conductores': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/dashboard/conductores'
@@ -322,6 +430,30 @@ export interface Registry {
   'dashboard.capacidad_logistica': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/dashboard/capacidad'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'dashboard.costos_detalle': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/dashboard/costos-detalle'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'dashboard.rendimiento_vehiculos': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/dashboard/rendimiento-vehiculos'
     types: {
       body: {}
       paramsTuple: []

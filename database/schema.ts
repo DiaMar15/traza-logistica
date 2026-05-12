@@ -32,6 +32,21 @@ export class AuthAccessTokenSchema extends BaseModel {
   declare updatedAt: DateTime | null
 }
 
+export class ConductoreSchema extends BaseModel {
+  static $columns = ['createdAt', 'estado', 'id', 'nombre', 'updatedAt'] as const
+  $columns = ConductoreSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column()
+  declare estado: string | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare nombre: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
 export class PasswordResetSchema extends BaseModel {
   static $columns = ['correo', 'createdAt', 'expiresAt', 'id', 'token', 'used'] as const
   $columns = PasswordResetSchema.$columns

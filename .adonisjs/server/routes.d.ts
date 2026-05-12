@@ -20,16 +20,27 @@ export type ScannedRoutes = {
     'vehiculos.store': { paramsTuple?: []; params?: {} }
     'vehiculos.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'vehiculos.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'conductores.index': { paramsTuple?: []; params?: {} }
+    'conductores.store': { paramsTuple?: []; params?: {} }
+    'conductores.sync': { paramsTuple?: []; params?: {} }
+    'conductores.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'conductores.inactivar': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'conductores.reactivar': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'import_excel.importar': { paramsTuple?: []; params?: {} }
     'import_vehiculos.importar': { paramsTuple?: []; params?: {} }
     'dashboard.rutas_count': { paramsTuple?: []; params?: {} }
     'dashboard.kilometros': { paramsTuple?: []; params?: {} }
     'dashboard.rutas_por_dia': { paramsTuple?: []; params?: {} }
     'dashboard.km_por_zona': { paramsTuple?: []; params?: {} }
+    'dashboard.rendimiento': { paramsTuple?: []; params?: {} }
+    'dashboard.costos': { paramsTuple?: []; params?: {} }
+    'dashboard.personal': { paramsTuple?: []; params?: {} }
     'dashboard.conductores': { paramsTuple?: []; params?: {} }
     'dashboard.viajes': { paramsTuple?: []; params?: {} }
     'dashboard.entregas_completadas': { paramsTuple?: []; params?: {} }
     'dashboard.capacidad_logistica': { paramsTuple?: []; params?: {} }
+    'dashboard.costos_detalle': { paramsTuple?: []; params?: {} }
+    'dashboard.rendimiento_vehiculos': { paramsTuple?: []; params?: {} }
     'password.forgot': { paramsTuple?: []; params?: {} }
     'password.reset': { paramsTuple?: []; params?: {} }
     'test.send': { paramsTuple?: []; params?: {} }
@@ -42,14 +53,20 @@ export type ScannedRoutes = {
     'rutas.buscar': { paramsTuple?: []; params?: {} }
     'rutas.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'vehiculos.index': { paramsTuple?: []; params?: {} }
+    'conductores.index': { paramsTuple?: []; params?: {} }
     'dashboard.rutas_count': { paramsTuple?: []; params?: {} }
     'dashboard.kilometros': { paramsTuple?: []; params?: {} }
     'dashboard.rutas_por_dia': { paramsTuple?: []; params?: {} }
     'dashboard.km_por_zona': { paramsTuple?: []; params?: {} }
+    'dashboard.rendimiento': { paramsTuple?: []; params?: {} }
+    'dashboard.costos': { paramsTuple?: []; params?: {} }
+    'dashboard.personal': { paramsTuple?: []; params?: {} }
     'dashboard.conductores': { paramsTuple?: []; params?: {} }
     'dashboard.viajes': { paramsTuple?: []; params?: {} }
     'dashboard.entregas_completadas': { paramsTuple?: []; params?: {} }
     'dashboard.capacidad_logistica': { paramsTuple?: []; params?: {} }
+    'dashboard.costos_detalle': { paramsTuple?: []; params?: {} }
+    'dashboard.rendimiento_vehiculos': { paramsTuple?: []; params?: {} }
     'test.send': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
@@ -60,14 +77,20 @@ export type ScannedRoutes = {
     'rutas.buscar': { paramsTuple?: []; params?: {} }
     'rutas.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'vehiculos.index': { paramsTuple?: []; params?: {} }
+    'conductores.index': { paramsTuple?: []; params?: {} }
     'dashboard.rutas_count': { paramsTuple?: []; params?: {} }
     'dashboard.kilometros': { paramsTuple?: []; params?: {} }
     'dashboard.rutas_por_dia': { paramsTuple?: []; params?: {} }
     'dashboard.km_por_zona': { paramsTuple?: []; params?: {} }
+    'dashboard.rendimiento': { paramsTuple?: []; params?: {} }
+    'dashboard.costos': { paramsTuple?: []; params?: {} }
+    'dashboard.personal': { paramsTuple?: []; params?: {} }
     'dashboard.conductores': { paramsTuple?: []; params?: {} }
     'dashboard.viajes': { paramsTuple?: []; params?: {} }
     'dashboard.entregas_completadas': { paramsTuple?: []; params?: {} }
     'dashboard.capacidad_logistica': { paramsTuple?: []; params?: {} }
+    'dashboard.costos_detalle': { paramsTuple?: []; params?: {} }
+    'dashboard.rendimiento_vehiculos': { paramsTuple?: []; params?: {} }
     'test.send': { paramsTuple?: []; params?: {} }
   }
   POST: {
@@ -75,6 +98,8 @@ export type ScannedRoutes = {
     'auth.login': { paramsTuple?: []; params?: {} }
     'rutas.store': { paramsTuple?: []; params?: {} }
     'vehiculos.store': { paramsTuple?: []; params?: {} }
+    'conductores.store': { paramsTuple?: []; params?: {} }
+    'conductores.sync': { paramsTuple?: []; params?: {} }
     'import_excel.importar': { paramsTuple?: []; params?: {} }
     'import_vehiculos.importar': { paramsTuple?: []; params?: {} }
     'password.forgot': { paramsTuple?: []; params?: {} }
@@ -83,6 +108,9 @@ export type ScannedRoutes = {
   PUT: {
     'rutas.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'vehiculos.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'conductores.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'conductores.inactivar': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'conductores.reactivar': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   PATCH: {
     'rutas.patch': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }

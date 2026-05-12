@@ -102,6 +102,42 @@ const routes = {
     tokens: [{"old":"/api/v1/vehiculos/:id","type":0,"val":"api","end":""},{"old":"/api/v1/vehiculos/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/vehiculos/:id","type":0,"val":"vehiculos","end":""},{"old":"/api/v1/vehiculos/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['vehiculos.destroy']['types'],
   },
+  'conductores.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/conductores',
+    tokens: [{"old":"/api/v1/conductores","type":0,"val":"api","end":""},{"old":"/api/v1/conductores","type":0,"val":"v1","end":""},{"old":"/api/v1/conductores","type":0,"val":"conductores","end":""}],
+    types: placeholder as Registry['conductores.index']['types'],
+  },
+  'conductores.store': {
+    methods: ["POST"],
+    pattern: '/api/v1/conductores',
+    tokens: [{"old":"/api/v1/conductores","type":0,"val":"api","end":""},{"old":"/api/v1/conductores","type":0,"val":"v1","end":""},{"old":"/api/v1/conductores","type":0,"val":"conductores","end":""}],
+    types: placeholder as Registry['conductores.store']['types'],
+  },
+  'conductores.sync': {
+    methods: ["POST"],
+    pattern: '/api/v1/conductores/sync',
+    tokens: [{"old":"/api/v1/conductores/sync","type":0,"val":"api","end":""},{"old":"/api/v1/conductores/sync","type":0,"val":"v1","end":""},{"old":"/api/v1/conductores/sync","type":0,"val":"conductores","end":""},{"old":"/api/v1/conductores/sync","type":0,"val":"sync","end":""}],
+    types: placeholder as Registry['conductores.sync']['types'],
+  },
+  'conductores.update': {
+    methods: ["PUT"],
+    pattern: '/api/v1/conductores/:id',
+    tokens: [{"old":"/api/v1/conductores/:id","type":0,"val":"api","end":""},{"old":"/api/v1/conductores/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/conductores/:id","type":0,"val":"conductores","end":""},{"old":"/api/v1/conductores/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['conductores.update']['types'],
+  },
+  'conductores.inactivar': {
+    methods: ["PUT"],
+    pattern: '/api/v1/conductores/:id/inactivar',
+    tokens: [{"old":"/api/v1/conductores/:id/inactivar","type":0,"val":"api","end":""},{"old":"/api/v1/conductores/:id/inactivar","type":0,"val":"v1","end":""},{"old":"/api/v1/conductores/:id/inactivar","type":0,"val":"conductores","end":""},{"old":"/api/v1/conductores/:id/inactivar","type":1,"val":"id","end":""},{"old":"/api/v1/conductores/:id/inactivar","type":0,"val":"inactivar","end":""}],
+    types: placeholder as Registry['conductores.inactivar']['types'],
+  },
+  'conductores.reactivar': {
+    methods: ["PUT"],
+    pattern: '/api/v1/conductores/:id/reactivar',
+    tokens: [{"old":"/api/v1/conductores/:id/reactivar","type":0,"val":"api","end":""},{"old":"/api/v1/conductores/:id/reactivar","type":0,"val":"v1","end":""},{"old":"/api/v1/conductores/:id/reactivar","type":0,"val":"conductores","end":""},{"old":"/api/v1/conductores/:id/reactivar","type":1,"val":"id","end":""},{"old":"/api/v1/conductores/:id/reactivar","type":0,"val":"reactivar","end":""}],
+    types: placeholder as Registry['conductores.reactivar']['types'],
+  },
   'import_excel.importar': {
     methods: ["POST"],
     pattern: '/api/v1/importar-excel',
@@ -144,6 +180,24 @@ const routes = {
     tokens: [{"old":"/api/v1/dashboard/km-por-zona","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/km-por-zona","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/km-por-zona","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/km-por-zona","type":0,"val":"km-por-zona","end":""}],
     types: placeholder as Registry['dashboard.km_por_zona']['types'],
   },
+  'dashboard.rendimiento': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/dashboard/rendimiento',
+    tokens: [{"old":"/api/v1/dashboard/rendimiento","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/rendimiento","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/rendimiento","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/rendimiento","type":0,"val":"rendimiento","end":""}],
+    types: placeholder as Registry['dashboard.rendimiento']['types'],
+  },
+  'dashboard.costos': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/dashboard/costos',
+    tokens: [{"old":"/api/v1/dashboard/costos","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/costos","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/costos","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/costos","type":0,"val":"costos","end":""}],
+    types: placeholder as Registry['dashboard.costos']['types'],
+  },
+  'dashboard.personal': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/dashboard/personal',
+    tokens: [{"old":"/api/v1/dashboard/personal","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/personal","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/personal","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/personal","type":0,"val":"personal","end":""}],
+    types: placeholder as Registry['dashboard.personal']['types'],
+  },
   'dashboard.conductores': {
     methods: ["GET","HEAD"],
     pattern: '/api/v1/dashboard/conductores',
@@ -167,6 +221,18 @@ const routes = {
     pattern: '/api/v1/dashboard/capacidad',
     tokens: [{"old":"/api/v1/dashboard/capacidad","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/capacidad","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/capacidad","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/capacidad","type":0,"val":"capacidad","end":""}],
     types: placeholder as Registry['dashboard.capacidad_logistica']['types'],
+  },
+  'dashboard.costos_detalle': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/dashboard/costos-detalle',
+    tokens: [{"old":"/api/v1/dashboard/costos-detalle","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/costos-detalle","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/costos-detalle","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/costos-detalle","type":0,"val":"costos-detalle","end":""}],
+    types: placeholder as Registry['dashboard.costos_detalle']['types'],
+  },
+  'dashboard.rendimiento_vehiculos': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/dashboard/rendimiento-vehiculos',
+    tokens: [{"old":"/api/v1/dashboard/rendimiento-vehiculos","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/rendimiento-vehiculos","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/rendimiento-vehiculos","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/rendimiento-vehiculos","type":0,"val":"rendimiento-vehiculos","end":""}],
+    types: placeholder as Registry['dashboard.rendimiento_vehiculos']['types'],
   },
   'password.forgot': {
     methods: ["POST"],

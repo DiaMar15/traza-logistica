@@ -2,65 +2,57 @@ import type { HttpContext } from '@adonisjs/core/http'
 import Database from '@adonisjs/lucid/services/db'
 
 export default class DashboardController {
-
   /* --------------------------
      TOTAL RUTAS
   -------------------------- */
   async rutasCount({ response }: HttpContext) {
-    const result = await Database
-      .from('rutas')
-      .count('* as total')
+    const result = await Database.from('rutas').count('* as total')
 
     return response.ok({
-      total: Number(result[0].total)
+      total: Number(result[0].total),
     })
   }
 
   /* --------------------------
-     TOTAL KILÓMETROS (sin negativos)
+     TOTAL KILÓMETROS
   -------------------------- */
   async kilometros({ response }: HttpContext) {
-    const result = await Database
-      .from('rutas')
-      .select(
-        Database.raw(`
+    const result = await Database.from('rutas').select(
+      Database.raw(`
           SUM(
             CASE
-              WHEN total_kilometros > 0 THEN total_kilometros
+              WHEN total_kilometros > 0
+              THEN total_kilometros
               ELSE 0
             END
           ) as total
         `)
-      )
+    )
 
     return response.ok({
-      total: Number(result[0].total) || 0
+      total: Number(result[0].total) || 0,
     })
   }
 
   /* --------------------------
-     CONDUCTORES ACTIVOS
+     CONDUCTORES
   -------------------------- */
   async conductores({ response }: HttpContext) {
-    const result = await Database
-      .from('rutas')
-      .countDistinct('conductor as total')
+    const result = await Database.from('rutas').countDistinct('conductor as total')
 
     return response.ok({
-      total: Number(result[0].total)
+      total: Number(result[0].total),
     })
   }
 
   /* --------------------------
-     VIAJES (igual a rutas)
+     VIAJES
   -------------------------- */
   async viajes({ response }: HttpContext) {
-    const result = await Database
-      .from('rutas')
-      .count('* as total')
+    const result = await Database.from('rutas').count('* as total')
 
     return response.ok({
-      total: Number(result[0].total)
+      total: Number(result[0].total),
     })
   }
 
@@ -68,16 +60,12 @@ export default class DashboardController {
      RUTAS POR DÍA
   -------------------------- */
   async rutasPorDia({ response }: HttpContext) {
-    const data = await Database
-      .from('rutas')
-      .select('dia')
-      .count('* as total')
-      .groupBy('dia')
+    const data = await Database.from('rutas').select('dia').count('* as total').groupBy('dia')
 
     return response.ok(
-      data.map(item => ({
+      data.map((item) => ({
         dia: item.dia,
-        total: Number(item.total)
+        total: Number(item.total),
       }))
     )
   }
@@ -86,14 +74,14 @@ export default class DashboardController {
      KM POR ZONA
   -------------------------- */
   async kmPorZona({ response }: HttpContext) {
-    const data = await Database
-      .from('rutas')
+    const data = await Database.from('rutas')
       .select('zona')
       .select(
         Database.raw(`
           SUM(
             CASE
-              WHEN total_kilometros > 0 THEN total_kilometros
+              WHEN total_kilometros > 0
+              THEN total_kilometros
               ELSE 0
             END
           ) as total
@@ -102,52 +90,401 @@ export default class DashboardController {
       .groupBy('zona')
 
     return response.ok(
-      data.map(item => ({
+      data.map((item) => ({
         zona: item.zona,
-        total: Number(item.total) || 0
+        total: Number(item.total) || 0,
       }))
     )
   }
 
   /* --------------------------
-     ENTREGAS COMPLETADAS (%)
-     promedio de efectividad
+     ENTREGAS COMPLETADAS
   -------------------------- */
   async entregasCompletadas({ response }: HttpContext) {
-    const result = await Database
-      .from('rutas')
-      .select(
-        Database.raw(`
-          AVG(
-            CASE
-              WHEN efectividad LIKE '%\\%%'
-                THEN REPLACE(efectividad, '%', '') + 0
-              ELSE efectividad + 0
-            END
-          ) as promedio
+    const result = await Database.from('rutas').select(
+      Database.raw(`
+          SUM(
+            numero_facturas *
+            (
+              CASE
+                WHEN NULLIF(TRIM(efectividad), '') IS NOT NULL
+                THEN REPLACE(
+                  REPLACE(TRIM(efectividad), '%', ''),
+                  ',',
+                  '.'
+                ) + 0
+                ELSE 0
+              END
+            )
+          ) / NULLIF(SUM(numero_facturas), 0)
+          as promedio
         `)
-      )
+    )
 
     return response.ok({
-      total: Math.round(result[0].promedio || 0)
+      total: Math.round(result[0].promedio || 0),
     })
   }
 
   /* --------------------------
-     CAPACIDAD LOGÍSTICA (%)
-     peso vs capacidad
+     CAPACIDAD LOGÍSTICA
   -------------------------- */
   async capacidadLogistica({ response }: HttpContext) {
-    const result = await Database
-      .from('rutas')
-      .select(
-        Database.raw(`
-          (SUM(peso) / NULLIF(SUM(capacidad_kg), 0)) * 100 as capacidad
+    const result = await Database.from('rutas').select(
+      Database.raw(`
+          (
+            SUM(peso) /
+            NULLIF(SUM(capacidad_kg), 0)
+          ) * 100 as capacidad
         `)
-      )
+    )
 
     return response.ok({
-      total: Math.round(result[0].capacidad || 0)
+      total: Math.round(result[0].capacidad || 0),
     })
+  }
+
+  /* --------------------------
+     RENDIMIENTO GENERAL
+  -------------------------- */
+  async rendimiento({ response }: HttpContext) {
+    const result = await Database.from('rutas').select(
+      Database.raw(`
+          COUNT(*) as total_rutas
+        `),
+
+      Database.raw(`
+          SUM(
+            CASE
+              WHEN total_kilometros > 0
+              THEN total_kilometros
+              ELSE 0
+            END
+          ) as total_km
+        `),
+
+      Database.raw(`
+          SUM(
+            numero_facturas *
+            (
+              CASE
+                WHEN NULLIF(TRIM(efectividad), '') IS NOT NULL
+                THEN REPLACE(
+                  REPLACE(TRIM(efectividad), '%', ''),
+                  ',',
+                  '.'
+                ) + 0
+                ELSE 0
+              END
+            )
+          ) / NULLIF(SUM(numero_facturas), 0)
+          as efectividad
+        `)
+    )
+
+    return response.ok({
+      totalRutas: Number(result[0].total_rutas),
+
+      totalKm: Number(result[0].total_km) || 0,
+
+      efectividad: Math.round(result[0].efectividad || 0),
+    })
+  }
+
+  /* --------------------------
+     COSTOS
+  -------------------------- */
+  async costos({ response }: HttpContext) {
+    const result = await Database.from('rutas').select(
+      Database.raw('SUM(combustible) as combustible'),
+      Database.raw('SUM(peajes) as peajes'),
+      Database.raw('SUM(calibrada) as calibrada'),
+      Database.raw('SUM(parqueadero) as parqueadero'),
+      Database.raw('SUM(taxis) as taxis')
+    )
+
+    const combustible = Number(result[0].combustible) || 0
+
+    const peajes = Number(result[0].peajes) || 0
+
+    const calibrada = Number(result[0].calibrada) || 0
+
+    const parqueadero = Number(result[0].parqueadero) || 0
+
+    const taxis = Number(result[0].taxis) || 0
+
+    return response.ok({
+      combustible,
+      peajes,
+      calibrada,
+      parqueadero,
+      taxis,
+
+      total: combustible + peajes + calibrada + parqueadero + taxis,
+    })
+  }
+
+  /* --------------------------
+     PERSONAL
+  -------------------------- */
+  async personal({ response }: HttpContext) {
+    /* --------------------------
+       SEMANA ACTUAL
+    -------------------------- */
+    const semanaActual = await Database.from('rutas').max('semana as semana')
+
+    const semana = semanaActual[0]?.semana
+
+    /* --------------------------
+       RUTAS
+    -------------------------- */
+    const rutas = await Database.from('rutas')
+
+      .where('semana', semana)
+
+      .select('conductor', 'apoyo_auxiliar', 'auxiliar', 'tiempo_en_ruta')
+
+    /* --------------------------
+       MAPA
+    -------------------------- */
+    const mapaPersonal: Record<string, any> = {}
+
+    /* --------------------------
+       LIMPIAR NOMBRE
+    -------------------------- */
+    function limpiarNombre(texto: string) {
+      return (
+        texto
+
+          // QUITAR (1)
+          .replace(/\(\d+\)/g, '')
+
+          // ESPACIOS DOBLES
+          .replace(/\s+/g, ' ')
+
+          .trim()
+      )
+    }
+
+    /* --------------------------
+       RECORRER RUTAS
+    -------------------------- */
+    for (const ruta of rutas) {
+      const horasRuta = Number(String(ruta.tiempo_en_ruta || '0').replace(',', '.')) || 0
+
+      /* --------------------------
+         PERSONAS
+      -------------------------- */
+      const personas = [ruta.conductor, ruta.apoyo_auxiliar, ruta.auxiliar]
+
+      for (const persona of personas) {
+        const nombreLimpio = limpiarNombre(String(persona || ''))
+
+        /* --------------------------
+           IGNORAR
+        -------------------------- */
+        if (!nombreLimpio) {
+          continue
+        }
+
+        if (nombreLimpio.toUpperCase() === 'APOYO CONDUCTOR') {
+          continue
+        }
+
+        if (nombreLimpio.includes('$')) {
+          continue
+        }
+
+        if (/^\d+$/.test(nombreLimpio)) {
+          continue
+        }
+
+        /* --------------------------
+           CREAR
+        -------------------------- */
+        if (!mapaPersonal[nombreLimpio]) {
+          mapaPersonal[nombreLimpio] = {
+            conductor: nombreLimpio,
+
+            total: 0,
+
+            horas: 0,
+
+            extras: 0,
+          }
+        }
+
+        /* --------------------------
+           SUMAR
+        -------------------------- */
+        mapaPersonal[nombreLimpio].total += 1
+
+        mapaPersonal[nombreLimpio].horas += horasRuta
+
+        /* --------------------------
+           HORAS EXTRAS
+        -------------------------- */
+        if (mapaPersonal[nombreLimpio].horas > 44) {
+          mapaPersonal[nombreLimpio].extras = Number(
+            (mapaPersonal[nombreLimpio].horas - 44).toFixed(1)
+          )
+        } else {
+          mapaPersonal[nombreLimpio].extras = 0
+        }
+      }
+    }
+
+    /* --------------------------
+       ARRAY FINAL
+    -------------------------- */
+    const rutasPorConductor = Object.values(mapaPersonal)
+
+      .map((item: any) => ({
+        conductor: item.conductor,
+
+        total: Number(item.total) || 0,
+
+        horas: Number(item.horas.toFixed(1)) || 0,
+
+        extras: Number(item.extras.toFixed(1)) || 0,
+      }))
+
+      .sort((a: any, b: any) => b.horas - a.horas)
+
+    /* --------------------------
+       AUXILIARES
+    -------------------------- */
+    const auxiliares = await Database.from('rutas')
+
+      .where('semana', semana)
+
+      .countDistinct('auxiliar as total')
+
+    /* --------------------------
+       RESPONSE
+    -------------------------- */
+    return response.ok({
+      semana,
+
+      conductores: rutasPorConductor.length,
+
+      auxiliares: Number(auxiliares[0].total) || 0,
+
+      rutasPorConductor,
+    })
+  }
+
+  /* --------------------------
+     COSTOS DETALLE
+  -------------------------- */
+  async costosDetalle({ response }: HttpContext) {
+    const rutas = await Database.from('rutas').select(
+      'fecha',
+      'placa',
+      'ruta',
+      'zona',
+      'total_kilometros',
+      'combustible',
+      'peajes',
+      'calibrada',
+      'parqueadero',
+      'taxis'
+    )
+
+    return response.ok(rutas)
+  }
+
+  /* --------------------------
+     RENDIMIENTO VEHÍCULOS
+  -------------------------- */
+  async rendimientoVehiculos({ response }: HttpContext) {
+    const data = await Database.rawQuery(`
+      SELECT
+
+        placa,
+
+        COUNT(*) as rutas,
+
+        SUM(
+          CASE
+            WHEN total_kilometros > 0
+            THEN total_kilometros
+            ELSE 0
+          END
+        ) as km,
+
+        SUM(
+          COALESCE(numero_clientes,0)
+        ) as clientes,
+
+        SUM(
+          COALESCE(peso,0)
+        ) as peso,
+
+        SUM(
+          COALESCE(volumen,0)
+        ) as volumen,
+
+        AVG(
+          CASE
+            WHEN NULLIF(
+              TRIM(tiempo_en_ruta),
+              ''
+            ) IS NOT NULL
+
+            THEN REPLACE(
+              TRIM(tiempo_en_ruta),
+              ',',
+              '.'
+            ) + 0
+
+            ELSE NULL
+          END
+        ) * 60 as tiempo,
+
+        SUM(
+          numero_facturas *
+          (
+            CASE
+              WHEN NULLIF(TRIM(efectividad), '') IS NOT NULL
+              THEN REPLACE(
+                REPLACE(TRIM(efectividad), '%', ''),
+                ',',
+                '.'
+              ) + 0
+              ELSE 0
+            END
+          )
+        ) / NULLIF(SUM(numero_facturas), 0)
+        as efectividad
+
+      FROM rutas
+
+      WHERE placa IS NOT NULL
+
+      GROUP BY placa
+
+      ORDER BY km DESC
+    `)
+
+    return response.ok(
+      data[0].map((i: any) => ({
+        placa: i.placa,
+
+        rutas: Number(i.rutas) || 0,
+
+        km: Number(i.km) || 0,
+
+        tiempo: Math.round(Number(i.tiempo) || 0),
+
+        clientes: Number(i.clientes) || 0,
+
+        peso: Number(i.peso) || 0,
+
+        volumen: Number(i.volumen) || 0,
+
+        efectividad: Math.round(Number(i.efectividad) || 0),
+      }))
+    )
   }
 }

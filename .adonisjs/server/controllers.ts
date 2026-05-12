@@ -5,6 +5,7 @@
 
 export const controllers = {
   Auth: () => import('#controllers/auth_controller'),
+  Conductores: () => import('#controllers/conductores_controller'),
   Dashboard: () => import('#controllers/dashboard_controller'),
   GoogleSheetsRutas: () => import('#controllers/google_sheets_rutas_controller'),
   http: {

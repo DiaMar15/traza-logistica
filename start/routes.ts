@@ -1,3 +1,4 @@
+/* eslint-disable @adonisjs/prefer-lazy-controller-import */
 /*
 |--------------------------------------------------------------------------
 | Routes file
@@ -15,13 +16,15 @@ import ImportVehiculosController from '#controllers/import_vehiculos_controller'
 import AuthController from '#controllers/auth_controller'
 import PasswordController from '#controllers/password_controller'
 import TestController from '#controllers/Http/TestController'
-import DashboardController from '#controllers/dashboard_controller' // ✅ NUEVO
+import DashboardController from '#controllers/dashboard_controller'
+import ConductoresController from '#controllers/conductores_controller'
 
 /*
 |--------------------------------------------------------------------------
 | ROOT
 |--------------------------------------------------------------------------
 */
+
 router.get('/', () => {
   return { hello: 'world' }
 })
@@ -31,17 +34,19 @@ router.get('/', () => {
 | API V1
 |--------------------------------------------------------------------------
 */
+
 router
   .group(() => {
-
     /*
     -------------------------
     🔐 AUTENTICACIÓN
     -------------------------
     */
+
     router
       .group(() => {
         router.post('register', [AuthController, 'register'])
+
         router.post('login', [AuthController, 'login'])
       })
       .prefix('auth')
@@ -51,6 +56,7 @@ router
     👤 CUENTA DE USUARIO
     -------------------------
     */
+
     router
       .group(() => {
         router.get('profile', [Profile, 'show'])
@@ -63,62 +69,121 @@ router
     🚚 CRUD RUTAS
     -------------------------
     */
+
     router
       .group(() => {
         router.get('/', [RutasController, 'index'])
+
         router.get('/count', [RutasController, 'count'])
+
         router.get('/kilometros', [RutasController, 'kilometros'])
+
         router.get('/buscar', [RutasController, 'buscar'])
+
         router.get('/:id', [RutasController, 'show'])
+
         router.post('/', [RutasController, 'store'])
+
         router.put('/:id', [RutasController, 'update'])
+
         router.patch('/:id', [RutasController, 'patch'])
+
         router.delete('/:id', [RutasController, 'destroy'])
       })
       .prefix('rutas')
 
     /*
     -------------------------
-    🚛 VEHICULOS
+    🚛 VEHÍCULOS
     -------------------------
     */
+
     router
       .group(() => {
         router.get('/', [VehiculosController, 'index'])
+
         router.post('/', [VehiculosController, 'store'])
+
         router.put('/:id', [VehiculosController, 'update'])
+
         router.delete('/:id', [VehiculosController, 'destroy'])
       })
       .prefix('vehiculos')
 
     /*
     -------------------------
-    📊 IMPORTAR DATOS
+    👨‍✈️ CONDUCTORES
     -------------------------
     */
+
+    router
+      .group(() => {
+        // LISTAR
+        router.get('/', [ConductoresController, 'index'])
+
+        // CREAR
+        router.post('/', [ConductoresController, 'store'])
+
+        // SINCRONIZAR
+        router.post('/sync', [ConductoresController, 'sync'])
+
+        // ACTUALIZAR
+        router.put('/:id', [ConductoresController, 'update'])
+
+        // INACTIVAR
+        router.put('/:id/inactivar', [ConductoresController, 'inactivar'])
+
+        // REACTIVAR
+        router.put('/:id/reactivar', [ConductoresController, 'reactivar'])
+      })
+      .prefix('conductores')
+
+    /*
+    -------------------------
+    📊 IMPORTAR / SINCRONIZAR
+    -------------------------
+    */
+
+    // IMPORTAR EXCEL
     router.post('importar-excel', [ImportExcelController, 'importar'])
 
-    router.post('sync-rutas', [
-      () => import('#controllers/google_sheets_rutas_controller'),
-      'sync'
-    ])
+    // GOOGLE SHEETS
+    router.post('sync-rutas', [() => import('#controllers/google_sheets_rutas_controller'), 'sync'])
 
+    // IMPORTAR VEHÍCULOS
     router.post('importar-vehiculos', [ImportVehiculosController, 'importar'])
 
     /*
     -------------------------
-    📈 DASHBOARD REAL
+    📈 DASHBOARD
     -------------------------
     */
-    router.get('dashboard/rutas-count', [DashboardController, 'rutasCount'])
-    router.get('dashboard/kilometros', [DashboardController, 'kilometros'])
-    router.get('dashboard/rutas-por-dia', [DashboardController, 'rutasPorDia'])
-    router.get('dashboard/km-por-zona', [DashboardController, 'kmPorZona'])
-    router.get('dashboard/conductores', [DashboardController, 'conductores'])
-    router.get('dashboard/viajes', [DashboardController, 'viajes'])
-    router.get('dashboard/entregas', [DashboardController, 'entregasCompletadas'])
-router.get('dashboard/capacidad', [DashboardController, 'capacidadLogistica'])
 
+    router.get('dashboard/rutas-count', [DashboardController, 'rutasCount'])
+
+    router.get('dashboard/kilometros', [DashboardController, 'kilometros'])
+
+    router.get('dashboard/rutas-por-dia', [DashboardController, 'rutasPorDia'])
+
+    router.get('dashboard/km-por-zona', [DashboardController, 'kmPorZona'])
+
+    router.get('dashboard/rendimiento', [DashboardController, 'rendimiento'])
+
+    router.get('dashboard/costos', [DashboardController, 'costos'])
+
+    router.get('dashboard/personal', [DashboardController, 'personal'])
+
+    router.get('dashboard/conductores', [DashboardController, 'conductores'])
+
+    router.get('dashboard/viajes', [DashboardController, 'viajes'])
+
+    router.get('dashboard/entregas', [DashboardController, 'entregasCompletadas'])
+
+    router.get('dashboard/capacidad', [DashboardController, 'capacidadLogistica'])
+
+    router.get('dashboard/costos-detalle', [DashboardController, 'costosDetalle'])
+
+    router.get('dashboard/rendimiento-vehiculos', [DashboardController, 'rendimientoVehiculos'])
   })
   .prefix('/api/v1')
 
@@ -127,7 +192,9 @@ router.get('dashboard/capacidad', [DashboardController, 'capacidadLogistica'])
 | 🔐 RECUPERACIÓN DE CONTRASEÑA
 |--------------------------------------------------------------------------
 */
+
 router.post('/forgot-password', [PasswordController, 'forgot'])
+
 router.post('/reset-password', [PasswordController, 'reset'])
 
 /*
@@ -135,4 +202,5 @@ router.post('/reset-password', [PasswordController, 'reset'])
 | 📧 TEST EMAIL
 |--------------------------------------------------------------------------
 */
+
 router.get('/test-mail', [TestController, 'send'])
