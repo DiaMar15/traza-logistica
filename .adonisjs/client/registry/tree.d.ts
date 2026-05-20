@@ -25,6 +25,7 @@ export interface ApiDefinition {
     store: typeof routes['vehiculos.store']
     update: typeof routes['vehiculos.update']
     destroy: typeof routes['vehiculos.destroy']
+    sincronizar: typeof routes['vehiculos.sincronizar']
   }
   conductores: {
     index: typeof routes['conductores.index']

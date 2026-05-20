@@ -199,6 +199,18 @@ export interface Registry {
       errorResponse: unknown
     }
   }
+  'vehiculos.sincronizar': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/vehiculos/sync'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
   'conductores.index': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/conductores'
@@ -284,7 +296,7 @@ export interface Registry {
     }
   }
   'google_sheets_rutas.sync': {
-    methods: ["POST"]
+    methods: ["GET","HEAD"]
     pattern: '/api/v1/sync-rutas'
     types: {
       body: {}

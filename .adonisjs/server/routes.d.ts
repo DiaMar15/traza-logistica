@@ -20,6 +20,7 @@ export type ScannedRoutes = {
     'vehiculos.store': { paramsTuple?: []; params?: {} }
     'vehiculos.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'vehiculos.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'vehiculos.sincronizar': { paramsTuple?: []; params?: {} }
     'conductores.index': { paramsTuple?: []; params?: {} }
     'conductores.store': { paramsTuple?: []; params?: {} }
     'conductores.sync': { paramsTuple?: []; params?: {} }
@@ -53,6 +54,7 @@ export type ScannedRoutes = {
     'rutas.buscar': { paramsTuple?: []; params?: {} }
     'rutas.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'vehiculos.index': { paramsTuple?: []; params?: {} }
+    'vehiculos.sincronizar': { paramsTuple?: []; params?: {} }
     'conductores.index': { paramsTuple?: []; params?: {} }
     'dashboard.rutas_count': { paramsTuple?: []; params?: {} }
     'dashboard.kilometros': { paramsTuple?: []; params?: {} }
@@ -77,6 +79,7 @@ export type ScannedRoutes = {
     'rutas.buscar': { paramsTuple?: []; params?: {} }
     'rutas.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'vehiculos.index': { paramsTuple?: []; params?: {} }
+    'vehiculos.sincronizar': { paramsTuple?: []; params?: {} }
     'conductores.index': { paramsTuple?: []; params?: {} }
     'dashboard.rutas_count': { paramsTuple?: []; params?: {} }
     'dashboard.kilometros': { paramsTuple?: []; params?: {} }

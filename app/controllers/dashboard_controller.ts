@@ -5,6 +5,7 @@ export default class DashboardController {
   /* --------------------------
      TOTAL RUTAS
   -------------------------- */
+
   async rutasCount({ response }: HttpContext) {
     const result = await Database.from('rutas').count('* as total')
 
@@ -16,9 +17,12 @@ export default class DashboardController {
   /* --------------------------
      TOTAL KILÓMETROS
   -------------------------- */
+
   async kilometros({ response }: HttpContext) {
-    const result = await Database.from('rutas').select(
-      Database.raw(`
+    const result = await Database.from('rutas')
+
+      .select(
+        Database.raw(`
           SUM(
             CASE
               WHEN total_kilometros > 0
@@ -27,7 +31,7 @@ export default class DashboardController {
             END
           ) as total
         `)
-    )
+      )
 
     return response.ok({
       total: Number(result[0].total) || 0,
@@ -35,10 +39,15 @@ export default class DashboardController {
   }
 
   /* --------------------------
-     CONDUCTORES
+     CONDUCTORES ACTIVOS
   -------------------------- */
+
   async conductores({ response }: HttpContext) {
-    const result = await Database.from('rutas').countDistinct('conductor as total')
+    const result = await Database.from('conductores')
+
+      .where('estado', 'activo')
+
+      .count('* as total')
 
     return response.ok({
       total: Number(result[0].total),
@@ -48,8 +57,11 @@ export default class DashboardController {
   /* --------------------------
      VIAJES
   -------------------------- */
+
   async viajes({ response }: HttpContext) {
-    const result = await Database.from('rutas').count('* as total')
+    const result = await Database.from('rutas')
+
+      .count('* as total')
 
     return response.ok({
       total: Number(result[0].total),
@@ -59,8 +71,15 @@ export default class DashboardController {
   /* --------------------------
      RUTAS POR DÍA
   -------------------------- */
+
   async rutasPorDia({ response }: HttpContext) {
-    const data = await Database.from('rutas').select('dia').count('* as total').groupBy('dia')
+    const data = await Database.from('rutas')
+
+      .select('dia')
+
+      .count('* as total')
+
+      .groupBy('dia')
 
     return response.ok(
       data.map((item) => ({
@@ -73,9 +92,12 @@ export default class DashboardController {
   /* --------------------------
      KM POR ZONA
   -------------------------- */
+
   async kmPorZona({ response }: HttpContext) {
     const data = await Database.from('rutas')
+
       .select('zona')
+
       .select(
         Database.raw(`
           SUM(
@@ -87,11 +109,13 @@ export default class DashboardController {
           ) as total
         `)
       )
+
       .groupBy('zona')
 
     return response.ok(
       data.map((item) => ({
-        zona: item.zona,
+        zona: item.zona?.trim() ? item.zona : 'SIN ZONA',
+
         total: Number(item.total) || 0,
       }))
     )
@@ -100,26 +124,41 @@ export default class DashboardController {
   /* --------------------------
      ENTREGAS COMPLETADAS
   -------------------------- */
+
   async entregasCompletadas({ response }: HttpContext) {
-    const result = await Database.from('rutas').select(
-      Database.raw(`
+    const result = await Database.from('rutas')
+
+      .select(
+        Database.raw(`
           SUM(
             numero_facturas *
             (
               CASE
-                WHEN NULLIF(TRIM(efectividad), '') IS NOT NULL
+                WHEN NULLIF(
+                  TRIM(efectividad),
+                  ''
+                ) IS NOT NULL
+
                 THEN REPLACE(
-                  REPLACE(TRIM(efectividad), '%', ''),
+                  REPLACE(
+                    TRIM(efectividad),
+                    '%',
+                    ''
+                  ),
                   ',',
                   '.'
                 ) + 0
+
                 ELSE 0
               END
             )
-          ) / NULLIF(SUM(numero_facturas), 0)
-          as promedio
+          ) /
+          NULLIF(
+            SUM(numero_facturas),
+            0
+          ) as promedio
         `)
-    )
+      )
 
     return response.ok({
       total: Math.round(result[0].promedio || 0),
@@ -129,15 +168,21 @@ export default class DashboardController {
   /* --------------------------
      CAPACIDAD LOGÍSTICA
   -------------------------- */
+
   async capacidadLogistica({ response }: HttpContext) {
-    const result = await Database.from('rutas').select(
-      Database.raw(`
+    const result = await Database.from('rutas')
+
+      .select(
+        Database.raw(`
           (
             SUM(peso) /
-            NULLIF(SUM(capacidad_kg), 0)
+            NULLIF(
+              SUM(capacidad_kg),
+              0
+            )
           ) * 100 as capacidad
         `)
-    )
+      )
 
     return response.ok({
       total: Math.round(result[0].capacidad || 0),
@@ -147,13 +192,16 @@ export default class DashboardController {
   /* --------------------------
      RENDIMIENTO GENERAL
   -------------------------- */
+
   async rendimiento({ response }: HttpContext) {
-    const result = await Database.from('rutas').select(
-      Database.raw(`
+    const result = await Database.from('rutas')
+
+      .select(
+        Database.raw(`
           COUNT(*) as total_rutas
         `),
 
-      Database.raw(`
+        Database.raw(`
           SUM(
             CASE
               WHEN total_kilometros > 0
@@ -163,24 +211,36 @@ export default class DashboardController {
           ) as total_km
         `),
 
-      Database.raw(`
+        Database.raw(`
           SUM(
             numero_facturas *
             (
               CASE
-                WHEN NULLIF(TRIM(efectividad), '') IS NOT NULL
+                WHEN NULLIF(
+                  TRIM(efectividad),
+                  ''
+                ) IS NOT NULL
+
                 THEN REPLACE(
-                  REPLACE(TRIM(efectividad), '%', ''),
+                  REPLACE(
+                    TRIM(efectividad),
+                    '%',
+                    ''
+                  ),
                   ',',
                   '.'
                 ) + 0
+
                 ELSE 0
               END
             )
-          ) / NULLIF(SUM(numero_facturas), 0)
-          as efectividad
+          ) /
+          NULLIF(
+            SUM(numero_facturas),
+            0
+          ) as efectividad
         `)
-    )
+      )
 
     return response.ok({
       totalRutas: Number(result[0].total_rutas),
@@ -194,14 +254,21 @@ export default class DashboardController {
   /* --------------------------
      COSTOS
   -------------------------- */
+
   async costos({ response }: HttpContext) {
-    const result = await Database.from('rutas').select(
-      Database.raw('SUM(combustible) as combustible'),
-      Database.raw('SUM(peajes) as peajes'),
-      Database.raw('SUM(calibrada) as calibrada'),
-      Database.raw('SUM(parqueadero) as parqueadero'),
-      Database.raw('SUM(taxis) as taxis')
-    )
+    const result = await Database.from('rutas')
+
+      .select(
+        Database.raw('SUM(combustible) as combustible'),
+
+        Database.raw('SUM(peajes) as peajes'),
+
+        Database.raw('SUM(calibrada) as calibrada'),
+
+        Database.raw('SUM(parqueadero) as parqueadero'),
+
+        Database.raw('SUM(taxis) as taxis')
+      )
 
     const combustible = Number(result[0].combustible) || 0
 
@@ -215,9 +282,13 @@ export default class DashboardController {
 
     return response.ok({
       combustible,
+
       peajes,
+
       calibrada,
+
       parqueadero,
+
       taxis,
 
       total: combustible + peajes + calibrada + parqueadero + taxis,
@@ -225,86 +296,158 @@ export default class DashboardController {
   }
 
   /* --------------------------
-     PERSONAL
+     PERSONAL OPERATIVO
   -------------------------- */
+
   async personal({ response }: HttpContext) {
     /* --------------------------
        SEMANA ACTUAL
     -------------------------- */
+
     const semanaActual = await Database.from('rutas').max('semana as semana')
 
     const semana = semanaActual[0]?.semana
 
     /* --------------------------
+       CONDUCTORES ACTIVOS
+    -------------------------- */
+
+    const conductoresDB = await Database.from('conductores')
+
+      .where('estado', 'activo')
+
+      .select('nombre')
+
+    /* --------------------------
+       LIMPIAR TEXTO
+    -------------------------- */
+
+    function limpiarTexto(texto: string) {
+      return String(texto || '')
+        .toUpperCase()
+
+        .replace(/\(\d+\)/g, '')
+
+        .replace(/^\d+\s*-\s*/g, '')
+
+        .replace(/\s+/g, ' ')
+
+        .trim()
+    }
+
+    /* --------------------------
+       MAPA CONDUCTORES
+    -------------------------- */
+
+    const mapaConductores: Record<string, string> = {}
+
+    for (const conductor of conductoresDB) {
+      const limpio = limpiarTexto(conductor.nombre)
+
+      mapaConductores[limpio] = conductor.nombre
+    }
+
+    /* --------------------------
        RUTAS
     -------------------------- */
+
     const rutas = await Database.from('rutas')
 
       .where('semana', semana)
 
-      .select('conductor', 'apoyo_auxiliar', 'auxiliar', 'tiempo_en_ruta')
+      .select('conductor', 'auxiliar', 'tiempo_en_ruta')
 
     /* --------------------------
-       MAPA
+       MAPA PERSONAL
     -------------------------- */
+
     const mapaPersonal: Record<string, any> = {}
 
     /* --------------------------
-       LIMPIAR NOMBRE
+       CONVERTIR HORAS
     -------------------------- */
-    function limpiarNombre(texto: string) {
-      return (
-        texto
 
-          // QUITAR (1)
-          .replace(/\(\d+\)/g, '')
+    function convertirHoras(tiempo: string) {
+      if (!tiempo) {
+        return 0
+      }
 
-          // ESPACIOS DOBLES
-          .replace(/\s+/g, ' ')
+      const texto = String(tiempo).replace(',', '.').trim()
 
-          .trim()
-      )
+      return Number(texto) || 0
     }
 
     /* --------------------------
        RECORRER RUTAS
     -------------------------- */
+
     for (const ruta of rutas) {
-      const horasRuta = Number(String(ruta.tiempo_en_ruta || '0').replace(',', '.')) || 0
+      const horasRuta = convertirHoras(String(ruta.tiempo_en_ruta || ''))
 
       /* --------------------------
          PERSONAS
       -------------------------- */
-      const personas = [ruta.conductor, ruta.apoyo_auxiliar, ruta.auxiliar]
 
-      for (const persona of personas) {
-        const nombreLimpio = limpiarNombre(String(persona || ''))
+      const personasRaw = [ruta.conductor, ruta.auxiliar]
+
+      for (const personaRaw of personasRaw) {
+        const original = String(personaRaw || '').trim()
+
+        if (!original) {
+          continue
+        }
 
         /* --------------------------
-           IGNORAR
+           LIMPIAR
         -------------------------- */
-        if (!nombreLimpio) {
+
+        const limpio = limpiarTexto(original)
+
+        if (!limpio) {
           continue
         }
 
-        if (nombreLimpio.toUpperCase() === 'APOYO CONDUCTOR') {
+        /* --------------------------
+           IGNORAR APOYO
+        -------------------------- */
+
+        if (limpio.includes('APOYO')) {
           continue
         }
 
-        if (nombreLimpio.includes('$')) {
+        /* --------------------------
+           IGNORAR BASURA
+        -------------------------- */
+
+        if (limpio.includes('$')) {
           continue
         }
 
-        if (/^\d+$/.test(nombreLimpio)) {
+        if (/^\d+$/.test(limpio)) {
+          continue
+        }
+
+        /* --------------------------
+           NOMBRE FINAL
+        -------------------------- */
+
+        const nombreFinal = mapaConductores[limpio]
+
+        /* --------------------------
+           SI NO ESTÁ ACTIVO
+        -------------------------- */
+
+        if (!nombreFinal) {
           continue
         }
 
         /* --------------------------
            CREAR
         -------------------------- */
-        if (!mapaPersonal[nombreLimpio]) {
-          mapaPersonal[nombreLimpio] = {
-            conductor: nombreLimpio,
+
+        if (!mapaPersonal[nombreFinal]) {
+          mapaPersonal[nombreFinal] = {
+            conductor: nombreFinal,
 
             total: 0,
 
@@ -317,19 +460,21 @@ export default class DashboardController {
         /* --------------------------
            SUMAR
         -------------------------- */
-        mapaPersonal[nombreLimpio].total += 1
 
-        mapaPersonal[nombreLimpio].horas += horasRuta
+        mapaPersonal[nombreFinal].total += 1
+
+        mapaPersonal[nombreFinal].horas += horasRuta
 
         /* --------------------------
-           HORAS EXTRAS
+           EXTRAS
         -------------------------- */
-        if (mapaPersonal[nombreLimpio].horas > 44) {
-          mapaPersonal[nombreLimpio].extras = Number(
-            (mapaPersonal[nombreLimpio].horas - 44).toFixed(1)
+
+        if (mapaPersonal[nombreFinal].horas > 44) {
+          mapaPersonal[nombreFinal].extras = Number(
+            (mapaPersonal[nombreFinal].horas - 44).toFixed(1)
           )
         } else {
-          mapaPersonal[nombreLimpio].extras = 0
+          mapaPersonal[nombreFinal].extras = 0
         }
       }
     }
@@ -337,6 +482,7 @@ export default class DashboardController {
     /* --------------------------
        ARRAY FINAL
     -------------------------- */
+
     const rutasPorConductor = Object.values(mapaPersonal)
 
       .map((item: any) => ({
@@ -352,23 +498,15 @@ export default class DashboardController {
       .sort((a: any, b: any) => b.horas - a.horas)
 
     /* --------------------------
-       AUXILIARES
-    -------------------------- */
-    const auxiliares = await Database.from('rutas')
-
-      .where('semana', semana)
-
-      .countDistinct('auxiliar as total')
-
-    /* --------------------------
        RESPONSE
     -------------------------- */
+
     return response.ok({
       semana,
 
       conductores: rutasPorConductor.length,
 
-      auxiliares: Number(auxiliares[0].total) || 0,
+      auxiliares: rutasPorConductor.length,
 
       rutasPorConductor,
     })
@@ -377,19 +515,22 @@ export default class DashboardController {
   /* --------------------------
      COSTOS DETALLE
   -------------------------- */
+
   async costosDetalle({ response }: HttpContext) {
-    const rutas = await Database.from('rutas').select(
-      'fecha',
-      'placa',
-      'ruta',
-      'zona',
-      'total_kilometros',
-      'combustible',
-      'peajes',
-      'calibrada',
-      'parqueadero',
-      'taxis'
-    )
+    const rutas = await Database.from('rutas')
+
+      .select(
+        'fecha',
+        'placa',
+        'ruta',
+        'zona',
+        'total_kilometros',
+        'combustible',
+        'peajes',
+        'calibrada',
+        'parqueadero',
+        'taxis'
+      )
 
     return response.ok(rutas)
   }
@@ -397,8 +538,10 @@ export default class DashboardController {
   /* --------------------------
      RENDIMIENTO VEHÍCULOS
   -------------------------- */
+
   async rendimientoVehiculos({ response }: HttpContext) {
     const data = await Database.rawQuery(`
+
       SELECT
 
         placa,
@@ -446,17 +589,29 @@ export default class DashboardController {
           numero_facturas *
           (
             CASE
-              WHEN NULLIF(TRIM(efectividad), '') IS NOT NULL
+              WHEN NULLIF(
+                TRIM(efectividad),
+                ''
+              ) IS NOT NULL
+
               THEN REPLACE(
-                REPLACE(TRIM(efectividad), '%', ''),
+                REPLACE(
+                  TRIM(efectividad),
+                  '%',
+                  ''
+                ),
                 ',',
                 '.'
               ) + 0
+
               ELSE 0
             END
           )
-        ) / NULLIF(SUM(numero_facturas), 0)
-        as efectividad
+        ) /
+        NULLIF(
+          SUM(numero_facturas),
+          0
+        ) as efectividad
 
       FROM rutas
 

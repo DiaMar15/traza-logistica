@@ -36,6 +36,7 @@ router.get('/', () => {
 */
 
 router
+
   .group(() => {
     /*
     -------------------------
@@ -44,52 +45,107 @@ router
     */
 
     router
-      .group(() => {
-        router.post('register', [AuthController, 'register'])
 
-        router.post('login', [AuthController, 'login'])
+      .group(() => {
+        router.post(
+          'register',
+
+          [AuthController, 'register']
+        )
+
+        router.post(
+          'login',
+
+          [AuthController, 'login']
+        )
       })
+
       .prefix('auth')
 
     /*
     -------------------------
-    👤 CUENTA DE USUARIO
+    👤 CUENTA
     -------------------------
     */
 
     router
+
       .group(() => {
-        router.get('profile', [Profile, 'show'])
+        router.get(
+          'profile',
+
+          [Profile, 'show']
+        )
       })
+
       .prefix('account')
+
       .use(middleware.auth())
 
     /*
     -------------------------
-    🚚 CRUD RUTAS
+    🚚 RUTAS
     -------------------------
     */
 
     router
+
       .group(() => {
-        router.get('/', [RutasController, 'index'])
+        router.get(
+          '/',
 
-        router.get('/count', [RutasController, 'count'])
+          [RutasController, 'index']
+        )
 
-        router.get('/kilometros', [RutasController, 'kilometros'])
+        router.get(
+          '/count',
 
-        router.get('/buscar', [RutasController, 'buscar'])
+          [RutasController, 'count']
+        )
 
-        router.get('/:id', [RutasController, 'show'])
+        router.get(
+          '/kilometros',
 
-        router.post('/', [RutasController, 'store'])
+          [RutasController, 'kilometros']
+        )
 
-        router.put('/:id', [RutasController, 'update'])
+        router.get(
+          '/buscar',
 
-        router.patch('/:id', [RutasController, 'patch'])
+          [RutasController, 'buscar']
+        )
 
-        router.delete('/:id', [RutasController, 'destroy'])
+        router.get(
+          '/:id',
+
+          [RutasController, 'show']
+        )
+
+        router.post(
+          '/',
+
+          [RutasController, 'store']
+        )
+
+        router.put(
+          '/:id',
+
+          [RutasController, 'update']
+        )
+
+        router.patch(
+          '/:id',
+
+          [RutasController, 'patch']
+        )
+
+        router.delete(
+          '/:id',
+
+          [RutasController, 'destroy']
+        )
       })
+
       .prefix('rutas')
 
     /*
@@ -99,15 +155,44 @@ router
     */
 
     router
+
       .group(() => {
-        router.get('/', [VehiculosController, 'index'])
+        // LISTAR
+        router.get(
+          '/',
 
-        router.post('/', [VehiculosController, 'store'])
+          [VehiculosController, 'index']
+        )
 
-        router.put('/:id', [VehiculosController, 'update'])
+        // CREAR
+        router.post(
+          '/',
 
-        router.delete('/:id', [VehiculosController, 'destroy'])
+          [VehiculosController, 'store']
+        )
+
+        // ACTUALIZAR
+        router.put(
+          '/:id',
+
+          [VehiculosController, 'update']
+        )
+
+        // ELIMINAR
+        router.delete(
+          '/:id',
+
+          [VehiculosController, 'destroy']
+        )
+
+        // 🔥 SINCRONIZAR GOOGLE SHEETS
+        router.get(
+          '/sync',
+
+          [VehiculosController, 'sincronizar']
+        )
       })
+
       .prefix('vehiculos')
 
     /*
@@ -117,41 +202,79 @@ router
     */
 
     router
+
       .group(() => {
         // LISTAR
-        router.get('/', [ConductoresController, 'index'])
+        router.get(
+          '/',
+
+          [ConductoresController, 'index']
+        )
 
         // CREAR
-        router.post('/', [ConductoresController, 'store'])
+        router.post(
+          '/',
+
+          [ConductoresController, 'store']
+        )
 
         // SINCRONIZAR
-        router.post('/sync', [ConductoresController, 'sync'])
+        router.post(
+          '/sync',
+
+          [ConductoresController, 'sync']
+        )
 
         // ACTUALIZAR
-        router.put('/:id', [ConductoresController, 'update'])
+        router.put(
+          '/:id',
+
+          [ConductoresController, 'update']
+        )
 
         // INACTIVAR
-        router.put('/:id/inactivar', [ConductoresController, 'inactivar'])
+        router.put(
+          '/:id/inactivar',
+
+          [ConductoresController, 'inactivar']
+        )
 
         // REACTIVAR
-        router.put('/:id/reactivar', [ConductoresController, 'reactivar'])
+        router.put(
+          '/:id/reactivar',
+
+          [ConductoresController, 'reactivar']
+        )
       })
+
       .prefix('conductores')
 
     /*
     -------------------------
-    📊 IMPORTAR / SINCRONIZAR
+    📊 IMPORTAR / SYNC
     -------------------------
     */
 
     // IMPORTAR EXCEL
-    router.post('importar-excel', [ImportExcelController, 'importar'])
+    router.post(
+      'importar-excel',
 
-    // GOOGLE SHEETS
-    router.post('sync-rutas', [() => import('#controllers/google_sheets_rutas_controller'), 'sync'])
+      [ImportExcelController, 'importar']
+    )
+
+    // 🔥 SYNC RUTAS GOOGLE SHEETS
+    router.get(
+      'sync-rutas',
+
+      [() => import('#controllers/google_sheets_rutas_controller'), 'sync']
+    )
 
     // IMPORTAR VEHÍCULOS
-    router.post('importar-vehiculos', [ImportVehiculosController, 'importar'])
+    router.post(
+      'importar-vehiculos',
+
+      [ImportVehiculosController, 'importar']
+    )
 
     /*
     -------------------------
@@ -159,43 +282,104 @@ router
     -------------------------
     */
 
-    router.get('dashboard/rutas-count', [DashboardController, 'rutasCount'])
+    router.get(
+      'dashboard/rutas-count',
 
-    router.get('dashboard/kilometros', [DashboardController, 'kilometros'])
+      [DashboardController, 'rutasCount']
+    )
 
-    router.get('dashboard/rutas-por-dia', [DashboardController, 'rutasPorDia'])
+    router.get(
+      'dashboard/kilometros',
 
-    router.get('dashboard/km-por-zona', [DashboardController, 'kmPorZona'])
+      [DashboardController, 'kilometros']
+    )
 
-    router.get('dashboard/rendimiento', [DashboardController, 'rendimiento'])
+    router.get(
+      'dashboard/rutas-por-dia',
 
-    router.get('dashboard/costos', [DashboardController, 'costos'])
+      [DashboardController, 'rutasPorDia']
+    )
 
-    router.get('dashboard/personal', [DashboardController, 'personal'])
+    router.get(
+      'dashboard/km-por-zona',
 
-    router.get('dashboard/conductores', [DashboardController, 'conductores'])
+      [DashboardController, 'kmPorZona']
+    )
 
-    router.get('dashboard/viajes', [DashboardController, 'viajes'])
+    router.get(
+      'dashboard/rendimiento',
 
-    router.get('dashboard/entregas', [DashboardController, 'entregasCompletadas'])
+      [DashboardController, 'rendimiento']
+    )
 
-    router.get('dashboard/capacidad', [DashboardController, 'capacidadLogistica'])
+    router.get(
+      'dashboard/costos',
 
-    router.get('dashboard/costos-detalle', [DashboardController, 'costosDetalle'])
+      [DashboardController, 'costos']
+    )
 
-    router.get('dashboard/rendimiento-vehiculos', [DashboardController, 'rendimientoVehiculos'])
+    router.get(
+      'dashboard/personal',
+
+      [DashboardController, 'personal']
+    )
+
+    router.get(
+      'dashboard/conductores',
+
+      [DashboardController, 'conductores']
+    )
+
+    router.get(
+      'dashboard/viajes',
+
+      [DashboardController, 'viajes']
+    )
+
+    router.get(
+      'dashboard/entregas',
+
+      [DashboardController, 'entregasCompletadas']
+    )
+
+    router.get(
+      'dashboard/capacidad',
+
+      [DashboardController, 'capacidadLogistica']
+    )
+
+    router.get(
+      'dashboard/costos-detalle',
+
+      [DashboardController, 'costosDetalle']
+    )
+
+    router.get(
+      'dashboard/rendimiento-vehiculos',
+
+      [DashboardController, 'rendimientoVehiculos']
+    )
   })
+
   .prefix('/api/v1')
 
 /*
 |--------------------------------------------------------------------------
-| 🔐 RECUPERACIÓN DE CONTRASEÑA
+| 🔐 RECUPERAR PASSWORD
 |--------------------------------------------------------------------------
 */
 
-router.post('/forgot-password', [PasswordController, 'forgot'])
+router.post(
+  '/forgot-password',
 
-router.post('/reset-password', [PasswordController, 'reset'])
+  [PasswordController, 'forgot']
+)
+
+router.post(
+  '/reset-password',
+
+  [PasswordController, 'reset']
+)
 
 /*
 |--------------------------------------------------------------------------
@@ -203,4 +387,8 @@ router.post('/reset-password', [PasswordController, 'reset'])
 |--------------------------------------------------------------------------
 */
 
-router.get('/test-mail', [TestController, 'send'])
+router.get(
+  '/test-mail',
+
+  [TestController, 'send']
+)

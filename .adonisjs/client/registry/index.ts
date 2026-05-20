@@ -102,6 +102,12 @@ const routes = {
     tokens: [{"old":"/api/v1/vehiculos/:id","type":0,"val":"api","end":""},{"old":"/api/v1/vehiculos/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/vehiculos/:id","type":0,"val":"vehiculos","end":""},{"old":"/api/v1/vehiculos/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['vehiculos.destroy']['types'],
   },
+  'vehiculos.sincronizar': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/vehiculos/sync',
+    tokens: [{"old":"/api/v1/vehiculos/sync","type":0,"val":"api","end":""},{"old":"/api/v1/vehiculos/sync","type":0,"val":"v1","end":""},{"old":"/api/v1/vehiculos/sync","type":0,"val":"vehiculos","end":""},{"old":"/api/v1/vehiculos/sync","type":0,"val":"sync","end":""}],
+    types: placeholder as Registry['vehiculos.sincronizar']['types'],
+  },
   'conductores.index': {
     methods: ["GET","HEAD"],
     pattern: '/api/v1/conductores',
@@ -145,7 +151,7 @@ const routes = {
     types: placeholder as Registry['import_excel.importar']['types'],
   },
   'google_sheets_rutas.sync': {
-    methods: ["POST"],
+    methods: ["GET","HEAD"],
     pattern: '/api/v1/sync-rutas',
     tokens: [{"old":"/api/v1/sync-rutas","type":0,"val":"api","end":""},{"old":"/api/v1/sync-rutas","type":0,"val":"v1","end":""},{"old":"/api/v1/sync-rutas","type":0,"val":"sync-rutas","end":""}],
     types: placeholder as Registry['google_sheets_rutas.sync']['types'],
