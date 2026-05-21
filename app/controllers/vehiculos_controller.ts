@@ -2,170 +2,327 @@ import Vehiculo from '#models/vehiculo'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class VehiculosController {
-  /* --------------------------
-     LISTAR
-  -------------------------- */
-
   async index() {
-    return await Vehiculo.query().orderBy('placa')
+    return await Vehiculo.query().orderBy('placa', 'asc')
   }
 
-  /* --------------------------
-     CREAR
-  -------------------------- */
-
-  async store({ request }: HttpContext) {
+  async store({ request, response }: HttpContext) {
     const data = request.only([
       'placa',
-
       'tipo',
-
       'capacidad_kilo',
-
       'modelo',
-
       'clase_vehiculo',
-
       'marca',
-
       'conductor_fijo',
-
       'estado',
     ])
 
-    return await Vehiculo.create(data)
+    const placa = String(data.placa || '')
+      .trim()
+      .toUpperCase()
+      .replace(/\s+/g, '')
+
+    if (!placa) {
+      return response.badRequest({
+        message: 'La placa es obligatoria',
+      })
+    }
+
+    const existe = await Vehiculo.findBy('placa', placa)
+
+    if (existe) {
+      return response.badRequest({
+        message: 'La placa ya existe',
+      })
+    }
+
+    const estado = String(data.estado || 'ACTIVO').toUpperCase()
+
+    const activo = estado === 'ACTIVO'
+
+    let modelo = String(data.modelo || '')
+      .trim()
+      .toUpperCase()
+
+    if (modelo === '4,7' || modelo === '6' || modelo === '8') {
+      modelo = ''
+    }
+
+    const vehiculo = await Vehiculo.create({
+      placa,
+
+      tipo: data.tipo?.trim().toUpperCase() || null,
+
+      capacidad_kilo: Number(data.capacidad_kilo) || null,
+
+      modelo: modelo || null,
+
+      clase_vehiculo: data.clase_vehiculo?.trim().toUpperCase() || null,
+
+      marca: data.marca?.trim().toUpperCase() || null,
+
+      conductor_fijo: data.conductor_fijo?.trim() || null,
+
+      estado,
+
+      activo,
+    })
+
+    return vehiculo
   }
 
-  /* --------------------------
-     ACTUALIZAR
-  -------------------------- */
-
-  async update({ params, request }: HttpContext) {
+  async update({ params, request, response }: HttpContext) {
     const vehiculo = await Vehiculo.findOrFail(params.id)
 
     const data = request.only([
       'placa',
-
       'tipo',
-
       'capacidad_kilo',
-
       'modelo',
-
       'clase_vehiculo',
-
       'marca',
-
       'conductor_fijo',
-
       'estado',
     ])
 
-    vehiculo.merge(data)
+    const placa = String(data.placa || '')
+      .trim()
+      .toUpperCase()
+      .replace(/\s+/g, '')
+
+    const duplicado = await Vehiculo.query()
+      .where('placa', placa)
+      .whereNot('id', vehiculo.id)
+      .first()
+
+    if (duplicado) {
+      return response.badRequest({
+        message: 'Ya existe otro vehículo con esa placa',
+      })
+    }
+
+    const estado = String(data.estado || 'ACTIVO').toUpperCase()
+
+    const activo = estado === 'ACTIVO'
+
+    let modelo = String(data.modelo || '')
+      .trim()
+      .toUpperCase()
+
+    if (modelo === '4,7' || modelo === '6' || modelo === '8') {
+      modelo = ''
+    }
+
+    vehiculo.merge({
+      placa,
+
+      tipo: data.tipo?.trim().toUpperCase() || null,
+
+      capacidad_kilo: Number(data.capacidad_kilo) || null,
+
+      modelo: modelo || null,
+
+      clase_vehiculo: data.clase_vehiculo?.trim().toUpperCase() || null,
+
+      marca: data.marca?.trim().toUpperCase() || null,
+
+      conductor_fijo: data.conductor_fijo?.trim() || null,
+
+      estado,
+
+      activo,
+    })
 
     await vehiculo.save()
 
     return vehiculo
   }
 
-  /* --------------------------
-     ELIMINAR
-  -------------------------- */
-
   async destroy({ params }: HttpContext) {
     const vehiculo = await Vehiculo.findOrFail(params.id)
 
-    await vehiculo.delete()
+    vehiculo.estado = 'RETIRADO'
+
+    vehiculo.activo = false
+
+    await vehiculo.save()
 
     return {
-      message: 'Vehículo eliminado',
+      message: 'Vehículo retirado correctamente',
     }
   }
 
-  /* --------------------------
-     SINCRONIZAR
-  -------------------------- */
-
-  async sincronizar() {
-    /* --------------------------
-       SHEETS
-    -------------------------- */
-
+  async sincronizar({ response }: HttpContext) {
     const SHEET_ID = '11PO2p9GI5FEJ8mRwESr9Iyg7DnNKBbrShRajR3SRTBg'
 
-    const SHEET_URL = `https://opensheet.elk.sh/${SHEET_ID}/Datos vehículos`
+    const SHEET_URL = `https://opensheet.elk.sh/${SHEET_ID}/DatosVehiculos`
 
-    /* --------------------------
-       FETCH
-    -------------------------- */
+    let rows: any[] = []
 
-    const response = await fetch(SHEET_URL)
+    try {
+      const responseFetch = await fetch(SHEET_URL)
 
-    const rows = (await response.json()) as any[]
+      if (!responseFetch.ok) {
+        throw new Error('Error consultando Google Sheets')
+      }
 
-    /* --------------------------
-       LIMPIAR TABLA
-    -------------------------- */
+      const data = await responseFetch.json()
 
-    await Vehiculo.query().delete()
+      if (!Array.isArray(data)) {
+        console.error(data)
 
-    /* --------------------------
-       RECORRER
-    -------------------------- */
+        throw new Error('La respuesta no es un array')
+      }
+
+      rows = data
+    } catch (error) {
+      console.error(error)
+
+      return response.badRequest({
+        message: 'No fue posible conectar con Google Sheets',
+      })
+    }
+
+    let creados = 0
+
+    let actualizados = 0
+
+    let omitidos = 0
 
     for (const row of rows) {
-      const placa = String(row['PLACA'] || '').trim()
+      console.log(Object.keys(row))
 
-      if (!placa) {
+      const dataNormalizada: any = {}
+
+      for (const key in row) {
+        const nuevaKey = String(key).trim().toUpperCase()
+
+        dataNormalizada[nuevaKey] = row[key]
+      }
+
+      const placa = String(dataNormalizada['PLACA'] || '')
+        .trim()
+        .toUpperCase()
+        .replace(/\s+/g, '')
+
+      if (!placa || placa === 'PLACA') {
+        omitidos++
         continue
       }
 
-      /* --------------------------
-         ESTADO
-      -------------------------- */
+      const tipo = String(dataNormalizada['TIPO'] || '')
+        .trim()
+        .toUpperCase()
+
+      const capacidadTexto = String(
+        dataNormalizada['CAP KILO'] ||
+          dataNormalizada['CAP KILO '] ||
+          dataNormalizada['CAP_KILO'] ||
+          dataNormalizada['CAPACIDAD'] ||
+          ''
+      )
+        .replace(',', '.')
+        .trim()
+
+      const capacidad = Number.parseFloat(capacidadTexto) || null
+
+      let modelo = String(dataNormalizada['MODELO'] || '')
+        .trim()
+        .toUpperCase()
+
+      if (modelo === '4,7' || modelo === '6' || modelo === '8') {
+        modelo = ''
+      }
+
+      const claseVehiculo = String(dataNormalizada['CLASE VEHICULO'] || '')
+        .trim()
+        .toUpperCase()
+
+      const marca = String(dataNormalizada['MARCA'] || '')
+        .trim()
+        .toUpperCase()
+
+      const conductorFijo = String(dataNormalizada['CONDUCTOR FIJO'] || '').trim()
 
       let estado = 'ACTIVO'
 
-      if (
-        String(row['ESTADO'] || '')
-          .toUpperCase()
+      const estadoSheet = String(dataNormalizada['ESTADO'] || '')
+        .trim()
+        .toUpperCase()
 
-          .includes('RETIRADO')
+      if (
+        estadoSheet.includes('RETIRADO') ||
+        claseVehiculo.includes('RETIRADOS') ||
+        marca.includes('RETIRADOS')
       ) {
         estado = 'RETIRADO'
       }
 
-      /* --------------------------
-         CREAR
-      -------------------------- */
+      const activo = estado === 'ACTIVO'
 
-      await Vehiculo.create({
-        placa,
+      const data = {
+        tipo: tipo || null,
 
-        tipo: row['TIPO'] || null,
+        capacidad_kilo: capacidad,
 
-        capacidad_kilo: Number(row['CAP KILO']) || null,
+        modelo: modelo || null,
 
-        modelo: String(row['MODELO'] || ''),
+        clase_vehiculo: claseVehiculo.includes('RETIRADOS') ? null : claseVehiculo || null,
 
-        clase_vehiculo: row['CLASE VEHICULO'] || null,
+        marca: marca.includes('RETIRADOS') ? null : marca || null,
 
-        marca: row['MARCA'] || null,
-
-        conductor_fijo: row['CONDUCTOR FIJO'] || null,
+        conductor_fijo: conductorFijo || null,
 
         estado,
-      })
+
+        activo,
+      }
+
+      const existente = await Vehiculo.findBy('placa', placa)
+
+      if (existente) {
+        existente.merge(data)
+
+        await existente.save()
+
+        actualizados++
+      } else {
+        await Vehiculo.create({
+          placa,
+          ...data,
+        })
+
+        creados++
+      }
     }
 
-    /* --------------------------
-       RESPONSE
-    -------------------------- */
+    return response.ok({
+      message: 'Vehículos sincronizados correctamente',
+
+      total_sheet: rows.length,
+
+      creados,
+
+      actualizados,
+
+      omitidos,
+    })
+  }
+
+  async estadisticas() {
+    const total = await Vehiculo.query().count('* as total')
+
+    const activos = await Vehiculo.query().where('activo', true).count('* as total')
+
+    const retirados = await Vehiculo.query().where('estado', 'RETIRADO').count('* as total')
 
     return {
-      message: 'Vehículos sincronizados',
+      total: total[0].$extras.total,
 
-      total: rows.length,
+      activos: activos[0].$extras.total,
+
+      retirados: retirados[0].$extras.total,
     }
   }
 }

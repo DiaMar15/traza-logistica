@@ -8,35 +8,71 @@ import { limpiarTexto, limpiarNumero, limpiarDinero, limpiarHora } from '../util
 
 export default class GoogleSheetsRutasController {
   async sync({ response }: HttpContext) {
-    /* --------------------------
-       SHEETS
-    -------------------------- */
-
     const SHEET_ID = '11PO2p9GI5FEJ8mRwESr9Iyg7DnNKBbrShRajR3SRTBg'
 
     const rutasUrl = `https://opensheet.elk.sh/${SHEET_ID}/API_RUTAS`
 
-    const vehiculosUrl = `https://opensheet.elk.sh/${SHEET_ID}/Datos vehículos`
+    const vehiculosUrl = `https://opensheet.elk.sh/${SHEET_ID}/Datosvehiculos`
 
-    /* --------------------------
+    /* ==========================
        FETCH RUTAS
-    -------------------------- */
+    ========================== */
 
-    const rutasRes = await fetch(rutasUrl)
+    let data: any[] = []
 
-    const data = (await rutasRes.json()) as any[]
+    try {
+      const rutasRes = await fetch(rutasUrl)
 
-    /* --------------------------
+      if (!rutasRes.ok) {
+        throw new Error('Error consultando hoja de rutas')
+      }
+
+      const rutasData = await rutasRes.json()
+
+      if (!Array.isArray(rutasData)) {
+        console.error(rutasData)
+
+        throw new Error('La respuesta de rutas no es un array')
+      }
+
+      data = rutasData
+    } catch (error) {
+      console.error(error)
+
+      return response.badRequest({
+        message: 'No fue posible obtener rutas desde Google Sheets',
+      })
+    }
+
+    /* ==========================
        FETCH VEHICULOS
-    -------------------------- */
+    ========================== */
 
-    const vehiculosRes = await fetch(vehiculosUrl)
+    let vehiculosData: any[] = []
 
-    const vehiculosData = (await vehiculosRes.json()) as any[]
+    try {
+      const vehiculosRes = await fetch(vehiculosUrl)
 
-    /* --------------------------
-       VARIABLES
-    -------------------------- */
+      if (!vehiculosRes.ok) {
+        throw new Error('Error consultando hoja de vehículos')
+      }
+
+      const dataVehiculos = await vehiculosRes.json()
+
+      if (!Array.isArray(dataVehiculos)) {
+        console.error(dataVehiculos)
+
+        throw new Error('La respuesta de vehículos no es un array')
+      }
+
+      vehiculosData = dataVehiculos
+    } catch (error) {
+      console.error(error)
+
+      return response.badRequest({
+        message: 'No fue posible obtener vehículos desde Google Sheets',
+      })
+    }
 
     const errores: any[] = []
 
@@ -44,17 +80,13 @@ export default class GoogleSheetsRutasController {
 
     let vehiculosSync = 0
 
-    /* --------------------------
-       LIMPIAR TABLAS
-    -------------------------- */
-
     await Ruta.query().delete()
 
     await Vehiculo.query().delete()
 
-    /* --------------------------
+    /* ==========================
        VEHICULOS
-    -------------------------- */
+    ========================== */
 
     for (const row of vehiculosData) {
       const dataNormalizada: any = {}
@@ -65,25 +97,25 @@ export default class GoogleSheetsRutasController {
         dataNormalizada[nuevaKey] = row[key]
       }
 
-      /* --------------------------
-         PLACA
-      -------------------------- */
-
       const placa = limpiarTexto(dataNormalizada['PLACA'])
 
       if (!placa || placa === 'PLACA') {
         continue
       }
 
-      /* --------------------------
-         COLUMNAS
-      -------------------------- */
-
       const tipo = limpiarTexto(dataNormalizada['TIPO'])
 
-      const capacidad = limpiarNumero(dataNormalizada['CAP KILO'])
+      const capacidadTexto = String(dataNormalizada['CAP KILO'] || '')
+        .replace(',', '.')
+        .trim()
 
-      const modelo = limpiarTexto(dataNormalizada['MODELO'])
+      const capacidad = Number.parseFloat(capacidadTexto) || null
+
+      let modelo = limpiarTexto(dataNormalizada['MODELO'])
+
+      if (modelo === '4,7' || modelo === '6' || modelo === '8') {
+        modelo = ''
+      }
 
       const claseVehiculo = limpiarTexto(dataNormalizada['CLASE VEHICULO'])
 
@@ -94,10 +126,6 @@ export default class GoogleSheetsRutasController {
         limpiarTexto(dataNormalizada['CONDUCTOR_FIJO']) ||
         limpiarTexto(dataNormalizada['CONDUCTOR  FIJO']) ||
         ''
-
-      /* --------------------------
-         ESTADO
-      -------------------------- */
 
       let estado = 'ACTIVO'
 
@@ -111,10 +139,6 @@ export default class GoogleSheetsRutasController {
         estado = 'RETIRADO'
       }
 
-      /* --------------------------
-         CREAR VEHICULO
-      -------------------------- */
-
       await Vehiculo.create({
         placa,
 
@@ -122,23 +146,25 @@ export default class GoogleSheetsRutasController {
 
         capacidad_kilo: capacidad,
 
-        modelo,
+        modelo: modelo || null,
 
-        clase_vehiculo: claseVehiculo,
+        clase_vehiculo: claseVehiculo.includes('RETIRADOS') ? null : claseVehiculo,
 
-        marca,
+        marca: marca.includes('RETIRADOS') ? null : marca,
 
         conductor_fijo: conductorFijo,
 
         estado,
+
+        activo: estado === 'ACTIVO',
       })
 
       vehiculosSync++
     }
 
-    /* --------------------------
+    /* ==========================
        RUTAS
-    -------------------------- */
+    ========================== */
 
     for (const row of data) {
       if (row['PLACA'] === 'PLACA') {
@@ -154,10 +180,6 @@ export default class GoogleSheetsRutasController {
       if (!placa) {
         continue
       }
-
-      /* --------------------------
-         KILOMETROS
-      -------------------------- */
 
       const kmInicial = limpiarNumero(row['KM INICIAL'])
 
@@ -177,10 +199,6 @@ export default class GoogleSheetsRutasController {
         continue
       }
 
-      /* --------------------------
-         PERSONAS
-      -------------------------- */
-
       const conductorNombre = limpiarTexto(row['CONDUCTOR'])
 
       const auxiliarNombre = limpiarTexto(row['AUXILIAR'])
@@ -197,19 +215,12 @@ export default class GoogleSheetsRutasController {
         }
 
         const separados = item
-
           .split('-')
-
           .map((p: string) => p.trim())
-
           .filter(Boolean)
 
         personas.push(...separados)
       }
-
-      /* --------------------------
-         CREAR CONDUCTORES
-      -------------------------- */
 
       for (const persona of personas) {
         if (!persona) {
@@ -217,17 +228,11 @@ export default class GoogleSheetsRutasController {
         }
 
         const nombre = persona
-
           .replace(/^\d+\s*/g, '')
-
           .replace(/\(\d+\)/g, '')
-
           .replace(/¡MBOCAR/gi, '')
-
           .replace(/\s+/g, ' ')
-
           .toUpperCase()
-
           .trim()
 
         const nombreUpper = nombre.toUpperCase()
@@ -260,11 +265,7 @@ export default class GoogleSheetsRutasController {
           continue
         }
 
-        const existe = await Conductor.query()
-
-          .whereRaw('UPPER(nombre) = ?', [nombre])
-
-          .first()
+        const existe = await Conductor.query().whereRaw('UPPER(nombre) = ?', [nombre]).first()
 
         if (!existe) {
           await Conductor.create({
@@ -274,10 +275,6 @@ export default class GoogleSheetsRutasController {
           })
         }
       }
-
-      /* --------------------------
-         DATA LIMPIA
-      -------------------------- */
 
       const dataLimpia = {
         placa,
@@ -347,6 +344,7 @@ export default class GoogleSheetsRutasController {
         finRuta: limpiarHora(row['FIN RUTA']),
 
         tiempoEnRuta: limpiarTexto(row['TIEMPO EN RUTA']),
+
         turno: limpiarTexto(row['TURNO']),
 
         horaExtra: limpiarTexto(row['HORA EXTRA RUTA']),
@@ -363,38 +361,21 @@ export default class GoogleSheetsRutasController {
         observaciones: limpiarTexto(row['OBSERVACIONES Y/O NOVEDADES']),
       }
 
-      /* --------------------------
-         EVITAR DUPLICADOS
-      -------------------------- */
-
       const existeRuta = await Ruta.query()
-
         .where('placa', placa)
-
         .where('fecha', dataLimpia.fecha)
-
         .where('ruta', dataLimpia.ruta)
-
         .where('conductor', dataLimpia.conductor)
-
         .first()
 
       if (existeRuta) {
         continue
       }
 
-      /* --------------------------
-         CREAR RUTA
-      -------------------------- */
-
       await Ruta.create(dataLimpia)
 
       creados++
     }
-
-    /* --------------------------
-       RESPONSE
-    -------------------------- */
 
     return response.ok({
       message: 'Sincronización completa',

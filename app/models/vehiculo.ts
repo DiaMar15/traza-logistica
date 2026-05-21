@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon'
 import { BaseModel, column } from '@adonisjs/lucid/orm'
 
 export default class Vehiculo extends BaseModel {
@@ -25,6 +26,20 @@ export default class Vehiculo extends BaseModel {
   @column()
   declare conductor_fijo: string | null
 
+  // activo / inactivo
+  @column()
+  declare activo: boolean
+
   @column()
   declare estado: string | null
+
+  // Para un soft delete
+  @column.dateTime()
+  declare deleted_at: DateTime | null
+
+  @column.dateTime({ autoCreate: true })
+  declare created_at: DateTime
+
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updated_at: DateTime
 }
