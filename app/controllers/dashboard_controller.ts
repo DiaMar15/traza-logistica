@@ -304,10 +304,15 @@ export default class DashboardController {
        SEMANA ACTUAL
     -------------------------- */
 
-    const semanaActual = await Database.from('rutas').max('semana as semana')
+    /* --------------------------
+   SEMANA ACTUAL
+-------------------------- */
 
-    const semana = semanaActual[0]?.semana
+    const semanaActual = await Database.from('rutas')
 
+      .select(Database.raw('MAX(CAST(semana AS UNSIGNED)) as semana'))
+
+    const semana = Number(semanaActual[0]?.semana || 0)
     /* --------------------------
        CONDUCTORES ACTIVOS
     -------------------------- */
@@ -507,6 +512,34 @@ export default class DashboardController {
       conductores: rutasPorConductor.length,
 
       auxiliares: rutasPorConductor.length,
+
+      /* --------------------------
+     TOTAL HORAS
+  -------------------------- */
+
+      totalHoras: Number(
+        rutasPorConductor
+          .reduce(
+            (acc: number, item: any) => acc + item.horas,
+
+            0
+          )
+          .toFixed(1)
+      ),
+
+      /* --------------------------
+     PROMEDIO SEMANAL
+  -------------------------- */
+
+      promedioHoras: Number(
+        (
+          rutasPorConductor.reduce(
+            (acc: number, item: any) => acc + item.horas,
+
+            0
+          ) / (rutasPorConductor.length || 1)
+        ).toFixed(1)
+      ),
 
       rutasPorConductor,
     })
