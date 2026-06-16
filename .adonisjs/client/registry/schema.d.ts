@@ -319,6 +319,18 @@ export interface Registry {
       errorResponse: unknown
     }
   }
+  'dashboard.principal': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/dashboard/principal'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
   'dashboard.rutas_count': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/dashboard/rutas-count'
@@ -334,66 +346,6 @@ export interface Registry {
   'dashboard.kilometros': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/dashboard/kilometros'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: unknown
-      errorResponse: unknown
-    }
-  }
-  'dashboard.rutas_por_dia': {
-    methods: ["GET","HEAD"]
-    pattern: '/api/v1/dashboard/rutas-por-dia'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: unknown
-      errorResponse: unknown
-    }
-  }
-  'dashboard.km_por_zona': {
-    methods: ["GET","HEAD"]
-    pattern: '/api/v1/dashboard/km-por-zona'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: unknown
-      errorResponse: unknown
-    }
-  }
-  'dashboard.rendimiento': {
-    methods: ["GET","HEAD"]
-    pattern: '/api/v1/dashboard/rendimiento'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: unknown
-      errorResponse: unknown
-    }
-  }
-  'dashboard.costos': {
-    methods: ["GET","HEAD"]
-    pattern: '/api/v1/dashboard/costos'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: unknown
-      errorResponse: unknown
-    }
-  }
-  'dashboard.personal': {
-    methods: ["GET","HEAD"]
-    pattern: '/api/v1/dashboard/personal'
     types: {
       body: {}
       paramsTuple: []
@@ -427,7 +379,43 @@ export interface Registry {
       errorResponse: unknown
     }
   }
-  'dashboard.entregas_completadas': {
+  'rendimiento.rutas_por_dia': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/dashboard/rutas-por-dia'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'rendimiento.km_por_zona': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/dashboard/km-por-zona'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'rendimiento.rendimiento': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/dashboard/rendimiento'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'rendimiento.entregas_completadas': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/dashboard/entregas'
     types: {
@@ -439,7 +427,7 @@ export interface Registry {
       errorResponse: unknown
     }
   }
-  'dashboard.capacidad_logistica': {
+  'rendimiento.capacidad_logistica': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/dashboard/capacidad'
     types: {
@@ -451,7 +439,31 @@ export interface Registry {
       errorResponse: unknown
     }
   }
-  'dashboard.costos_detalle': {
+  'rendimiento.rendimiento_vehiculos': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/dashboard/rendimiento-vehiculos'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'costos.costos': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/dashboard/costos'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'costos.costos_detalle': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/dashboard/costos-detalle'
     types: {
@@ -463,9 +475,9 @@ export interface Registry {
       errorResponse: unknown
     }
   }
-  'dashboard.rendimiento_vehiculos': {
+  'personal.personal': {
     methods: ["GET","HEAD"]
-    pattern: '/api/v1/dashboard/rendimiento-vehiculos'
+    pattern: '/api/v1/dashboard/personal'
     types: {
       body: {}
       paramsTuple: []

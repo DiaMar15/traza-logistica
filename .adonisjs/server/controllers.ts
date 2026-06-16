@@ -6,6 +6,7 @@
 export const controllers = {
   Auth: () => import('#controllers/auth_controller'),
   Conductores: () => import('#controllers/conductores_controller'),
+  Costos: () => import('#controllers/costos_controller'),
   Dashboard: () => import('#controllers/dashboard_controller'),
   GoogleSheetsRutas: () => import('#controllers/google_sheets_rutas_controller'),
   http: {
@@ -15,7 +16,9 @@ export const controllers = {
   ImportVehiculos: () => import('#controllers/import_vehiculos_controller'),
   NewAccount: () => import('#controllers/new_account_controller'),
   Password: () => import('#controllers/password_controller'),
+  Personal: () => import('#controllers/personal_controller'),
   Profile: () => import('#controllers/profile_controller'),
+  Rendimiento: () => import('#controllers/rendimiento_controller'),
   Rutas: () => import('#controllers/rutas_controller'),
   Vehiculos: () => import('#controllers/vehiculos_controller'),
 }

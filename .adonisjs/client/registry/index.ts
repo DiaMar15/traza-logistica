@@ -162,6 +162,12 @@ const routes = {
     tokens: [{"old":"/api/v1/importar-vehiculos","type":0,"val":"api","end":""},{"old":"/api/v1/importar-vehiculos","type":0,"val":"v1","end":""},{"old":"/api/v1/importar-vehiculos","type":0,"val":"importar-vehiculos","end":""}],
     types: placeholder as Registry['import_vehiculos.importar']['types'],
   },
+  'dashboard.principal': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/dashboard/principal',
+    tokens: [{"old":"/api/v1/dashboard/principal","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/principal","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/principal","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/principal","type":0,"val":"principal","end":""}],
+    types: placeholder as Registry['dashboard.principal']['types'],
+  },
   'dashboard.rutas_count': {
     methods: ["GET","HEAD"],
     pattern: '/api/v1/dashboard/rutas-count',
@@ -173,36 +179,6 @@ const routes = {
     pattern: '/api/v1/dashboard/kilometros',
     tokens: [{"old":"/api/v1/dashboard/kilometros","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/kilometros","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/kilometros","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/kilometros","type":0,"val":"kilometros","end":""}],
     types: placeholder as Registry['dashboard.kilometros']['types'],
-  },
-  'dashboard.rutas_por_dia': {
-    methods: ["GET","HEAD"],
-    pattern: '/api/v1/dashboard/rutas-por-dia',
-    tokens: [{"old":"/api/v1/dashboard/rutas-por-dia","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/rutas-por-dia","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/rutas-por-dia","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/rutas-por-dia","type":0,"val":"rutas-por-dia","end":""}],
-    types: placeholder as Registry['dashboard.rutas_por_dia']['types'],
-  },
-  'dashboard.km_por_zona': {
-    methods: ["GET","HEAD"],
-    pattern: '/api/v1/dashboard/km-por-zona',
-    tokens: [{"old":"/api/v1/dashboard/km-por-zona","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/km-por-zona","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/km-por-zona","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/km-por-zona","type":0,"val":"km-por-zona","end":""}],
-    types: placeholder as Registry['dashboard.km_por_zona']['types'],
-  },
-  'dashboard.rendimiento': {
-    methods: ["GET","HEAD"],
-    pattern: '/api/v1/dashboard/rendimiento',
-    tokens: [{"old":"/api/v1/dashboard/rendimiento","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/rendimiento","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/rendimiento","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/rendimiento","type":0,"val":"rendimiento","end":""}],
-    types: placeholder as Registry['dashboard.rendimiento']['types'],
-  },
-  'dashboard.costos': {
-    methods: ["GET","HEAD"],
-    pattern: '/api/v1/dashboard/costos',
-    tokens: [{"old":"/api/v1/dashboard/costos","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/costos","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/costos","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/costos","type":0,"val":"costos","end":""}],
-    types: placeholder as Registry['dashboard.costos']['types'],
-  },
-  'dashboard.personal': {
-    methods: ["GET","HEAD"],
-    pattern: '/api/v1/dashboard/personal',
-    tokens: [{"old":"/api/v1/dashboard/personal","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/personal","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/personal","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/personal","type":0,"val":"personal","end":""}],
-    types: placeholder as Registry['dashboard.personal']['types'],
   },
   'dashboard.conductores': {
     methods: ["GET","HEAD"],
@@ -216,29 +192,59 @@ const routes = {
     tokens: [{"old":"/api/v1/dashboard/viajes","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/viajes","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/viajes","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/viajes","type":0,"val":"viajes","end":""}],
     types: placeholder as Registry['dashboard.viajes']['types'],
   },
-  'dashboard.entregas_completadas': {
+  'rendimiento.rutas_por_dia': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/dashboard/rutas-por-dia',
+    tokens: [{"old":"/api/v1/dashboard/rutas-por-dia","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/rutas-por-dia","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/rutas-por-dia","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/rutas-por-dia","type":0,"val":"rutas-por-dia","end":""}],
+    types: placeholder as Registry['rendimiento.rutas_por_dia']['types'],
+  },
+  'rendimiento.km_por_zona': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/dashboard/km-por-zona',
+    tokens: [{"old":"/api/v1/dashboard/km-por-zona","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/km-por-zona","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/km-por-zona","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/km-por-zona","type":0,"val":"km-por-zona","end":""}],
+    types: placeholder as Registry['rendimiento.km_por_zona']['types'],
+  },
+  'rendimiento.rendimiento': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/dashboard/rendimiento',
+    tokens: [{"old":"/api/v1/dashboard/rendimiento","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/rendimiento","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/rendimiento","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/rendimiento","type":0,"val":"rendimiento","end":""}],
+    types: placeholder as Registry['rendimiento.rendimiento']['types'],
+  },
+  'rendimiento.entregas_completadas': {
     methods: ["GET","HEAD"],
     pattern: '/api/v1/dashboard/entregas',
     tokens: [{"old":"/api/v1/dashboard/entregas","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/entregas","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/entregas","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/entregas","type":0,"val":"entregas","end":""}],
-    types: placeholder as Registry['dashboard.entregas_completadas']['types'],
+    types: placeholder as Registry['rendimiento.entregas_completadas']['types'],
   },
-  'dashboard.capacidad_logistica': {
+  'rendimiento.capacidad_logistica': {
     methods: ["GET","HEAD"],
     pattern: '/api/v1/dashboard/capacidad',
     tokens: [{"old":"/api/v1/dashboard/capacidad","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/capacidad","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/capacidad","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/capacidad","type":0,"val":"capacidad","end":""}],
-    types: placeholder as Registry['dashboard.capacidad_logistica']['types'],
+    types: placeholder as Registry['rendimiento.capacidad_logistica']['types'],
   },
-  'dashboard.costos_detalle': {
-    methods: ["GET","HEAD"],
-    pattern: '/api/v1/dashboard/costos-detalle',
-    tokens: [{"old":"/api/v1/dashboard/costos-detalle","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/costos-detalle","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/costos-detalle","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/costos-detalle","type":0,"val":"costos-detalle","end":""}],
-    types: placeholder as Registry['dashboard.costos_detalle']['types'],
-  },
-  'dashboard.rendimiento_vehiculos': {
+  'rendimiento.rendimiento_vehiculos': {
     methods: ["GET","HEAD"],
     pattern: '/api/v1/dashboard/rendimiento-vehiculos',
     tokens: [{"old":"/api/v1/dashboard/rendimiento-vehiculos","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/rendimiento-vehiculos","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/rendimiento-vehiculos","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/rendimiento-vehiculos","type":0,"val":"rendimiento-vehiculos","end":""}],
-    types: placeholder as Registry['dashboard.rendimiento_vehiculos']['types'],
+    types: placeholder as Registry['rendimiento.rendimiento_vehiculos']['types'],
+  },
+  'costos.costos': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/dashboard/costos',
+    tokens: [{"old":"/api/v1/dashboard/costos","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/costos","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/costos","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/costos","type":0,"val":"costos","end":""}],
+    types: placeholder as Registry['costos.costos']['types'],
+  },
+  'costos.costos_detalle': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/dashboard/costos-detalle',
+    tokens: [{"old":"/api/v1/dashboard/costos-detalle","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/costos-detalle","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/costos-detalle","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/costos-detalle","type":0,"val":"costos-detalle","end":""}],
+    types: placeholder as Registry['costos.costos_detalle']['types'],
+  },
+  'personal.personal': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/dashboard/personal',
+    tokens: [{"old":"/api/v1/dashboard/personal","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/personal","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/personal","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/personal","type":0,"val":"personal","end":""}],
+    types: placeholder as Registry['personal.personal']['types'],
   },
   'password.forgot': {
     methods: ["POST"],

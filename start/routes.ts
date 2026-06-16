@@ -17,6 +17,9 @@ import AuthController from '#controllers/auth_controller'
 import PasswordController from '#controllers/password_controller'
 import TestController from '#controllers/Http/TestController'
 import DashboardController from '#controllers/dashboard_controller'
+import RendimientoController from '#controllers/rendimiento_controller'
+import CostosController from '#controllers/costos_controller'
+import PersonalController from '#controllers/personal_controller'
 import ConductoresController from '#controllers/conductores_controller'
 
 /*
@@ -36,7 +39,6 @@ router.get('/', () => {
 */
 
 router
-
   .group(() => {
     /*
     -------------------------
@@ -283,6 +285,12 @@ router
     */
 
     router.get(
+      'dashboard/principal',
+
+      [DashboardController, 'principal']
+    )
+
+    router.get(
       'dashboard/rutas-count',
 
       [DashboardController, 'rutasCount']
@@ -292,36 +300,6 @@ router
       'dashboard/kilometros',
 
       [DashboardController, 'kilometros']
-    )
-
-    router.get(
-      'dashboard/rutas-por-dia',
-
-      [DashboardController, 'rutasPorDia']
-    )
-
-    router.get(
-      'dashboard/km-por-zona',
-
-      [DashboardController, 'kmPorZona']
-    )
-
-    router.get(
-      'dashboard/rendimiento',
-
-      [DashboardController, 'rendimiento']
-    )
-
-    router.get(
-      'dashboard/costos',
-
-      [DashboardController, 'costos']
-    )
-
-    router.get(
-      'dashboard/personal',
-
-      [DashboardController, 'personal']
     )
 
     router.get(
@@ -337,27 +315,57 @@ router
     )
 
     router.get(
+      'dashboard/rutas-por-dia',
+
+      [RendimientoController, 'rutasPorDia']
+    )
+
+    router.get(
+      'dashboard/km-por-zona',
+
+      [RendimientoController, 'kmPorZona']
+    )
+
+    router.get(
+      'dashboard/rendimiento',
+
+      [RendimientoController, 'rendimiento']
+    )
+
+    router.get(
       'dashboard/entregas',
 
-      [DashboardController, 'entregasCompletadas']
+      [RendimientoController, 'entregasCompletadas']
     )
 
     router.get(
       'dashboard/capacidad',
 
-      [DashboardController, 'capacidadLogistica']
-    )
-
-    router.get(
-      'dashboard/costos-detalle',
-
-      [DashboardController, 'costosDetalle']
+      [RendimientoController, 'capacidadLogistica']
     )
 
     router.get(
       'dashboard/rendimiento-vehiculos',
 
-      [DashboardController, 'rendimientoVehiculos']
+      [RendimientoController, 'rendimientoVehiculos']
+    )
+
+    router.get(
+      'dashboard/costos',
+
+      [CostosController, 'costos']
+    )
+
+    router.get(
+      'dashboard/costos-detalle',
+
+      [CostosController, 'costosDetalle']
+    )
+
+    router.get(
+      'dashboard/personal',
+
+      [PersonalController, 'personal']
     )
   })
 

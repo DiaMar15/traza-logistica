@@ -45,19 +45,26 @@ export interface ApiDefinition {
     importar: typeof routes['import_vehiculos.importar']
   }
   dashboard: {
+    principal: typeof routes['dashboard.principal']
     rutasCount: typeof routes['dashboard.rutas_count']
     kilometros: typeof routes['dashboard.kilometros']
-    rutasPorDia: typeof routes['dashboard.rutas_por_dia']
-    kmPorZona: typeof routes['dashboard.km_por_zona']
-    rendimiento: typeof routes['dashboard.rendimiento']
-    costos: typeof routes['dashboard.costos']
-    personal: typeof routes['dashboard.personal']
     conductores: typeof routes['dashboard.conductores']
     viajes: typeof routes['dashboard.viajes']
-    entregasCompletadas: typeof routes['dashboard.entregas_completadas']
-    capacidadLogistica: typeof routes['dashboard.capacidad_logistica']
-    costosDetalle: typeof routes['dashboard.costos_detalle']
-    rendimientoVehiculos: typeof routes['dashboard.rendimiento_vehiculos']
+  }
+  rendimiento: {
+    rutasPorDia: typeof routes['rendimiento.rutas_por_dia']
+    kmPorZona: typeof routes['rendimiento.km_por_zona']
+    rendimiento: typeof routes['rendimiento.rendimiento']
+    entregasCompletadas: typeof routes['rendimiento.entregas_completadas']
+    capacidadLogistica: typeof routes['rendimiento.capacidad_logistica']
+    rendimientoVehiculos: typeof routes['rendimiento.rendimiento_vehiculos']
+  }
+  costos: {
+    costos: typeof routes['costos.costos']
+    costosDetalle: typeof routes['costos.costos_detalle']
+  }
+  personal: {
+    personal: typeof routes['personal.personal']
   }
   password: {
     forgot: typeof routes['password.forgot']
