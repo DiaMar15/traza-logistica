@@ -49,6 +49,7 @@ export default class CostosController {
         'placa',
         'ruta',
         'zona',
+        'tarifa',
         'total_kilometros',
         'combustible',
         'peajes',
