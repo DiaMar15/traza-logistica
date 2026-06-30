@@ -2,7 +2,7 @@ import type { HttpContext } from '@adonisjs/core/http'
 
 import Database from '@adonisjs/lucid/services/db'
 
-import Conductor from '#models/conductor'
+import Conductor from '#models/conductores'
 
 export default class ConductoresController {
   /* --------------------------

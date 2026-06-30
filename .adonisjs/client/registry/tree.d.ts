@@ -64,7 +64,9 @@ export interface ApiDefinition {
     costosDetalle: typeof routes['costos.costos_detalle']
   }
   personal: {
-    personal: typeof routes['personal.personal']
+    personalDiario: typeof routes['personal.personal_diario']
+    personalSemanal: typeof routes['personal.personal_semanal']
+    personalMensual: typeof routes['personal.personal_mensual']
   }
   password: {
     forgot: typeof routes['password.forgot']

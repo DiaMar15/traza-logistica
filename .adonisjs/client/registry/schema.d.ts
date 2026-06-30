@@ -475,9 +475,33 @@ export interface Registry {
       errorResponse: unknown
     }
   }
-  'personal.personal': {
+  'personal.personal_diario': {
     methods: ["GET","HEAD"]
-    pattern: '/api/v1/dashboard/personal'
+    pattern: '/api/v1/dashboard/personal/diario'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'personal.personal_semanal': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/dashboard/personal/semanal'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'personal.personal_mensual': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/dashboard/personal/mensual'
     types: {
       body: {}
       paramsTuple: []
@@ -489,7 +513,7 @@ export interface Registry {
   }
   'password.forgot': {
     methods: ["POST"]
-    pattern: '/forgot-password'
+    pattern: '/api/v1/forgot-password'
     types: {
       body: {}
       paramsTuple: []
@@ -501,7 +525,7 @@ export interface Registry {
   }
   'password.reset': {
     methods: ["POST"]
-    pattern: '/reset-password'
+    pattern: '/api/v1/reset-password'
     types: {
       body: {}
       paramsTuple: []
@@ -513,7 +537,7 @@ export interface Registry {
   }
   'test.send': {
     methods: ["GET","HEAD"]
-    pattern: '/test-mail'
+    pattern: '/api/v1/test-mail'
     types: {
       body: {}
       paramsTuple: []

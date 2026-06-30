@@ -362,41 +362,40 @@ router
       [CostosController, 'costosDetalle']
     )
 
-    router.get(
-      'dashboard/personal',
+    router.get('dashboard/personal/diario', [PersonalController, 'personalDiario'])
 
-      [PersonalController, 'personal']
-    )
-  })
+    router.get('dashboard/personal/semanal', [PersonalController, 'personalSemanal'])
 
-  .prefix('/api/v1')
+    router.get('dashboard/personal/mensual', [PersonalController, 'personalMensual'])
 
-/*
+    /*
 |--------------------------------------------------------------------------
 | 🔐 RECUPERAR PASSWORD
 |--------------------------------------------------------------------------
 */
 
-router.post(
-  '/forgot-password',
+    router.post(
+      '/forgot-password',
 
-  [PasswordController, 'forgot']
-)
+      [PasswordController, 'forgot']
+    )
 
-router.post(
-  '/reset-password',
+    router.post(
+      '/reset-password',
 
-  [PasswordController, 'reset']
-)
+      [PasswordController, 'reset']
+    )
 
-/*
+    /*
 |--------------------------------------------------------------------------
 | 📧 TEST EMAIL
 |--------------------------------------------------------------------------
 */
 
-router.get(
-  '/test-mail',
+    router.get(
+      '/test-mail',
 
-  [TestController, 'send']
-)
+      [TestController, 'send']
+    )
+  })
+  .prefix('/api/v1')

@@ -42,7 +42,9 @@ export type ScannedRoutes = {
     'rendimiento.rendimiento_vehiculos': { paramsTuple?: []; params?: {} }
     'costos.costos': { paramsTuple?: []; params?: {} }
     'costos.costos_detalle': { paramsTuple?: []; params?: {} }
-    'personal.personal': { paramsTuple?: []; params?: {} }
+    'personal.personal_diario': { paramsTuple?: []; params?: {} }
+    'personal.personal_semanal': { paramsTuple?: []; params?: {} }
+    'personal.personal_mensual': { paramsTuple?: []; params?: {} }
     'password.forgot': { paramsTuple?: []; params?: {} }
     'password.reset': { paramsTuple?: []; params?: {} }
     'test.send': { paramsTuple?: []; params?: {} }
@@ -70,7 +72,9 @@ export type ScannedRoutes = {
     'rendimiento.rendimiento_vehiculos': { paramsTuple?: []; params?: {} }
     'costos.costos': { paramsTuple?: []; params?: {} }
     'costos.costos_detalle': { paramsTuple?: []; params?: {} }
-    'personal.personal': { paramsTuple?: []; params?: {} }
+    'personal.personal_diario': { paramsTuple?: []; params?: {} }
+    'personal.personal_semanal': { paramsTuple?: []; params?: {} }
+    'personal.personal_mensual': { paramsTuple?: []; params?: {} }
     'test.send': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
@@ -96,7 +100,9 @@ export type ScannedRoutes = {
     'rendimiento.rendimiento_vehiculos': { paramsTuple?: []; params?: {} }
     'costos.costos': { paramsTuple?: []; params?: {} }
     'costos.costos_detalle': { paramsTuple?: []; params?: {} }
-    'personal.personal': { paramsTuple?: []; params?: {} }
+    'personal.personal_diario': { paramsTuple?: []; params?: {} }
+    'personal.personal_semanal': { paramsTuple?: []; params?: {} }
+    'personal.personal_mensual': { paramsTuple?: []; params?: {} }
     'test.send': { paramsTuple?: []; params?: {} }
   }
   POST: {

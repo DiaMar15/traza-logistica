@@ -1,8 +1,9 @@
 import type { HttpContext } from '@adonisjs/core/http'
 
 import Ruta from '#models/ruta'
-import Conductor from '#models/conductor'
+import Conductor from '#models/conductores'
 import Vehiculo from '#models/vehiculo'
+import Personal from '#models/personal'
 
 import { limpiarTexto, limpiarNumero, limpiarDinero, limpiarHora } from '../utils/limpieza.ts'
 
@@ -14,6 +15,7 @@ export default class GoogleSheetsRutasController {
 
     const vehiculosUrl = `https://opensheet.elk.sh/${SHEET_ID}/Datosvehiculos`
 
+    const personalUrl = `https://opensheet.elk.sh/${SHEET_ID}/PERSONAL_SYNC`
     /* ==========================
        FETCH RUTAS
     ========================== */
@@ -83,6 +85,8 @@ export default class GoogleSheetsRutasController {
     await Ruta.query().delete()
 
     await Vehiculo.query().delete()
+
+    await Personal.query().delete()
 
     /* ==========================
        VEHICULOS
@@ -160,6 +164,56 @@ export default class GoogleSheetsRutasController {
       })
 
       vehiculosSync++
+    }
+    let personalData: any[] = []
+
+    try {
+      const personalRes = await fetch(personalUrl)
+
+      if (!personalRes.ok) {
+        throw new Error('Error consultando hoja de personal')
+      }
+
+      const dataPersonal = await personalRes.json()
+
+      if (!Array.isArray(dataPersonal)) {
+        throw new Error('La respuesta de personal no es un array')
+      }
+
+      personalData = dataPersonal
+    } catch (error) {
+      console.error(error)
+
+      return response.badRequest({
+        message: 'No fue posible obtener personal desde Google Sheets',
+      })
+    }
+
+    /* ==========================
+   PERSONAL
+========================== */
+
+    let personalSync = 0
+
+    for (const row of personalData) {
+      const nombre = limpiarTexto(row['NOMBRE'] ?? row['Nombre'] ?? '')
+      if (!nombre) {
+        continue
+      }
+
+      await Personal.create({
+        nombre,
+
+        celular: String(row['CELULAR'] ?? row['Celular'] ?? '').trim() || null,
+
+        cargo: limpiarTexto(row['CARGO'] ?? row['Cargo'] ?? '') || '',
+
+        cedula: String(row['CEDULA'] ?? row['Cedula'] ?? '').trim() || null,
+
+        estado: limpiarTexto(row['ESTADO'] ?? row['Estado'] ?? '') || 'ACTIVO',
+      })
+
+      personalSync++
     }
 
     /* ==========================
@@ -383,6 +437,8 @@ export default class GoogleSheetsRutasController {
       creados,
 
       vehiculos: vehiculosSync,
+
+      personal: personalSync,
 
       errores: errores.length,
 

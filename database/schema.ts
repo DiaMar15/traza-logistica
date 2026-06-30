@@ -64,6 +64,27 @@ export class PasswordResetSchema extends BaseModel {
   declare used: boolean | null
 }
 
+export class PersonalSchema extends BaseModel {
+  static $columns = ['cargo', 'cedula', 'celular', 'createdAt', 'estado', 'id', 'nombre', 'updatedAt'] as const
+  $columns = PersonalSchema.$columns
+  @column()
+  declare cargo: string
+  @column()
+  declare cedula: string | null
+  @column()
+  declare celular: string | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column()
+  declare estado: string
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare nombre: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
 export class RoleSchema extends BaseModel {
   static $columns = ['createdAt', 'id', 'nombre', 'updatedAt'] as const
   $columns = RoleSchema.$columns
@@ -226,22 +247,28 @@ export class UserRoleSchema extends BaseModel {
 }
 
 export class VehiculoSchema extends BaseModel {
-  static $columns = ['capacidadKilo', 'claseVehiculo', 'createdAt', 'estado', 'id', 'marca', 'modelo', 'placa', 'tipo', 'updatedAt'] as const
+  static $columns = ['activo', 'capacidadKilo', 'claseVehiculo', 'conductorFijo', 'createdAt', 'deletedAt', 'estado', 'id', 'marca', 'modelo', 'placa', 'tipo', 'updatedAt'] as const
   $columns = VehiculoSchema.$columns
+  @column()
+  declare activo: boolean
   @column()
   declare capacidadKilo: number | null
   @column()
   declare claseVehiculo: string | null
+  @column()
+  declare conductorFijo: string | null
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
+  @column.dateTime()
+  declare deletedAt: DateTime | null
   @column()
-  declare estado: string | null
+  declare estado: string
   @column({ isPrimary: true })
   declare id: number
   @column()
   declare marca: string | null
   @column()
-  declare modelo: number | null
+  declare modelo: string | null
   @column()
   declare placa: string
   @column()
