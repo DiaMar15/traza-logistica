@@ -34,6 +34,7 @@ export interface ApiDefinition {
     update: typeof routes['conductores.update']
     inactivar: typeof routes['conductores.inactivar']
     reactivar: typeof routes['conductores.reactivar']
+    sincronizar: typeof routes['conductores.sincronizar']
   }
   importExcel: {
     importar: typeof routes['import_excel.importar']
@@ -46,6 +47,7 @@ export interface ApiDefinition {
   }
   dashboard: {
     principal: typeof routes['dashboard.principal']
+    semanas: typeof routes['dashboard.semanas']
     rutasCount: typeof routes['dashboard.rutas_count']
     kilometros: typeof routes['dashboard.kilometros']
     conductores: typeof routes['dashboard.conductores']
@@ -58,6 +60,12 @@ export interface ApiDefinition {
     entregasCompletadas: typeof routes['rendimiento.entregas_completadas']
     capacidadLogistica: typeof routes['rendimiento.capacidad_logistica']
     rendimientoVehiculos: typeof routes['rendimiento.rendimiento_vehiculos']
+    vehiculoMenorKilometraje: typeof routes['rendimiento.vehiculo_menor_kilometraje']
+    tiempoCediAmVehiculos: typeof routes['rendimiento.tiempo_cedi_am_vehiculos']
+    tiempoCediPmVehiculos: typeof routes['rendimiento.tiempo_cedi_pm_vehiculos']
+    tiempoCediAmZona: typeof routes['rendimiento.tiempo_cedi_am_zona']
+    tiempoCediPmZona: typeof routes['rendimiento.tiempo_cedi_pm_zona']
+    horasExtraZona: typeof routes['rendimiento.horas_extra_zona']
   }
   costos: {
     costos: typeof routes['costos.costos']

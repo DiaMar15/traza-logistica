@@ -283,6 +283,18 @@ export interface Registry {
       errorResponse: unknown
     }
   }
+  'conductores.sincronizar': {
+    methods: ["POST"]
+    pattern: '/api/v1/conductores/sincronizar'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
   'import_excel.importar': {
     methods: ["POST"]
     pattern: '/api/v1/importar-excel'
@@ -322,6 +334,18 @@ export interface Registry {
   'dashboard.principal': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/dashboard/principal'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'dashboard.semanas': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/dashboard/semanas'
     types: {
       body: {}
       paramsTuple: []
@@ -442,6 +466,78 @@ export interface Registry {
   'rendimiento.rendimiento_vehiculos': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/dashboard/rendimiento-vehiculos'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'rendimiento.vehiculo_menor_kilometraje': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/dashboard/vehiculo-menor-kilometraje'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'rendimiento.tiempo_cedi_am_vehiculos': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/dashboard/tiempo-cedi-am-vehiculos'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'rendimiento.tiempo_cedi_pm_vehiculos': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/dashboard/tiempo-cedi-pm-vehiculos'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'rendimiento.tiempo_cedi_am_zona': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/dashboard/tiempo-cedi-am-zona'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'rendimiento.tiempo_cedi_pm_zona': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/dashboard/tiempo-cedi-pm-zona'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'rendimiento.horas_extra_zona': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/dashboard/horas-extra-zona'
     types: {
       body: {}
       paramsTuple: []

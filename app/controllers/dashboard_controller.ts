@@ -143,4 +143,25 @@ export default class DashboardController {
       })),
     })
   }
+
+  async semanas({ response }: HttpContext) {
+    const semanaActual = await Database.from('rutas').select(
+      Database.raw(`
+      MAX(
+        CAST(semana AS UNSIGNED)
+      ) as semana
+    `)
+    )
+
+    const semanasDisponibles = await Database.from('rutas')
+      .distinct('semana')
+      .whereNotNull('semana')
+      .orderBy('semana', 'desc')
+
+    return response.ok({
+      semana: Number(semanaActual[0]?.semana || 0),
+
+      semanas: semanasDisponibles.map((item) => Number(item.semana)),
+    })
+  }
 }

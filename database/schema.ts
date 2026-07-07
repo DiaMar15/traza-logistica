@@ -33,8 +33,14 @@ export class AuthAccessTokenSchema extends BaseModel {
 }
 
 export class ConductoreSchema extends BaseModel {
-  static $columns = ['createdAt', 'estado', 'id', 'nombre', 'updatedAt'] as const
+  static $columns = ['cargo', 'cedula', 'celular', 'createdAt', 'estado', 'id', 'nombre', 'updatedAt'] as const
   $columns = ConductoreSchema.$columns
+  @column()
+  declare cargo: string | null
+  @column()
+  declare cedula: string | null
+  @column()
+  declare celular: string | null
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime | null
   @column()
@@ -99,7 +105,7 @@ export class RoleSchema extends BaseModel {
 }
 
 export class RutaSchema extends BaseModel {
-  static $columns = ['apoyoAuxiliar', 'auxiliar', 'calibrada', 'capacidadKg', 'combustible', 'conductor', 'createdAt', 'destino', 'destinoTipologia', 'dia', 'efectividad', 'empresa', 'fecha', 'festivos', 'finRuta', 'horaExtra', 'id', 'inicioRuta', 'kmFinal', 'kmInicial', 'mes', 'numeroClientes', 'numeroFacturas', 'observaciones', 'parqueadero', 'peajes', 'peso', 'placa', 'planilla', 'reenvio', 'ruta', 'semana', 'tarifa', 'taxis', 'tiempoEnRuta', 'tipoVehiculo', 'totalKilometros', 'turno', 'updatedAt', 'valorDevolucion', 'valorReenvio', 'valorRuta', 'volumen', 'zona'] as const
+  static $columns = ['apoyoAuxiliar', 'auxiliar', 'calibrada', 'capacidadKg', 'combustible', 'conductor', 'createdAt', 'destino', 'destinoTipologia', 'dia', 'efectividad', 'empresa', 'fecha', 'festivos', 'finRuta', 'horaExtra', 'id', 'inicioRuta', 'kmFinal', 'kmInicial', 'llegadaCedi', 'mes', 'numeroClientes', 'numeroFacturas', 'observaciones', 'parqueadero', 'peajes', 'peso', 'placa', 'planilla', 'reenvio', 'ruta', 'salidaCedi', 'semana', 'tarifa', 'taxis', 'tiempoCediAm', 'tiempoCediPm', 'tiempoEnRuta', 'tipoVehiculo', 'totalKilometros', 'turno', 'updatedAt', 'valorDevolucion', 'valorReenvio', 'valorRuta', 'volumen', 'zona'] as const
   $columns = RutaSchema.$columns
   @column()
   declare apoyoAuxiliar: string | null
@@ -142,6 +148,8 @@ export class RutaSchema extends BaseModel {
   @column()
   declare kmInicial: string | null
   @column()
+  declare llegadaCedi: string | null
+  @column()
   declare mes: string | null
   @column()
   declare numeroClientes: number | null
@@ -164,11 +172,17 @@ export class RutaSchema extends BaseModel {
   @column()
   declare ruta: string | null
   @column()
+  declare salidaCedi: string | null
+  @column()
   declare semana: string | null
   @column()
   declare tarifa: string | null
   @column()
   declare taxis: string | null
+  @column()
+  declare tiempoCediAm: string | null
+  @column()
+  declare tiempoCediPm: string | null
   @column()
   declare tiempoEnRuta: string | null
   @column()

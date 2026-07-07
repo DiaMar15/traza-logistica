@@ -144,6 +144,12 @@ const routes = {
     tokens: [{"old":"/api/v1/conductores/:id/reactivar","type":0,"val":"api","end":""},{"old":"/api/v1/conductores/:id/reactivar","type":0,"val":"v1","end":""},{"old":"/api/v1/conductores/:id/reactivar","type":0,"val":"conductores","end":""},{"old":"/api/v1/conductores/:id/reactivar","type":1,"val":"id","end":""},{"old":"/api/v1/conductores/:id/reactivar","type":0,"val":"reactivar","end":""}],
     types: placeholder as Registry['conductores.reactivar']['types'],
   },
+  'conductores.sincronizar': {
+    methods: ["POST"],
+    pattern: '/api/v1/conductores/sincronizar',
+    tokens: [{"old":"/api/v1/conductores/sincronizar","type":0,"val":"api","end":""},{"old":"/api/v1/conductores/sincronizar","type":0,"val":"v1","end":""},{"old":"/api/v1/conductores/sincronizar","type":0,"val":"conductores","end":""},{"old":"/api/v1/conductores/sincronizar","type":0,"val":"sincronizar","end":""}],
+    types: placeholder as Registry['conductores.sincronizar']['types'],
+  },
   'import_excel.importar': {
     methods: ["POST"],
     pattern: '/api/v1/importar-excel',
@@ -167,6 +173,12 @@ const routes = {
     pattern: '/api/v1/dashboard/principal',
     tokens: [{"old":"/api/v1/dashboard/principal","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/principal","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/principal","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/principal","type":0,"val":"principal","end":""}],
     types: placeholder as Registry['dashboard.principal']['types'],
+  },
+  'dashboard.semanas': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/dashboard/semanas',
+    tokens: [{"old":"/api/v1/dashboard/semanas","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/semanas","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/semanas","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/semanas","type":0,"val":"semanas","end":""}],
+    types: placeholder as Registry['dashboard.semanas']['types'],
   },
   'dashboard.rutas_count': {
     methods: ["GET","HEAD"],
@@ -227,6 +239,42 @@ const routes = {
     pattern: '/api/v1/dashboard/rendimiento-vehiculos',
     tokens: [{"old":"/api/v1/dashboard/rendimiento-vehiculos","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/rendimiento-vehiculos","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/rendimiento-vehiculos","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/rendimiento-vehiculos","type":0,"val":"rendimiento-vehiculos","end":""}],
     types: placeholder as Registry['rendimiento.rendimiento_vehiculos']['types'],
+  },
+  'rendimiento.vehiculo_menor_kilometraje': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/dashboard/vehiculo-menor-kilometraje',
+    tokens: [{"old":"/api/v1/dashboard/vehiculo-menor-kilometraje","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/vehiculo-menor-kilometraje","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/vehiculo-menor-kilometraje","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/vehiculo-menor-kilometraje","type":0,"val":"vehiculo-menor-kilometraje","end":""}],
+    types: placeholder as Registry['rendimiento.vehiculo_menor_kilometraje']['types'],
+  },
+  'rendimiento.tiempo_cedi_am_vehiculos': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/dashboard/tiempo-cedi-am-vehiculos',
+    tokens: [{"old":"/api/v1/dashboard/tiempo-cedi-am-vehiculos","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/tiempo-cedi-am-vehiculos","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/tiempo-cedi-am-vehiculos","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/tiempo-cedi-am-vehiculos","type":0,"val":"tiempo-cedi-am-vehiculos","end":""}],
+    types: placeholder as Registry['rendimiento.tiempo_cedi_am_vehiculos']['types'],
+  },
+  'rendimiento.tiempo_cedi_pm_vehiculos': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/dashboard/tiempo-cedi-pm-vehiculos',
+    tokens: [{"old":"/api/v1/dashboard/tiempo-cedi-pm-vehiculos","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/tiempo-cedi-pm-vehiculos","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/tiempo-cedi-pm-vehiculos","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/tiempo-cedi-pm-vehiculos","type":0,"val":"tiempo-cedi-pm-vehiculos","end":""}],
+    types: placeholder as Registry['rendimiento.tiempo_cedi_pm_vehiculos']['types'],
+  },
+  'rendimiento.tiempo_cedi_am_zona': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/dashboard/tiempo-cedi-am-zona',
+    tokens: [{"old":"/api/v1/dashboard/tiempo-cedi-am-zona","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/tiempo-cedi-am-zona","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/tiempo-cedi-am-zona","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/tiempo-cedi-am-zona","type":0,"val":"tiempo-cedi-am-zona","end":""}],
+    types: placeholder as Registry['rendimiento.tiempo_cedi_am_zona']['types'],
+  },
+  'rendimiento.tiempo_cedi_pm_zona': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/dashboard/tiempo-cedi-pm-zona',
+    tokens: [{"old":"/api/v1/dashboard/tiempo-cedi-pm-zona","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/tiempo-cedi-pm-zona","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/tiempo-cedi-pm-zona","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/tiempo-cedi-pm-zona","type":0,"val":"tiempo-cedi-pm-zona","end":""}],
+    types: placeholder as Registry['rendimiento.tiempo_cedi_pm_zona']['types'],
+  },
+  'rendimiento.horas_extra_zona': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/dashboard/horas-extra-zona',
+    tokens: [{"old":"/api/v1/dashboard/horas-extra-zona","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/horas-extra-zona","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/horas-extra-zona","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/horas-extra-zona","type":0,"val":"horas-extra-zona","end":""}],
+    types: placeholder as Registry['rendimiento.horas_extra_zona']['types'],
   },
   'costos.costos': {
     methods: ["GET","HEAD"],

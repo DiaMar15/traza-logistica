@@ -138,7 +138,19 @@ export default class Ruta extends BaseModel {
   declare inicioRuta: string | null
 
   @column()
+  declare salidaCedi: string | null
+
+  @column()
+  declare tiempoCediAm: string | null
+
+  @column()
+  declare llegadaCedi: string | null
+
+  @column()
   declare finRuta: string | null
+
+  @column()
+  declare tiempoCediPm: string | null
 
   @column()
   declare tiempoEnRuta: string | null

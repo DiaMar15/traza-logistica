@@ -27,9 +27,11 @@ export type ScannedRoutes = {
     'conductores.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'conductores.inactivar': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'conductores.reactivar': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'conductores.sincronizar': { paramsTuple?: []; params?: {} }
     'import_excel.importar': { paramsTuple?: []; params?: {} }
     'import_vehiculos.importar': { paramsTuple?: []; params?: {} }
     'dashboard.principal': { paramsTuple?: []; params?: {} }
+    'dashboard.semanas': { paramsTuple?: []; params?: {} }
     'dashboard.rutas_count': { paramsTuple?: []; params?: {} }
     'dashboard.kilometros': { paramsTuple?: []; params?: {} }
     'dashboard.conductores': { paramsTuple?: []; params?: {} }
@@ -40,6 +42,12 @@ export type ScannedRoutes = {
     'rendimiento.entregas_completadas': { paramsTuple?: []; params?: {} }
     'rendimiento.capacidad_logistica': { paramsTuple?: []; params?: {} }
     'rendimiento.rendimiento_vehiculos': { paramsTuple?: []; params?: {} }
+    'rendimiento.vehiculo_menor_kilometraje': { paramsTuple?: []; params?: {} }
+    'rendimiento.tiempo_cedi_am_vehiculos': { paramsTuple?: []; params?: {} }
+    'rendimiento.tiempo_cedi_pm_vehiculos': { paramsTuple?: []; params?: {} }
+    'rendimiento.tiempo_cedi_am_zona': { paramsTuple?: []; params?: {} }
+    'rendimiento.tiempo_cedi_pm_zona': { paramsTuple?: []; params?: {} }
+    'rendimiento.horas_extra_zona': { paramsTuple?: []; params?: {} }
     'costos.costos': { paramsTuple?: []; params?: {} }
     'costos.costos_detalle': { paramsTuple?: []; params?: {} }
     'personal.personal_diario': { paramsTuple?: []; params?: {} }
@@ -60,6 +68,7 @@ export type ScannedRoutes = {
     'vehiculos.sincronizar': { paramsTuple?: []; params?: {} }
     'conductores.index': { paramsTuple?: []; params?: {} }
     'dashboard.principal': { paramsTuple?: []; params?: {} }
+    'dashboard.semanas': { paramsTuple?: []; params?: {} }
     'dashboard.rutas_count': { paramsTuple?: []; params?: {} }
     'dashboard.kilometros': { paramsTuple?: []; params?: {} }
     'dashboard.conductores': { paramsTuple?: []; params?: {} }
@@ -70,6 +79,12 @@ export type ScannedRoutes = {
     'rendimiento.entregas_completadas': { paramsTuple?: []; params?: {} }
     'rendimiento.capacidad_logistica': { paramsTuple?: []; params?: {} }
     'rendimiento.rendimiento_vehiculos': { paramsTuple?: []; params?: {} }
+    'rendimiento.vehiculo_menor_kilometraje': { paramsTuple?: []; params?: {} }
+    'rendimiento.tiempo_cedi_am_vehiculos': { paramsTuple?: []; params?: {} }
+    'rendimiento.tiempo_cedi_pm_vehiculos': { paramsTuple?: []; params?: {} }
+    'rendimiento.tiempo_cedi_am_zona': { paramsTuple?: []; params?: {} }
+    'rendimiento.tiempo_cedi_pm_zona': { paramsTuple?: []; params?: {} }
+    'rendimiento.horas_extra_zona': { paramsTuple?: []; params?: {} }
     'costos.costos': { paramsTuple?: []; params?: {} }
     'costos.costos_detalle': { paramsTuple?: []; params?: {} }
     'personal.personal_diario': { paramsTuple?: []; params?: {} }
@@ -88,6 +103,7 @@ export type ScannedRoutes = {
     'vehiculos.sincronizar': { paramsTuple?: []; params?: {} }
     'conductores.index': { paramsTuple?: []; params?: {} }
     'dashboard.principal': { paramsTuple?: []; params?: {} }
+    'dashboard.semanas': { paramsTuple?: []; params?: {} }
     'dashboard.rutas_count': { paramsTuple?: []; params?: {} }
     'dashboard.kilometros': { paramsTuple?: []; params?: {} }
     'dashboard.conductores': { paramsTuple?: []; params?: {} }
@@ -98,6 +114,12 @@ export type ScannedRoutes = {
     'rendimiento.entregas_completadas': { paramsTuple?: []; params?: {} }
     'rendimiento.capacidad_logistica': { paramsTuple?: []; params?: {} }
     'rendimiento.rendimiento_vehiculos': { paramsTuple?: []; params?: {} }
+    'rendimiento.vehiculo_menor_kilometraje': { paramsTuple?: []; params?: {} }
+    'rendimiento.tiempo_cedi_am_vehiculos': { paramsTuple?: []; params?: {} }
+    'rendimiento.tiempo_cedi_pm_vehiculos': { paramsTuple?: []; params?: {} }
+    'rendimiento.tiempo_cedi_am_zona': { paramsTuple?: []; params?: {} }
+    'rendimiento.tiempo_cedi_pm_zona': { paramsTuple?: []; params?: {} }
+    'rendimiento.horas_extra_zona': { paramsTuple?: []; params?: {} }
     'costos.costos': { paramsTuple?: []; params?: {} }
     'costos.costos_detalle': { paramsTuple?: []; params?: {} }
     'personal.personal_diario': { paramsTuple?: []; params?: {} }
@@ -112,6 +134,7 @@ export type ScannedRoutes = {
     'vehiculos.store': { paramsTuple?: []; params?: {} }
     'conductores.store': { paramsTuple?: []; params?: {} }
     'conductores.sync': { paramsTuple?: []; params?: {} }
+    'conductores.sincronizar': { paramsTuple?: []; params?: {} }
     'import_excel.importar': { paramsTuple?: []; params?: {} }
     'import_vehiculos.importar': { paramsTuple?: []; params?: {} }
     'password.forgot': { paramsTuple?: []; params?: {} }

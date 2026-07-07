@@ -247,6 +247,8 @@ router
 
           [ConductoresController, 'reactivar']
         )
+
+        router.post('/sincronizar', [ConductoresController, 'sincronizar'])
       })
 
       .prefix('conductores')
@@ -288,6 +290,12 @@ router
       'dashboard/principal',
 
       [DashboardController, 'principal']
+    )
+
+    router.get(
+      'dashboard/semanas',
+
+      [DashboardController, 'semanas']
     )
 
     router.get(
@@ -348,6 +356,41 @@ router
       'dashboard/rendimiento-vehiculos',
 
       [RendimientoController, 'rendimientoVehiculos']
+    )
+    router.get(
+      'dashboard/vehiculo-menor-kilometraje',
+
+      [RendimientoController, 'vehiculoMenorKilometraje']
+    )
+
+    router.get(
+      'dashboard/tiempo-cedi-am-vehiculos',
+
+      [RendimientoController, 'tiempoCediAmVehiculos']
+    )
+
+    router.get(
+      'dashboard/tiempo-cedi-pm-vehiculos',
+
+      [RendimientoController, 'tiempoCediPmVehiculos']
+    )
+
+    router.get(
+      'dashboard/tiempo-cedi-am-zona',
+
+      [RendimientoController, 'tiempoCediAmZona']
+    )
+
+    router.get(
+      'dashboard/tiempo-cedi-pm-zona',
+
+      [RendimientoController, 'tiempoCediPmZona']
+    )
+
+    router.get(
+      'dashboard/horas-extra-zona',
+
+      [RendimientoController, 'horasExtraZona']
     )
 
     router.get(

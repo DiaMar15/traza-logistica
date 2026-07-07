@@ -156,7 +156,7 @@ export default class VehiculosController {
   async sincronizar({ response }: HttpContext) {
     const SHEET_ID = '11PO2p9GI5FEJ8mRwESr9Iyg7DnNKBbrShRajR3SRTBg'
 
-    const SHEET_URL = `https://opensheet.elk.sh/${SHEET_ID}/DatosVehiculos`
+    const SHEET_URL = `https://opensheet.elk.sh/${SHEET_ID}/Datos vehículos`
 
     let rows: any[] = []
 

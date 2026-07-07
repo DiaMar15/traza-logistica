@@ -26,8 +26,7 @@ export default class ConductoresController {
      CREAR
   -------------------------- */
   async store({ request, response }: HttpContext) {
-    const data = request.only(['nombre'])
-
+    const data = request.only(['nombre', 'cedula', 'celular', 'cargo'])
     if (!data.nombre) {
       return response.badRequest({
         message: 'El nombre es obligatorio',
@@ -46,6 +45,12 @@ export default class ConductoresController {
 
     const conductor = await Conductor.create({
       nombre: data.nombre.trim(),
+
+      cedula: data.cedula,
+
+      celular: data.celular,
+
+      cargo: data.cargo,
 
       estado: 'activo',
     })
@@ -69,8 +74,7 @@ export default class ConductoresController {
       })
     }
 
-    const data = request.only(['nombre'])
-
+    const data = request.only(['nombre', 'cedula', 'celular', 'cargo'])
     if (!data.nombre) {
       return response.badRequest({
         message: 'El nombre es obligatorio',
@@ -79,12 +83,127 @@ export default class ConductoresController {
 
     conductor.nombre = data.nombre.trim()
 
+    conductor.cedula = data.cedula
+
+    conductor.celular = data.celular
+
+    conductor.cargo = data.cargo
+
+    await conductor.save()
     await conductor.save()
 
     return response.ok({
       message: 'Conductor actualizado correctamente',
 
       conductor,
+    })
+  }
+
+  /* --------------------------
+   SINCRONIZAR PERSONAL
+-------------------------- */
+  async sincronizar({ response }: HttpContext) {
+    const SHEET_ID = '11PO2p9GI5FEJ8mRwESr9Iyg7DnNKBbrShRajR3SRTBg'
+
+    const SHEET_URL = `https://opensheet.elk.sh/${SHEET_ID}/PERSONAL_SYNC`
+
+    let rows: any[] = []
+
+    try {
+      const responseFetch = await fetch(SHEET_URL)
+
+      if (!responseFetch.ok) {
+        throw new Error('Error consultando Google Sheets')
+      }
+
+      const data = await responseFetch.json()
+
+      if (!Array.isArray(data)) {
+        console.error(data)
+
+        throw new Error('La respuesta no es un array')
+      }
+
+      rows = data
+    } catch (error) {
+      console.error(error)
+
+      return response.badRequest({
+        message: 'No fue posible conectar con Google Sheets',
+      })
+    }
+
+    let creados = 0
+    let actualizados = 0
+    let omitidos = 0
+
+    for (const row of rows) {
+      const dataNormalizada: any = {}
+
+      for (const key in row) {
+        dataNormalizada[String(key).trim().toUpperCase()] = row[key]
+      }
+
+      const nombre = String(dataNormalizada['NOMBRE'] || '')
+        .trim()
+        .toUpperCase()
+
+      const cedula = String(dataNormalizada['CEDULA'] || '').trim()
+
+      const celular = String(dataNormalizada['CELULAR'] || '').trim()
+
+      const cargo = String(dataNormalizada['CARGO'] || '')
+        .trim()
+        .toUpperCase()
+
+      const estadoSheet = String(dataNormalizada['ESTADO'] || '')
+        .trim()
+        .toUpperCase()
+
+      if (!nombre || !cedula) {
+        omitidos++
+        continue
+      }
+
+      const estado: 'activo' | 'inactivo' = estadoSheet === 'ACTIVO' ? 'activo' : 'inactivo'
+      const data = {
+        nombre,
+        cedula,
+        celular,
+        cargo,
+        estado,
+      }
+
+      let existente = await Conductor.findBy('cedula', cedula)
+
+      if (!existente) {
+        existente = await Conductor.query()
+          .whereRaw('LOWER(nombre) = ?', [nombre.toLowerCase()])
+          .first()
+      }
+      if (existente) {
+        existente.merge(data)
+
+        await existente.save()
+
+        actualizados++
+      } else {
+        await Conductor.create(data)
+
+        creados++
+      }
+    }
+
+    return response.ok({
+      message: 'Personal sincronizado correctamente',
+
+      total_sheet: rows.length,
+
+      creados,
+
+      actualizados,
+
+      omitidos,
     })
   }
 

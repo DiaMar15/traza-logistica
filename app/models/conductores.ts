@@ -14,6 +14,15 @@ export default class Conductor extends BaseModel {
   @column()
   declare estado: 'activo' | 'inactivo'
 
+  @column()
+  declare cedula: string | null
+
+  @column()
+  declare celular: string | null
+
+  @column()
+  declare cargo: string | null
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 

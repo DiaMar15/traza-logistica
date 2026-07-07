@@ -13,7 +13,7 @@ export default class GoogleSheetsRutasController {
 
     const rutasUrl = `https://opensheet.elk.sh/${SHEET_ID}/API_RUTAS`
 
-    const vehiculosUrl = `https://opensheet.elk.sh/${SHEET_ID}/Datosvehiculos`
+    const vehiculosUrl = `https://opensheet.elk.sh/${SHEET_ID}/Datos vehículos`
 
     const personalUrl = `https://opensheet.elk.sh/${SHEET_ID}/PERSONAL_SYNC`
     /* ==========================
@@ -395,7 +395,15 @@ export default class GoogleSheetsRutasController {
 
         inicioRuta: limpiarHora(row['PROGRAMACION RUTA']),
 
+        salidaCedi: limpiarHora(row['SALIDA CEDI']),
+
+        tiempoCediAm: limpiarTexto(row['TIEMPO EN CEDI AM']),
+
+        llegadaCedi: limpiarHora(row['LLEGADA CEDI']),
+
         finRuta: limpiarHora(row['FIN RUTA']),
+
+        tiempoCediPm: limpiarTexto(row['TIEMPO EN CEDI PM']),
 
         tiempoEnRuta: limpiarTexto(row['TIEMPO EN RUTA']),
 
