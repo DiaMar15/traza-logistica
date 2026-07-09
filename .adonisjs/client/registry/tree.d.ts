@@ -8,6 +8,8 @@ export interface ApiDefinition {
   }
   profile: {
     show: typeof routes['profile.show']
+    update: typeof routes['profile.update']
+    avatar: typeof routes['profile.avatar']
   }
   rutas: {
     index: typeof routes['rutas.index']
@@ -75,6 +77,9 @@ export interface ApiDefinition {
     personalDiario: typeof routes['personal.personal_diario']
     personalSemanal: typeof routes['personal.personal_semanal']
     personalMensual: typeof routes['personal.personal_mensual']
+  }
+  usuarios: {
+    index: typeof routes['usuarios.index']
   }
   password: {
     forgot: typeof routes['password.forgot']

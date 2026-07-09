@@ -19,6 +19,7 @@ server.errorHandler(() => import('#exceptions/handler'))
  * Middleware global (para TODAS las requests)
  */
 server.use([
+  () => import('@adonisjs/static/static_middleware'),
   () => import('#middleware/force_json_response_middleware'),
   () => import('#middleware/container_bindings_middleware'),
   () => import('@adonisjs/cors/cors_middleware'),
@@ -39,9 +40,7 @@ router.use([
  * Middleware nombrados (los que usas en rutas)
  */
 export const middleware = router.named({
-
   auth: () => import('#middleware/auth_middleware'),
 
   role: () => import('#middleware/role_middleware'),
-
 })

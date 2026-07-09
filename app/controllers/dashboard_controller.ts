@@ -120,7 +120,14 @@ export default class DashboardController {
       rutas.map((r) => String(r.auxiliar || '').trim()).filter(Boolean)
     ).size
 
+    const vistaGeneral =
+      (tipo === 'dia' && !request.input('fecha')) ||
+      (tipo === 'semana' && !request.input('semana')) ||
+      (tipo === 'mes' && !request.input('mes'))
+
     return response.ok({
+      vistaGeneral,
+
       kpis: {
         totalRutas,
         totalClientes,
@@ -156,7 +163,7 @@ export default class DashboardController {
     const semanasDisponibles = await Database.from('rutas')
       .distinct('semana')
       .whereNotNull('semana')
-      .orderBy('semana', 'desc')
+      .orderByRaw('CAST(semana AS UNSIGNED) DESC')
 
     return response.ok({
       semana: Number(semanaActual[0]?.semana || 0),

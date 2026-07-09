@@ -7,6 +7,8 @@ export type ScannedRoutes = {
     'auth.register': { paramsTuple?: []; params?: {} }
     'auth.login': { paramsTuple?: []; params?: {} }
     'profile.show': { paramsTuple?: []; params?: {} }
+    'profile.update': { paramsTuple?: []; params?: {} }
+    'profile.avatar': { paramsTuple?: []; params?: {} }
     'rutas.index': { paramsTuple?: []; params?: {} }
     'rutas.count': { paramsTuple?: []; params?: {} }
     'rutas.kilometros': { paramsTuple?: []; params?: {} }
@@ -53,6 +55,7 @@ export type ScannedRoutes = {
     'personal.personal_diario': { paramsTuple?: []; params?: {} }
     'personal.personal_semanal': { paramsTuple?: []; params?: {} }
     'personal.personal_mensual': { paramsTuple?: []; params?: {} }
+    'usuarios.index': { paramsTuple?: []; params?: {} }
     'password.forgot': { paramsTuple?: []; params?: {} }
     'password.reset': { paramsTuple?: []; params?: {} }
     'test.send': { paramsTuple?: []; params?: {} }
@@ -90,6 +93,7 @@ export type ScannedRoutes = {
     'personal.personal_diario': { paramsTuple?: []; params?: {} }
     'personal.personal_semanal': { paramsTuple?: []; params?: {} }
     'personal.personal_mensual': { paramsTuple?: []; params?: {} }
+    'usuarios.index': { paramsTuple?: []; params?: {} }
     'test.send': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
@@ -125,11 +129,13 @@ export type ScannedRoutes = {
     'personal.personal_diario': { paramsTuple?: []; params?: {} }
     'personal.personal_semanal': { paramsTuple?: []; params?: {} }
     'personal.personal_mensual': { paramsTuple?: []; params?: {} }
+    'usuarios.index': { paramsTuple?: []; params?: {} }
     'test.send': { paramsTuple?: []; params?: {} }
   }
   POST: {
     'auth.register': { paramsTuple?: []; params?: {} }
     'auth.login': { paramsTuple?: []; params?: {} }
+    'profile.avatar': { paramsTuple?: []; params?: {} }
     'rutas.store': { paramsTuple?: []; params?: {} }
     'vehiculos.store': { paramsTuple?: []; params?: {} }
     'conductores.store': { paramsTuple?: []; params?: {} }
@@ -141,6 +147,7 @@ export type ScannedRoutes = {
     'password.reset': { paramsTuple?: []; params?: {} }
   }
   PUT: {
+    'profile.update': { paramsTuple?: []; params?: {} }
     'rutas.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'vehiculos.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'conductores.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }

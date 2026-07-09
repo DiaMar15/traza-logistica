@@ -133,8 +133,13 @@ export default class ConductoresController {
       })
     }
 
+    // -------------------------------------
+    // LIMPIAR TABLA
+    // -------------------------------------
+
+    await Database.rawQuery('TRUNCATE TABLE conductores')
+
     let creados = 0
-    let actualizados = 0
     let omitidos = 0
 
     for (const row of rows) {
@@ -166,32 +171,16 @@ export default class ConductoresController {
       }
 
       const estado: 'activo' | 'inactivo' = estadoSheet === 'ACTIVO' ? 'activo' : 'inactivo'
-      const data = {
+
+      await Conductor.create({
         nombre,
         cedula,
         celular,
         cargo,
         estado,
-      }
+      })
 
-      let existente = await Conductor.findBy('cedula', cedula)
-
-      if (!existente) {
-        existente = await Conductor.query()
-          .whereRaw('LOWER(nombre) = ?', [nombre.toLowerCase()])
-          .first()
-      }
-      if (existente) {
-        existente.merge(data)
-
-        await existente.save()
-
-        actualizados++
-      } else {
-        await Conductor.create(data)
-
-        creados++
-      }
+      creados++
     }
 
     return response.ok({
@@ -201,7 +190,7 @@ export default class ConductoresController {
 
       creados,
 
-      actualizados,
+      actualizados: 0,
 
       omitidos,
     })

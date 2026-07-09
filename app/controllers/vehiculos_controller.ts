@@ -191,8 +191,6 @@ export default class VehiculosController {
     let omitidos = 0
 
     for (const row of rows) {
-      console.log(Object.keys(row))
-
       const dataNormalizada: any = {}
 
       for (const key in row) {

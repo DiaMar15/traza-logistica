@@ -221,10 +221,12 @@ export class TiposDocumentoSchema extends BaseModel {
 }
 
 export class UserSchema extends BaseModel {
-  static $columns = ['apellido', 'correo', 'createdAt', 'id', 'nombre', 'numeroDocumento', 'numeroTelefono', 'password', 'tipoDocumentoId', 'updatedAt'] as const
+  static $columns = ['apellido', 'avatar', 'correo', 'createdAt', 'id', 'nombre', 'numeroDocumento', 'numeroTelefono', 'password', 'tipoDocumentoId', 'updatedAt'] as const
   $columns = UserSchema.$columns
   @column()
   declare apellido: string | null
+  @column()
+  declare avatar: string | null
   @column()
   declare correo: string | null
   @column.dateTime({ autoCreate: true })

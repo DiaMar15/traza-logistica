@@ -21,6 +21,7 @@ import RendimientoController from '#controllers/rendimiento_controller'
 import CostosController from '#controllers/costos_controller'
 import PersonalController from '#controllers/personal_controller'
 import ConductoresController from '#controllers/conductores_controller'
+import UsuariosController from '#controllers/usuarios_controller'
 
 /*
 |--------------------------------------------------------------------------
@@ -71,19 +72,15 @@ router
     */
 
     router
-
       .group(() => {
-        router.get(
-          'profile',
+        router.get('profile', [Profile, 'show'])
 
-          [Profile, 'show']
-        )
+        router.put('profile', [Profile, 'update'])
+
+        router.post('profile/avatar', [Profile, 'avatar'])
       })
-
       .prefix('account')
-
       .use(middleware.auth())
-
     /*
     -------------------------
     🚚 RUTAS
@@ -410,6 +407,8 @@ router
     router.get('dashboard/personal/semanal', [PersonalController, 'personalSemanal'])
 
     router.get('dashboard/personal/mensual', [PersonalController, 'personalMensual'])
+
+    router.get('/usuarios', [UsuariosController, 'index'])
 
     /*
 |--------------------------------------------------------------------------

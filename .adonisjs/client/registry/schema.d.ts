@@ -43,6 +43,30 @@ export interface Registry {
       errorResponse: unknown
     }
   }
+  'profile.update': {
+    methods: ["PUT"]
+    pattern: '/api/v1/account/profile'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'profile.avatar': {
+    methods: ["POST"]
+    pattern: '/api/v1/account/profile/avatar'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
   'rutas.index': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/rutas'
@@ -598,6 +622,18 @@ export interface Registry {
   'personal.personal_mensual': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/dashboard/personal/mensual'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'usuarios.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/usuarios'
     types: {
       body: {}
       paramsTuple: []

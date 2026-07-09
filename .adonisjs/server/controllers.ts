@@ -20,5 +20,6 @@ export const controllers = {
   Profile: () => import('#controllers/profile_controller'),
   Rendimiento: () => import('#controllers/rendimiento_controller'),
   Rutas: () => import('#controllers/rutas_controller'),
+  Usuarios: () => import('#controllers/usuarios_controller'),
   Vehiculos: () => import('#controllers/vehiculos_controller'),
 }

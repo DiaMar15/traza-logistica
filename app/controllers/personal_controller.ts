@@ -4,9 +4,52 @@ import Database from '@adonisjs/lucid/services/db'
 export default class PersonalController {
   private readonly JORNADA_DIARIA = 8
 
-  private readonly JORNADA_SEMANAL = 48
+  private readonly FECHA_CAMBIO_JORNADA = new Date('2026-07-01')
+  private obtenerJornadaLaboral(fecha: Date) {
+    const cambio = this.FECHA_CAMBIO_JORNADA
 
-  private readonly JORNADA_MENSUAL = 200
+    if (fecha < cambio) {
+      return {
+        semanal: 44,
+        mensual: 220,
+      }
+    }
+
+    return {
+      semanal: 42,
+      mensual: 200,
+    }
+  }
+
+  private obtenerJornadaPorFecha(fecha: string) {
+    const partes = String(fecha).split('/')
+
+    const fechaDate = new Date(Number(partes[2]), Number(partes[0]) - 1, Number(partes[1]))
+
+    return this.obtenerJornadaLaboral(fechaDate)
+  }
+
+  private obtenerJornadaPorMes(mes: string) {
+    const meses: Record<string, number> = {
+      ENERO: 0,
+      FEBRERO: 1,
+      MARZO: 2,
+      ABRIL: 3,
+      MAYO: 4,
+      JUNIO: 5,
+      JULIO: 6,
+      AGOSTO: 7,
+      SEPTIEMBRE: 8,
+      OCTUBRE: 9,
+      NOVIEMBRE: 10,
+      DICIEMBRE: 11,
+    }
+
+    const numeroMes = meses[String(mes).toUpperCase()] ?? 0
+
+    return this.obtenerJornadaLaboral(new Date(2026, numeroMes, 1))
+  }
+
   /* ==========================================
      MÉTODOS PÚBLICOS
   ========================================== */
@@ -35,7 +78,8 @@ export default class PersonalController {
 
     return response.ok({
       fecha,
-      ...this.generarRespuesta(personal, horasPersonal),
+
+      ...this.generarRespuesta(personal, horasPersonal, this.JORNADA_DIARIA),
     })
   }
 
@@ -54,7 +98,8 @@ export default class PersonalController {
     // Obtener todas las semanas disponibles
     const semanasDisponibles = await Database.from('rutas')
       .distinct('semana')
-      .orderBy('semana', 'desc')
+      .whereNotNull('semana')
+      .orderByRaw('CAST(semana AS UNSIGNED) DESC')
 
     const personal = await Database.from('personal')
 
@@ -62,19 +107,28 @@ export default class PersonalController {
 
     const rutas = await Database.from('rutas')
       .where('semana', semana)
-      .select('conductor', 'auxiliar', 'tiempo_en_ruta')
+      .select('conductor', 'auxiliar', 'tiempo_en_ruta', 'fecha')
+
+    // Determinar la jornada según la fecha de esa semana
+    let jornadaSemanal = 44
+
+    if (rutas.length > 0) {
+      jornadaSemanal = this.obtenerJornadaPorFecha(String(rutas[0].fecha)).semanal
+    }
 
     const horasPersonal = this.calcularResumenPersonal(
       personal,
       mapaPersonal,
       rutas,
-      this.JORNADA_SEMANAL
+      jornadaSemanal
     )
 
     return response.ok({
       semana,
+
       semanas: semanasDisponibles.map((s) => Number(s.semana)),
-      ...this.generarRespuesta(personal, horasPersonal),
+
+      ...this.generarRespuesta(personal, horasPersonal, jornadaSemanal),
     })
   }
 
@@ -89,16 +143,19 @@ export default class PersonalController {
       .where('mes', mes)
       .select('conductor', 'auxiliar', 'tiempo_en_ruta')
 
+    const jornadaMensual = this.obtenerJornadaPorMes(mes).mensual
+
     const horasPersonal = this.calcularResumenPersonal(
       personal,
       mapaPersonal,
       rutas,
-      this.JORNADA_MENSUAL
+      jornadaMensual
     )
 
     return response.ok({
       mes,
-      ...this.generarRespuesta(personal, horasPersonal),
+
+      ...this.generarRespuesta(personal, horasPersonal, jornadaMensual),
     })
   }
   /* ==========================================
@@ -184,7 +241,7 @@ export default class PersonalController {
     personal: any[],
     mapaPersonal: Record<string, any>,
     rutas: any[],
-    jornadaSemanal: number
+    jornadaObjetivo: number
   ) {
     const resumenPersonal: Record<string, any> = {}
 
@@ -229,10 +286,9 @@ export default class PersonalController {
       .map((item: any) => {
         const horas = Number(item.horas.toFixed(1))
 
-        const extras = horas > jornadaSemanal ? Number((horas - jornadaSemanal).toFixed(1)) : 0
+        const extras = horas > jornadaObjetivo ? Number((horas - jornadaObjetivo).toFixed(1)) : 0
 
-        const negativas = horas < jornadaSemanal ? Number((jornadaSemanal - horas).toFixed(1)) : 0
-
+        const negativas = horas < jornadaObjetivo ? Number((jornadaObjetivo - horas).toFixed(1)) : 0
         return {
           nombre: item.nombre,
           cargo: item.cargo,
@@ -244,8 +300,7 @@ export default class PersonalController {
       })
       .sort((a: any, b: any) => b.horas - a.horas)
   }
-
-  private generarRespuesta(personal: any[], horasPersonal: any[]) {
+  private generarRespuesta(personal: any[], horasPersonal: any[], jornadaObjetivo: number) {
     const conductoresActivos = personal.filter(
       (p) => p.estado === 'ACTIVO' && p.cargo?.toUpperCase().includes('CONDUCTOR')
     )
@@ -260,9 +315,9 @@ export default class PersonalController {
 
     const retirados = personal.filter((p) => p.estado === 'RETIRADO')
 
-    const cumplenJornada = horasPersonal.filter((p: any) => p.horas >= this.JORNADA_SEMANAL).length
+    const cumplenJornada = horasPersonal.filter((p: any) => p.horas >= jornadaObjetivo).length
 
-    const noCumplenJornada = horasPersonal.filter((p: any) => p.horas < this.JORNADA_SEMANAL).length
+    const noCumplenJornada = horasPersonal.filter((p: any) => p.horas < jornadaObjetivo).length
 
     const trabajadoresConHorasExtra = horasPersonal.filter((p: any) => p.extras > 0).length
 

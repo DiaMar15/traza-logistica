@@ -24,6 +24,18 @@ const routes = {
     tokens: [{"old":"/api/v1/account/profile","type":0,"val":"api","end":""},{"old":"/api/v1/account/profile","type":0,"val":"v1","end":""},{"old":"/api/v1/account/profile","type":0,"val":"account","end":""},{"old":"/api/v1/account/profile","type":0,"val":"profile","end":""}],
     types: placeholder as Registry['profile.show']['types'],
   },
+  'profile.update': {
+    methods: ["PUT"],
+    pattern: '/api/v1/account/profile',
+    tokens: [{"old":"/api/v1/account/profile","type":0,"val":"api","end":""},{"old":"/api/v1/account/profile","type":0,"val":"v1","end":""},{"old":"/api/v1/account/profile","type":0,"val":"account","end":""},{"old":"/api/v1/account/profile","type":0,"val":"profile","end":""}],
+    types: placeholder as Registry['profile.update']['types'],
+  },
+  'profile.avatar': {
+    methods: ["POST"],
+    pattern: '/api/v1/account/profile/avatar',
+    tokens: [{"old":"/api/v1/account/profile/avatar","type":0,"val":"api","end":""},{"old":"/api/v1/account/profile/avatar","type":0,"val":"v1","end":""},{"old":"/api/v1/account/profile/avatar","type":0,"val":"account","end":""},{"old":"/api/v1/account/profile/avatar","type":0,"val":"profile","end":""},{"old":"/api/v1/account/profile/avatar","type":0,"val":"avatar","end":""}],
+    types: placeholder as Registry['profile.avatar']['types'],
+  },
   'rutas.index': {
     methods: ["GET","HEAD"],
     pattern: '/api/v1/rutas',
@@ -305,6 +317,12 @@ const routes = {
     pattern: '/api/v1/dashboard/personal/mensual',
     tokens: [{"old":"/api/v1/dashboard/personal/mensual","type":0,"val":"api","end":""},{"old":"/api/v1/dashboard/personal/mensual","type":0,"val":"v1","end":""},{"old":"/api/v1/dashboard/personal/mensual","type":0,"val":"dashboard","end":""},{"old":"/api/v1/dashboard/personal/mensual","type":0,"val":"personal","end":""},{"old":"/api/v1/dashboard/personal/mensual","type":0,"val":"mensual","end":""}],
     types: placeholder as Registry['personal.personal_mensual']['types'],
+  },
+  'usuarios.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/usuarios',
+    tokens: [{"old":"/api/v1/usuarios","type":0,"val":"api","end":""},{"old":"/api/v1/usuarios","type":0,"val":"v1","end":""},{"old":"/api/v1/usuarios","type":0,"val":"usuarios","end":""}],
+    types: placeholder as Registry['usuarios.index']['types'],
   },
   'password.forgot': {
     methods: ["POST"],
