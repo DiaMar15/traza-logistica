@@ -324,6 +324,24 @@ const routes = {
     tokens: [{"old":"/api/v1/usuarios","type":0,"val":"api","end":""},{"old":"/api/v1/usuarios","type":0,"val":"v1","end":""},{"old":"/api/v1/usuarios","type":0,"val":"usuarios","end":""}],
     types: placeholder as Registry['usuarios.index']['types'],
   },
+  'usuarios.inactivar': {
+    methods: ["PUT"],
+    pattern: '/api/v1/usuarios/:id/inactivar',
+    tokens: [{"old":"/api/v1/usuarios/:id/inactivar","type":0,"val":"api","end":""},{"old":"/api/v1/usuarios/:id/inactivar","type":0,"val":"v1","end":""},{"old":"/api/v1/usuarios/:id/inactivar","type":0,"val":"usuarios","end":""},{"old":"/api/v1/usuarios/:id/inactivar","type":1,"val":"id","end":""},{"old":"/api/v1/usuarios/:id/inactivar","type":0,"val":"inactivar","end":""}],
+    types: placeholder as Registry['usuarios.inactivar']['types'],
+  },
+  'usuarios.update': {
+    methods: ["PUT"],
+    pattern: '/api/v1/usuarios/:id',
+    tokens: [{"old":"/api/v1/usuarios/:id","type":0,"val":"api","end":""},{"old":"/api/v1/usuarios/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/usuarios/:id","type":0,"val":"usuarios","end":""},{"old":"/api/v1/usuarios/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['usuarios.update']['types'],
+  },
+  'usuarios.reactivar': {
+    methods: ["PUT"],
+    pattern: '/api/v1/usuarios/:id/reactivar',
+    tokens: [{"old":"/api/v1/usuarios/:id/reactivar","type":0,"val":"api","end":""},{"old":"/api/v1/usuarios/:id/reactivar","type":0,"val":"v1","end":""},{"old":"/api/v1/usuarios/:id/reactivar","type":0,"val":"usuarios","end":""},{"old":"/api/v1/usuarios/:id/reactivar","type":1,"val":"id","end":""},{"old":"/api/v1/usuarios/:id/reactivar","type":0,"val":"reactivar","end":""}],
+    types: placeholder as Registry['usuarios.reactivar']['types'],
+  },
   'password.forgot': {
     methods: ["POST"],
     pattern: '/api/v1/forgot-password',

@@ -409,7 +409,9 @@ router
     router.get('dashboard/personal/mensual', [PersonalController, 'personalMensual'])
 
     router.get('/usuarios', [UsuariosController, 'index'])
-
+    router.put('/usuarios/:id/inactivar', [UsuariosController, 'inactivar'])
+    router.put('/usuarios/:id', [UsuariosController, 'update'])
+    router.put('/usuarios/:id/reactivar', [UsuariosController, 'reactivar'])
     /*
 |--------------------------------------------------------------------------
 | 🔐 RECUPERAR PASSWORD

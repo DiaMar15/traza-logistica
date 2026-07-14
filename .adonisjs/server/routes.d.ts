@@ -56,6 +56,9 @@ export type ScannedRoutes = {
     'personal.personal_semanal': { paramsTuple?: []; params?: {} }
     'personal.personal_mensual': { paramsTuple?: []; params?: {} }
     'usuarios.index': { paramsTuple?: []; params?: {} }
+    'usuarios.inactivar': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'usuarios.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'usuarios.reactivar': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'password.forgot': { paramsTuple?: []; params?: {} }
     'password.reset': { paramsTuple?: []; params?: {} }
     'test.send': { paramsTuple?: []; params?: {} }
@@ -153,6 +156,9 @@ export type ScannedRoutes = {
     'conductores.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'conductores.inactivar': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'conductores.reactivar': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'usuarios.inactivar': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'usuarios.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'usuarios.reactivar': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   PATCH: {
     'rutas.patch': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }

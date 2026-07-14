@@ -643,6 +643,42 @@ export interface Registry {
       errorResponse: unknown
     }
   }
+  'usuarios.inactivar': {
+    methods: ["PUT"]
+    pattern: '/api/v1/usuarios/:id/inactivar'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'usuarios.update': {
+    methods: ["PUT"]
+    pattern: '/api/v1/usuarios/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'usuarios.reactivar': {
+    methods: ["PUT"]
+    pattern: '/api/v1/usuarios/:id/reactivar'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
   'password.forgot': {
     methods: ["POST"]
     pattern: '/api/v1/forgot-password'

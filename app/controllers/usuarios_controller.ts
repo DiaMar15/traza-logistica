@@ -19,8 +19,53 @@ export default class UsuariosController {
 
         avatar: user.avatar,
 
+        estado: user.estado,
+
         created_at: user.created_at,
       }))
     )
+  }
+  async inactivar({ params, response }: HttpContext) {
+    const usuario = await User.findOrFail(params.id)
+
+    usuario.estado = 'INACTIVO'
+
+    await usuario.save()
+
+    return response.ok({
+      message: 'Usuario inactivado correctamente',
+    })
+  }
+
+  async update({ params, request, response }: HttpContext) {
+    const usuario = await User.findOrFail(params.id)
+
+    const data = request.only(['nombre', 'apellido', 'correo', 'numero_telefono'])
+
+    usuario.merge({
+      nombre: data.nombre?.trim(),
+      apellido: data.apellido?.trim(),
+      correo: data.correo?.trim().toLowerCase(),
+      numero_telefono: data.numero_telefono?.trim(),
+    })
+
+    await usuario.save()
+
+    return response.ok({
+      message: 'Usuario actualizado correctamente',
+      usuario,
+    })
+  }
+
+  async reactivar({ params, response }: HttpContext) {
+    const usuario = await User.findOrFail(params.id)
+
+    usuario.estado = 'ACTIVO'
+
+    await usuario.save()
+
+    return response.ok({
+      message: 'Usuario reactivado correctamente',
+    })
   }
 }

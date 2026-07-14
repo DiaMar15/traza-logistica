@@ -67,7 +67,7 @@ export default class PersonalController {
 
     const rutas = await Database.from('rutas')
       .where('fecha', fecha)
-      .select('conductor', 'auxiliar', 'tiempo_en_ruta')
+      .select('conductor', 'auxiliar', 'tiempo_en_ruta', 'turno', 'hora_extra')
 
     const horasPersonal = this.calcularResumenPersonal(
       personal,
@@ -107,7 +107,11 @@ export default class PersonalController {
 
     const rutas = await Database.from('rutas')
       .where('semana', semana)
+      .orderBy('fecha', 'asc')
       .select('conductor', 'auxiliar', 'tiempo_en_ruta', 'fecha')
+
+    const fechaInicio = rutas[0]?.fecha ?? null
+    const fechaFin = rutas[rutas.length - 1]?.fecha ?? null
 
     // Determinar la jornada según la fecha de esa semana
     let jornadaSemanal = 44
@@ -125,6 +129,10 @@ export default class PersonalController {
 
     return response.ok({
       semana,
+
+      fechaInicio,
+
+      fechaFin,
 
       semanas: semanasDisponibles.map((s) => Number(s.semana)),
 
@@ -255,6 +263,8 @@ export default class PersonalController {
         cargo: persona.cargo,
         rutas: 0,
         horas: 0,
+        extras: 0,
+        negativas: 0,
       }
     }
 
@@ -279,6 +289,18 @@ export default class PersonalController {
 
         resumenPersonal[persona.nombre].rutas++
         resumenPersonal[persona.nombre].horas += horasRuta
+
+        if (jornadaObjetivo === this.JORNADA_DIARIA) {
+          const turno = Number(ruta.turno || 0)
+
+          const horaExtra = Number(String(ruta.hora_extra || '0').replace(',', '.'))
+
+          resumenPersonal[persona.nombre].extras += horaExtra
+
+          if (horasRuta < turno) {
+            resumenPersonal[persona.nombre].negativas += turno - horasRuta
+          }
+        }
       }
     }
 
@@ -286,9 +308,18 @@ export default class PersonalController {
       .map((item: any) => {
         const horas = Number(item.horas.toFixed(1))
 
-        const extras = horas > jornadaObjetivo ? Number((horas - jornadaObjetivo).toFixed(1)) : 0
+        let extras = 0
+        let negativas = 0
 
-        const negativas = horas < jornadaObjetivo ? Number((jornadaObjetivo - horas).toFixed(1)) : 0
+        if (jornadaObjetivo === this.JORNADA_DIARIA) {
+          extras = Number(item.extras.toFixed(1))
+          negativas = Number(item.negativas.toFixed(1))
+        } else {
+          extras = horas > jornadaObjetivo ? Number((horas - jornadaObjetivo).toFixed(1)) : 0
+
+          negativas = horas < jornadaObjetivo ? Number((jornadaObjetivo - horas).toFixed(1)) : 0
+        }
+
         return {
           nombre: item.nombre,
           cargo: item.cargo,

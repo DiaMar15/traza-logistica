@@ -80,6 +80,9 @@ export interface ApiDefinition {
   }
   usuarios: {
     index: typeof routes['usuarios.index']
+    inactivar: typeof routes['usuarios.inactivar']
+    update: typeof routes['usuarios.update']
+    reactivar: typeof routes['usuarios.reactivar']
   }
   password: {
     forgot: typeof routes['password.forgot']
