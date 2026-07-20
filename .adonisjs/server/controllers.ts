@@ -14,7 +14,6 @@ export const controllers = {
   },
   ImportExcels: () => import('#controllers/import_excels_controller'),
   ImportVehiculos: () => import('#controllers/import_vehiculos_controller'),
-  NewAccount: () => import('#controllers/new_account_controller'),
   Password: () => import('#controllers/password_controller'),
   Personal: () => import('#controllers/personal_controller'),
   Profile: () => import('#controllers/profile_controller'),
