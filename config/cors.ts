@@ -17,7 +17,7 @@ const corsConfig = defineConfig({
    * In production, keep an explicit allowlist (empty by default, so no
    * cross-origin browser access is allowed until configured).
    */
-  origin: true,
+  origin: ['http://localhost:5173', 'https://logisticamymone.vercel.app'],
 
   /**
    * HTTP methods accepted for cross-origin requests.
